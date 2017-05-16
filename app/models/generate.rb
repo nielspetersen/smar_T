@@ -88,8 +88,8 @@ class Generate
                   # tour ist im dritten element [2] von possible_tour
                   duration_shortest_tour = calc_tour_time(shortest_tour[2])
                   duration_tour = calc_tour_time(possible_tour[2])
-                  # Wenn tourtime/|TR| kürzer ist...
-                  if (duration_shortest_tour/shortest_tour[2].length) > (duration_tour/shortest_tour[2].length)
+
+                  if((duration_shortest_tour - Driver.find(shortest_tour[0]).active_tour.duration) > (duration_tour - Driver.find(possible_tour[0]).active_tour.duration))
                       shortest_tour = possible_tour # ...dann ist die possible_tour die neue shortest_tour
                   end
               end
