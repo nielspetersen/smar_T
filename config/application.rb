@@ -1,7 +1,10 @@
-  require File.expand_path('../boot', __FILE__)
+require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'csv'
+require 'jdbc/sqlite3'
+
+Jdbc::SQLite3.load_driver
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
-
+ruby '2.3.3', engine: 'jruby', engine_version: '9.1.13.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'jdbc-sqlite3', platform: :jruby
+gem 'activerecord-jdbcsqlite3-adapter', '~> 1.3', '>= 1.3.24', platform: :jruby
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -12,7 +14,8 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-gem 'therubyracer',  platforms: :ruby
+#gem 'therubyracer',  platforms: :ruby
+gem 'therubyrhino'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -28,6 +31,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Use unicorn as the app server
 # gem 'unicorn'
+gem 'puma'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -54,8 +58,6 @@ gem 'gmaps4rails'
 # Geocoder - https://github.com/alexreisner/geocoder
 # Für grobe Entfernung
 gem 'geocoder'
-
-gem 'binding_of_caller'
 
 # for calculation of drive time
 gem 'google_directions', git: "https://github.com/liefery/google-directions-ruby"
@@ -105,6 +107,5 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.8'
   gem 'faker', '~> 1.7', '>= 1.7.3'
   gem 'webmock', '~> 3.0', '>= 3.0.1'
-  gem 'byebug'
   gem 'better_errors'
 end
