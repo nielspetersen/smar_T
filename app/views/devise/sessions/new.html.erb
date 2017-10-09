@@ -19,16 +19,7 @@
       <%= f.password_field :password, class: "text-field form-control", html: {autocomplete: "off"} %>
     </div>
   </div>
-                                                                                                                                        
-  <% if devise_mapping.rememberable? -%>
-    <div class="form-group">
-      <%= f.label :remember_me, class: "control-label col-md-4" %>
-      <div class="col-md-8">
-        <%= f.check_box :remember_me %>
-      </div>
-    </div>
-  <% end -%>
-                                                                                                                                        
+                                                                                                                  
   <div class="form-group">
     <div class="col-md-offset-4 col-md-8">
       <%= f.submit t('.sign_in'), class: "btn btn-primary" %>

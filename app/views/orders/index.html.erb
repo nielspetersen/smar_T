@@ -5,13 +5,25 @@
         <h1><%=t '.title', :default => Order %></h1>
       </div>
       <% if current_user.company.try(:customers).blank? %>
-        <div class="alert alert-info">Ihrem Benutzeraccount wurden noch keine Kunden zugewiesen. Sie können daher kein Auftrag anlegen.</div>
-      <% else %>
+        <div class="alert alert-info">Ihrem Benutzeraccount wurden noch keine Kunden zugewiesen. Sie können daher nur Aufträge importieren und nicht direkt anlegen.</div>
+        <%= link_to t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
+        <% else %>
 	      <%= link_to t('.new', :default => t("orders.new.title")), new_order_path, :class => 'btn btn-primary btn-smart' %>
-        <input id="fileUpload" type="file" style="display:none;" />
-        <input id="import_button" type="button" class="btn btn-primary btn-smart" value="<%= t('.new', :default => t("orders.index.import")) %>" onclick="document.getElementById('fileUpload').click();" />
-        <hr/>
-        <table class="table table-striped">
+        <%= link_to t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
+        <div style="float: right;">
+          <%= form_tag orders_path, method: :get do %>
+            <%= label_tag :active, t('.filter_order_status') %>
+            <%= select_tag :active, options_for_select([[t('orders.status.active'), 1], [t('orders.status.inactive'), 0]], params[:active]),
+                             prompt: t('orders.filter_order_status_default') %>
+            <%= label_tag :order_type, t('.filter_order_type') %>
+            <%= select_tag :order_type, options_for_select([[t('orders.types.delivery'), OrderTypeEnum::DELIVERY],
+                                                            [t('orders.types.pickup'), OrderTypeEnum::PICKUP],
+                                                            [t('orders.types.service'), OrderTypeEnum::SERVICE]], params[:order_type]),
+                                                            prompt: t('orders.filter_order_type_default') %>
+            <%= submit_tag t('.filter_by_order_type'), name: nil, class: 'btn btn-primary btn-smart' %>
+          <% end %>
+          </div>
+          <table class="table table-striped">
           <thead>
             <tr>
               <th>Abholort</th>
@@ -20,6 +32,7 @@
               <th class="center">Ausladedauer<br/>[hh:mm:ss]</th>
               <th class="center">Kapazität</th>
               <th class="center">Priorität</th>
+              <th class="center"><%= t('attributes.order_type') %></th>
               <th class="center">Aktiv</th>
               <th><%=t '.actions', :default => t("helpers.actions") %></th>
             </tr>
@@ -37,6 +50,7 @@
                 <% else %>
                     <td class="center">keine</td>
                 <% end %>
+                <td><%= order_type_as_string(order.order_type) %></td>
                 <td class="center"><div class="active_circle_<%= order.active %>"></div></td>
                 <td>
                   <%= link_to t('helpers.links.show'), order, :class => 'btn btn-info btn-xs' %>
@@ -65,8 +79,3 @@
 <% else %>
 ZUGANG VERWEIGERT
 <% end %>
-<script type="text/javascript" charset="utf-8">
-    $('input[type=file]').change(function() {
-        // todo: upload the selected file, run import method in orders controller
-    });
-</script>

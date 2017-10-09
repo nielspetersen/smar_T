@@ -20,9 +20,11 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= image_tag('Account.svg', class: 'account-icon') %>
             <%= current_user.username %>
              <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to t('devise.sign_out'), destroy_user_session_path, method: :delete %></li>
-            </ul>
+            <ul class="dropdown-menu"> 
+              <li><%= link_to t('devise.edit_account'), edit_user_registration_path %></li> 
+              <li class="divider"></li> 
+              <li><%= link_to t('devise.sign_out'), destroy_user_session_path, method: :delete %></li> 
+            </ul> 
         <% else %>
          <li><%= link_to t('devise.sign_in'), new_user_session_path %></li>
         <% end %>

@@ -78,7 +78,9 @@ module Algorithm
       #die Zeit für die Fahrt von order_tour1 nach order_tour2
       def time_for_distance(order_tour1, order_tour2)
         # Google Maps
-        driveTime = DriveTimeBetweenAddresses.new(order_tour1.location, order_tour2.location)
+        driveTime = DriveTimeBetweenAddresses.new(order_tour1.location,
+                                                  order_tour2.location,
+                                                  @company.google_maps_api_key)
         time = driveTime.cached_drive_time_in_minutes()
         time # return
       end

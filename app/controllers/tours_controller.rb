@@ -39,10 +39,11 @@ class ToursController < ApplicationController
     #Ausgabe nach Rolle filtern
     if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)
       if current_user.company
-        if current_user.company.google_maps_api_key.nil? || current_user.company.google_maps_api_key.empty?
+        if current_user.company.google_maps_api_key.blank?
           flash[:error] = t('.no_google_maps_api_key_assigned')
         else
-          Algorithm::TourGeneration.generate_tours(current_user.company)
+          order_type_filter = preprocess_order_type_params(new_tour_params)
+          Algorithm::TourGeneration.generate_tours(current_user.company, order_type_filter)
           @tours = current_user.company.tours
         end
       else
@@ -115,5 +116,27 @@ class ToursController < ApplicationController
 
     def tour_params
       params.require(:tour).permit(:user_id, :driver_id, :company_id, :duration)
+    end
+
+    def new_tour_params
+      params.permit(:order_type_delivery, :order_type_pickup, :order_type_service)
+    end
+
+    def preprocess_order_type_params(params)
+      params.reject{|_, v| v.blank? }
+      order_type_params = []
+      params.each do |key, value|
+        case key
+          when "order_type_delivery"
+            order_type_params.push(OrderTypeEnum::DELIVERY) if value == "1"
+          when "order_type_pickup"
+            order_type_params.push(OrderTypeEnum::PICKUP) if value == "1"
+          when "order_type_service"
+            order_type_params.push(OrderTypeEnum::SERVICE) if value == "1"
+        end
+      end
+      unless order_type_params.empty?
+        {order_type: order_type_params}
+      end
     end
 end

@@ -1,6 +1,6 @@
 class Customer < ActiveRecord::Base
   belongs_to :company
-  has_many :orders
+  has_many :orders, dependent: :destroy
   validates :company, presence: {message: "Dieses Feld muss ausgefüllt werden"}
   validates :name, presence: {message: "Dieses Feld muss ausgefüllt werden"}
   validates :priority, inclusion: { in: ["A", "B", "C", "D", "E"],

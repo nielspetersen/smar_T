@@ -6,7 +6,7 @@ class VehiclesController < ApplicationController
   def index
     if (current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)) && !current_user.company.nil?
       company = current_user.company
-      @vehicles = Vehicle.where(driver_id: company.drivers.ids)
+      @vehicles = company.vehicles
     else
       @vehicles = []
     end
@@ -18,12 +18,8 @@ class VehiclesController < ApplicationController
 
   def new
     if current_user
-      if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)
+      if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?) || current_user.company_id
         @vehicle = Vehicle.new
-      elsif current_user.is_planer?
-        if @vehcle.company_id == current_user.company_id
-          @vehicle
-        end
       end
     end
   end
@@ -34,6 +30,7 @@ class VehiclesController < ApplicationController
 
   def create
     @vehicle = Vehicle.new(vehicle_params)
+    @vehicle.company_id = current_user.company.id
     if @vehicle.save
       flash[:success] = t('.success', vehicle_id: @vehicle.id)
     respond_with(@vehicle)

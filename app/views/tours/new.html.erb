@@ -4,8 +4,8 @@
   <div class="page-header">
     <h1><%=t '.title', :default => Tour %></h1>
   </div>
-  <% if current_user.company.google_maps_api_key.nil? || current_user.company.google_maps_api_key.empty? %>
-      <div class="alert alert-warning">Ihrem Unternehmen wurde noch kein Google Maps API Key zugewiesen.</div>
+  <% if current_user.company.google_maps_api_key.blank? %>
+      <div class="alert alert-warning"><%= t('tours.no_google_maps_api_key_assigned') %></div>
   <% end %>
   <table class="table table-striped">
     <thead>

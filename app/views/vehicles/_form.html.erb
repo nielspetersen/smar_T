@@ -3,14 +3,14 @@
   <%= simple_form_for @vehicle do |f| %>
     <%= f.input :position, prompt: :translate, input_html: { id: 'address' } %>
     <%= f.input :capacity, prompt: :translate %>
-    <%= f.association :driver, prompt: :translate %>
+    <%= f.association :driver, collection: current_user.company.drivers, :include_blank => t('.driver_empty'),prompt: :translate %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>
 <% elsif current_user.is_planer? %>
   <%= simple_form_for @vehicle do |f| %>
     <%= f.input :position, prompt: :translate, input_html: { id: 'address' } %>
     <%= f.input :capacity, prompt: :translate %>
-    <%= f.association :driver, prompt: :translate %>
+    <%= f.association :driver, collection: current_user.company.drivers, :include_blank => t('.driver_empty'),prompt: :translate %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>
 <% end %>

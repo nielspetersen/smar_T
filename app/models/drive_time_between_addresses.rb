@@ -6,9 +6,10 @@
 # #=> 2500
 class DriveTimeBetweenAddresses
   attr_reader :origin_address, :target_address
-  def initialize(origin_address, target_address)
+  def initialize(origin_address, target_address, google_maps_api_key)
       @origin_address = origin_address
       @target_address = target_address
+      @google_maps_api_key = google_maps_api_key
   end
   
   # returns the time in seconds between the addresses
@@ -49,7 +50,9 @@ class DriveTimeBetweenAddresses
   
   # returns the raw api data for the call
   def api_call
-    GoogleDirections.new(origin_address, target_address, key: GOOGLE_MAPS_API_KEY)
+    GoogleDirections.new(origin_address,
+                         target_address,
+                         key: @google_maps_api_key)
   end
   
   def cache_key_minutes

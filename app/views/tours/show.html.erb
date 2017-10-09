@@ -5,8 +5,8 @@
     <h1>Tour</h1>
     <%= link_to t('.print_tour'), print_tour_path(:format => :pdf), class: 'btn btn-info', target: '_blank' %>
   </div>
-  <% if current_user.company.google_maps_api_key.nil? || current_user.company.google_maps_api_key.empty? %>
-      <div class="alert alert-warning">Ihrem Unternehmen wurde noch kein Google Maps API Key zugewiesen.</div>
+  <% if current_user.company.google_maps_api_key.blank? %>
+      <div class="alert alert-warning"><%= t('tours.no_google_maps_api_key_assigned') %></div>
   <% end %>
   <div class="map-info alert alert-info hidden">
     Sie haben die Reihenfolge der Tour verändert. Bitte aktualisieren Sie diese Seite um die neue Karte anzuzeigen.
@@ -25,7 +25,7 @@
       </thead>
       <tbody class="sortable">
         <% @order_tours.each do |order_tour| %>
-          <% if ToursHelper.is_sortable_order_tour?(order_tour) %>
+          <% if is_sortable_order_tour?(order_tour) %>
             <tr id="orderTour-<%= order_tour.id %>">
               <td class="center"><%= order_tour.place + 1 %></td>
               <td><%= order_tour.location %></td>
@@ -64,9 +64,27 @@
   <script>
   function initMap() {
     createMap(document.getElementById('map'));
-
+      <% tmp_array_latidude = [] %>
+      <% tmp_array_longitude = [] %>
     <% @order_tours.each_with_index do | order_tour, index | %>
-      setMarker(parseFloat(<%= order_tour.latitude %>), parseFloat(<%= order_tour.longitude %>),"<%= order_tour.place + 1 %>");
+      // set Marker
+      <% marker_not_set = TRUE %>
+      <% tmp_array_latidude.each_with_index do |a, index_lat| %>
+        <% if (tmp_array_latidude[index_lat] == order_tour.latitude) && (tmp_array_longitude[index_lat] == order_tour.longitude) %>
+          setMarker(parseFloat(<%= order_tour.latitude + 0.001%>), parseFloat(<%= order_tour.longitude + 0.001%>),"<%= order_tour.place + 1 %>");
+          <% marker_not_set = FALSE %>
+          <% tmp_array_latidude << order_tour.latitude + 0.001 %>
+          <% tmp_array_longitude << order_tour.longitude + 0.001 %>
+          <% break %>
+        <% end %>
+      <% end %>
+      <% if marker_not_set %>
+        setMarker(parseFloat(<%= order_tour.latitude %>), parseFloat(<%= order_tour.longitude %>),"<%= order_tour.place + 1 %>");
+        <% tmp_array_latidude << order_tour.latitude %>
+        <% tmp_array_longitude << order_tour.longitude %>
+      <% end %>
+
+      // set Route
       <% if (index < @order_tours.length - 1) %>
         var origin = {lat:<%= @order_tours[index].latitude.blank? ? 0 : @order_tours[index].latitude %>, lng: <%= @order_tours[index].longitude.blank? ? 0 : @order_tours[index].longitude %>};
         var destination = {lat: <%= @order_tours[index + 1].latitude.blank? ? 0 : @order_tours[index + 1].latitude %>, lng: <%= @order_tours[index + 1].longitude.blank? ? 0 : @order_tours[index + 1].longitude %>};

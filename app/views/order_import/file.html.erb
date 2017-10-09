@@ -1,0 +1,9 @@
+<div class="page-header">
+  <h1>Import von neuen Aufträgen</h1>
+</div>
+<p><b>Bitte wählen Sie die CSV-Datei aus, die sie importieren möchten:</b></p>
+<%= form_tag confirm_order_import_path, multipart: true do %>
+    <%= file_field_tag :file, accept: 'text/csv' %>
+    <br>
+    <%= submit_tag t('.upload_csv'), class: "btn btn-primary btn-smart" %>
+<% end %>

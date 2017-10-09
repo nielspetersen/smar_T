@@ -1,7 +1,9 @@
 class Company < ActiveRecord::Base
-    has_many :users
-    has_many :customers
-    has_one :restriction
+    has_many :users, dependent: :destroy
+    has_many :customers, dependent: :destroy
+    has_one :restriction, dependent: :destroy
+    has_many :depots, dependent: :destroy
+    has_many :vehicles, dependent: :destroy
 
     has_attached_file :logo, styles: { medium: "300x300>", thumb: "100x100>" }
     validates_attachment_content_type :logo, content_type: /\Aimage\/.*\z/
@@ -20,9 +22,22 @@ class Company < ActiveRecord::Base
       Driver.where(user_id: self.users.ids)
     end
 
+    def available_drivers
+      # retrieve array of all active drivers for company
+      active_drivers = Driver.where(user_id: self.users.ids, active: true).to_a
+      active_drivers.each do |driver|
+        if !Vehicle.exists?(driver: driver)
+          # remove driver without vehicle
+          active_drivers.delete(driver)
+        end
+      end
+      active_drivers
+    end
+
     # Gibt alle Orders zurück, die der Company indirekt über zugewiesene Customer angehören.
-    def orders
-      Order.where(customer_id: self.customers.ids)
+    def orders(select = {})
+      where_clause = {customer_id: self.customers.ids}.merge(select)
+      Order.where(where_clause)
     end
 
     # Gibt alle Tours zurück, die der Company indirekt über zugewiesene Customer angehören.

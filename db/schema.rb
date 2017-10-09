@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925131945) do
+ActiveRecord::Schema.define(version: 20171008143927) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20170925131945) do
     t.float    "delivery_lat"
     t.float    "delivery_long"
     t.string   "comment2"
+    t.integer  "order_type",        default: 0
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"
@@ -157,13 +158,15 @@ ActiveRecord::Schema.define(version: 20170925131945) do
     t.string   "position"
     t.integer  "capacity"
     t.integer  "duration"
-    t.integer  "driver_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "latitude"
     t.float    "longitude"
+    t.integer  "company_id"
+    t.integer  "driver_id"
   end
 
-  add_index "vehicles", ["driver_id"], name: "index_vehicles_on_driver_id"
+  add_index "vehicles", ["company_id"], name: "index_vehicles_on_company_id"
+  add_index "vehicles", ["driver_id"], name: "index_vehicles_on_driver_id", unique: true
 
 end

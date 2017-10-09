@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>Überprüfung der importierten Aufträge</h1>
+</div>
+<% if @imported_orders %>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Abholort</th>
+    <th class="center">Einladedauer<br/>[hh:mm:ss]</th>
+    <th>Lieferort</th>
+    <th class="center">Ausladedauer<br/>[hh:mm:ss]</th>
+    <th class="center">Kapazität</th>
+    <th class="center">Priorität</th>
+    <th class="center">Typ</th>
+    <th class="center">Aktiv</th>
+  </tr>
+  </thead>
+
+  <%= form_tag complete_order_import_path do  %>
+    <tbody>
+      <% @imported_orders.each do |order| %>
+      <%= fields_for "orders[]", order do  |f| %>
+        <tr>
+        <td><%= f.text_field :pickup_location %></td>
+        <td class="center"><%= Time.at(order.duration_pickup * 60).utc.strftime("%H:%M:%S") %></td>
+        <td><%= f.text_field :delivery_location %></td>
+        <td class="center"><%= Time.at(order.duration_delivery * 60).utc.strftime("%H:%M:%S") %></td>
+        <td class="center"><%= f.number_field :capacity, in: 0...400 %></td>
+        <% if order.customer %>
+            <td class="center"><%= order.customer.priority %></td>
+        <% else %>
+            <td class="center">keine</td>
+        <% end %>
+        <td class="center"><%= f.select :order_type, options_for_select([
+                                                          [t('orders.types.delivery'), OrderTypeEnum::DELIVERY],
+                                                          [t('orders.types.pickup'), OrderTypeEnum::PICKUP],
+                                                          [t('orders.types.service'), OrderTypeEnum::SERVICE]]) %></td>
+        <td class="center"><div class="active_circle_<%= order.active %>"></div></td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+  <%= submit_tag t('save_ressource'), class: 'btn btn-primary btn-smart' %>
+  <% end %>
+<% else %>
+    <div class="alert alert-info">Es konnten keine Aufträge importiert werden. Bitte versuchen Sie es erneut.</div>
+<% end %>

@@ -30,6 +30,7 @@ class DepotsController < ApplicationController
 
   def create
     @depot = Depot.new(depot_params)
+    @depot.company_id = current_user.company.id
     if @depot.save
       flash[:success] = t('.success', depot_id: @depot.id)
       respond_with(@depot)

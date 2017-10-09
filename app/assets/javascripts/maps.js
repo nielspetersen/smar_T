@@ -51,6 +51,6 @@ function setMarker(latitude, longitude, order_place) {
     new google.maps.Marker({
         position: {lat: latitude, lng: longitude},
         map: map,
-        icon: "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + order_place + "|F55850|000000"
+        icon: "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=" + order_place + "|F55850|000000"
     });
 }

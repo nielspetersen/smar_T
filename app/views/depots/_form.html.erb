@@ -3,7 +3,6 @@
 
 <% if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)%>
   <%= simple_form_for @depot do |f| %>
-    <%= f.association :company, prompt: :translate %>
     <%= f.input :name, prompt: :translate %>
     <%= f.input :address, prompt: :translate, input_html: { id: 'address' } %>
     <%= f.input :duration, prompt: :translate %>

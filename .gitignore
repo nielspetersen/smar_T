@@ -6,10 +6,17 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
+
+# Secret tokens
+config/initializers/secret_token.rb
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+
+# Exclude uploads, e.g. company logo
+/public/system
 
 # Ignore all logfiles and tempfiles.
 /log/*.log

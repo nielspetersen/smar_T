@@ -36,6 +36,7 @@ de:
  dp: "Delivery-Problem"
  pdp: "Pickup- und Delivery-Problem"
  driver_properties: "Fahrereigenschaften"
+ save_ressource: "Speichern"
  user_forms:
   new:
    title: "Neuer Benutzer"
@@ -111,11 +112,23 @@ de:
    success: "Fahrer: %{name} (ID %{driver_id})  wurde gelöscht"
    failure: "Fahrer: %{name} (ID %{driver_id})  konnte nicht gelöscht werden"
  orders:
+  filter_order_type_default: "Alle Typen"
+  filter_order_status_default: "Auswählen"
+  status:
+    active: "Aktiv"
+    inactive: "Inaktiv"
+  types:
+    delivery: "Lieferung"
+    pickup: "Abholung"
+    service: "Service"
   show:
    title: "Auftrag"
   index:
    title: "Aufträge"
-   import: "Aufträge Importieren"
+   order_import: "Aufträge importieren"
+   filter_order_type: "Nach Typ filtern:"
+   filter_by_order_type: "Filtern"
+   filter_order_status: "Nach Status filtern:"
   new:
    title: "Neuer Auftrag"
   edit:
@@ -130,6 +143,22 @@ de:
    success: "Auftrag %{order_id} wurde gelöscht"
    failure: "Auftrag %{order_id} konnte nicht gelöscht werden"
  registered_users:
+  show:
+   title: "Benutzer"
+  new:
+   title: "Neuer Benutzer"
+  edit:
+   title: "Benutzer bearbeiten"
+  create:
+   success: "Benutzer %{user_id} wurde erfolgreich angelegt"
+   failure: "Benutzer konnte nicht angelegt werden"
+  update:
+   success: "Benutzer %{user_id} wurde aktualisiert"
+   failure: "Benutzer %{user_id} konnte nicht aktualisiert werden"
+  destroy:
+   success: "Benutzer %{user_id} wurde gelöscht"
+   failure: "Benutzer %{user_id} konnte nicht gelöscht werden"
+ user_forms:
   show:
    title: "Benutzer"
   new:
@@ -162,15 +191,22 @@ de:
    success: "Beschränkung %{restriction_id} wurde gelöscht"
    failure: "Beschränkung %{restriction_id} konnte nicht gelöscht werden"
  tours:
+  no_google_maps_api_key_assigned: "Ihrem Unternehmen wurde noch kein Google Maps API Key zugewiesen. Bitte setzen Sie den API Schlüssel in den Unternehmenseinstellungen oder kontaktieren Sie den Administrator."
+  generate_new_tours: "Generieren"
+  no_available_drivers: "Es stehen keine Fahrer zur Verfügung. Bitte stellen Sie sicher, dass Ihrem Unternehmen Benutzer mit der Rolle: Fahrer zugewiesen und diese aktiv sind. Weiterhin werden nur Fahrer mit einem zugewiesenen Fahrzeug berücksichtigt."
   show:
    title: "Tour"
    print_tour: "Drucken"
   index:
    title: "Touren"
+   active_tours: "Aktuell"
+   completed_tours: "Abgeschlossen"
+   no_active_tours_available: "Keine aktiven Touren vorhanden"
+   no_completed_tours_available: "Keine abgeschlossenen Touren vorhanden"
+   generate_new_tours_hint: "Neue Touren generieren:"
   new:
    title: "Neue Tour"
    no_company_assigned: "Ihr Benutzerkonto ist keinem Unternehmen zugeordnet. Bitte kontaktieren Sie den Administrator."
-   no_google_maps_api_key_assigned: "Ihrem Unternehmen wurde noch kein Google Maps API Key zugewiesen. Bitte kontaktieren Sie den Administrator."
   edit:
    title: "Tour bearbeiten"
   create:
@@ -198,6 +234,14 @@ de:
   destroy:
    success: "Fahrzeug %{vehicle_id} wurde gelöscht"
    failure: "Fahrzeug %{vehicle_id} konnte nicht gelöscht werden"
+  form:
+   driver_empty: "Ohne Fahrer"
+ order_import:
+  file:
+    upload_csv: "Hochladen"
+  complete:
+    success: "Die Aufträge wurden erfolgreich importiert."
+    failure: "Bei Import der Aufträge ist ein Fehler aufgetreten."
  simple_form:
   labels:
    depot:
@@ -250,6 +294,11 @@ de:
    user_form:
     create: "Speichern"
     update: "Speichern"
+  tours:
+    tour_generated: "Erstellt"
+    tour_approved: "Bereit"
+    tour_started: "Gestartet"
+    tour_completed: "Abgeschlossen"
 
  attributes:
   name: "Name"
@@ -264,13 +313,13 @@ de:
   time_window: "Zeitfenster"
   capacity_restriction: "Kapazitätsbeschränkung"
   priorities: "Prioritäten"
-  work_time: "Arbeitszeit"
+  work_time: "Arbeitszeit in Minuten"
   place: "Reihenfolge"
   location: "Ort"
   time: "Zeit"
   duration: "Dauer"
   priority: "Priorität"
-  working_time: "Arbeitszeit"
+  working_time: "Arbeitszeit in Minuten"
   active: "Aktiv"
   driver: "Fahrer"
   company: "Unternehmen"
@@ -286,6 +335,7 @@ de:
   end_time: "Endzeit"
   user: "Benutzer"
   position: "Standort"
+  order_type: "Typ"
 
  devise:
   sign_in: "Anmelden"

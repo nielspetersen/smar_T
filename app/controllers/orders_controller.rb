@@ -1,4 +1,5 @@
 class OrdersController < ApplicationController
+  include OrdersHelper
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   respond_to :html
@@ -6,7 +7,13 @@ class OrdersController < ApplicationController
   def index
     if (current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)) && !current_user.company.nil?
       company = current_user.company
-      @orders = company.orders
+      # remove parameters with blank values (e.g. prompt options)
+      order_filter = filter_order_params.reject{|_, v| v.blank?}
+      # convert active param to boolean value
+      if order_filter[:active]
+        order_filter[:active] = to_boolean(order_filter[:active])
+      end
+      @orders = company.orders(order_filter)
     else
       @orders = []
     end
@@ -77,6 +84,10 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:address, :customer_id, :pickup_location, :delivery_location, :capacity, :start_time, :end_time, :comment, :duration_pickup, :duration_delivery, :active)
+      params.require(:order).permit(:address, :customer_id, :pickup_location, :delivery_location, :capacity, :start_time, :end_time, :comment, :duration_pickup, :duration_delivery, :active, :order_type)
+    end
+
+    def filter_order_params
+      params.permit(:order_type, :active)
     end
 end

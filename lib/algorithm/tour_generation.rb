@@ -5,8 +5,8 @@ module Algorithm
 
   class TourGeneration
 
-    def self.generate_tours(company)
-      orders, drivers  = preprocess(company.orders, company.drivers)
+    def self.generate_tours(company, order_type_filter = {})
+      orders, drivers  = preprocess(company.orders(order_type_filter), company.available_drivers)
 
       mthreetp_classic = Variants::MThreeTP.new(company, AlgorithmEnum::M3PDP)
       mthreetp_classic.run(orders, drivers)
@@ -21,9 +21,8 @@ module Algorithm
     end
 
 
-    def self.preprocess(all_orders, all_drivers)
+    def self.preprocess(all_orders, drivers)
       orders = preprocess_orders(all_orders)
-      drivers = all_drivers.where(active: true).to_a
       return orders, drivers
     end
 
@@ -52,6 +51,11 @@ module Algorithm
 
       best_algorithm_index = tours_duration.each_with_index.min[1] # index of the min value in array
 
+      # change status of selected tour combination to approved
+      Tour.where(status: StatusEnum::GENERATED).where(algorithm: best_algorithm_index).each do |tour|
+        tour.update_attributes(status: StatusEnum::APPROVED)
+      end
+      # delete inefficient tour combinations
       Tour.where(status: StatusEnum::GENERATED).where.not(algorithm: best_algorithm_index).destroy_all
     end
   end
