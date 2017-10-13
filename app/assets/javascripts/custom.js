@@ -49,3 +49,9 @@ $('select#user_form_role').bind('change', function() {
 }).change();
 
 });
+
+var deleteCompanyLogo = function() {
+    $('input#company_logo').val('');
+    $('#current_company_logo').remove();
+    $('button#delete_company_logo').hide();
+}

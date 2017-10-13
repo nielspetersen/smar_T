@@ -27,7 +27,7 @@ module Algorithm
     end
 
     def self.preprocess_orders(all_orders)
-      active_orders = all_orders.where(active: true)
+      active_orders = all_orders.where(status: OrderStatusEnum::ACTIVE)
       orders = []
       active_orders.each do |order|
         if !order.start_time || order.start_time.try(:today?)

@@ -1,61 +1,26 @@
 <% if current_user.role == "admin" || current_user.role == "planer" || (current_user.is_superadmin? && current_user.company_id?)%>
-  <% if  current_user.company.restriction.present? && current_user.company.restriction.problem == "DP" %>
-  	<%= simple_form_for @order do |f| %>
+  	<%= simple_form_for @order, validate: true do |f| %>
+        <% if  current_user.company.restriction.present? && current_user.company.restriction.problem == "DP" %>
     	<%= f.input :problem, as: :fake_select, :collection => {t('dp')  => 'type_2'}, :selected => 'type_2', :disabled => true%>
+        <% elsif current_user.company.restriction.present? && current_user.company.restriction.problem == "PP" %>
+        <%= f.input :problem, as: :fake_select, :collection => {t('pp') => 'type_1'}, :selected => 'type_1', :disabled => true%>
+        <% else %>
+        <%= f.input :problem, as: :fake_select, :collection => {t('dp')  => 'type_2', t('pp') => 'type_1', t('pdp') => 'type_3'}, :selected => 'type_3'%>
+       <% end %>
     	<%= f.association :customer, prompt: :translate %>
     	<div id="type_1" class="type_forms">
-    	<%= f.input :pickup_location, prompt: :translate %>
+    	<%= f.input :pickup_location, prompt: :translate,  input_html: { id: 'address' } %>
     	<%= f.input :duration_pickup, prompt: :translate %>
     	</div>
     	<div id="type_2" class="type_forms">
-    	<%= f.input :delivery_location, prompt: :translate %>
+    	<%= f.input :delivery_location, prompt: :translate,  input_html: { id: 'order_delivery_location' } %>
     	<%= f.input :duration_delivery, prompt: :translate %>
     	</div>
     	<%= f.input :start_time, prompt: :translate %>
     	<%= f.input :end_time, prompt: :translate %>
     	<%= f.input :capacity, prompt: :translate %>
     	<%= f.input :comment, prompt: :translate %>
-    	<%= f.input :active, prompt: :translate %>
+    	<%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.completed') => 3 }, selected: @order.status %>
     	<%= f.button :submit, prompt: :translate %>
   	<% end %>
-  <% elsif current_user.company.restriction.present? && current_user.company.restriction.problem == "PP" %>
-       <%= simple_form_for @order do |f| %>
-    	<%= f.input :problem, as: :fake_select, :collection => {t('pp') => 'type_1'}, :selected => 'type_1', :disabled => true%>
-    	<%= f.association :customer, prompt: :translate %>
-    	<div id="type_1" class="type_forms">
-    	<%= f.input :pickup_location, prompt: :translate %>
-    	<%= f.input :duration_pickup, prompt: :translate %>
-    	</div>
-    	<div id="type_2" class="type_forms">
-    	<%= f.input :delivery_location, prompt: :translate %>
-    	<%= f.input :duration_delivery, prompt: :translate %>
-    	</div>
-    	<%= f.input :start_time, prompt: :translate %>
-    	<%= f.input :end_time, prompt: :translate %>
-    	<%= f.input :capacity, prompt: :translate %>
-    	<%= f.input :comment, prompt: :translate %>
-    	<%= f.input :active, prompt: :translate %>
-    	<%= f.button :submit, prompt: :translate %>
-  	<% end %>
-  <% else %>
-        <%= simple_form_for @order do |f| %>
-    	<%= f.input :problem, as: :fake_select, :collection => {t('dp')  => 'type_2', t('pp') => 'type_1', t('pdp') => 'type_3'}, :selected => 'type_3'%>
-    	<%= f.association :customer, prompt: :translate %>
-    	<div id="type_1" class="type_forms">
-    	<%= f.input :pickup_location, prompt: :translate %>
-    	<%= f.input :duration_pickup, prompt: :translate %>
-    	</div>
-    	<div id="type_2" class="type_forms">
-    	<%= f.input :delivery_location, prompt: :translate %>
-    	<%= f.input :duration_delivery, prompt: :translate %>
-    	</div>
-    	<%= f.input :start_time, prompt: :translate %>
-    	<%= f.input :end_time, prompt: :translate %>
-    	<%= f.input :capacity, prompt: :translate %>
-    	<%= f.input :comment, prompt: :translate %>
-    	<%= f.input :active, prompt: :translate %>
-    	<%= f.button :submit, prompt: :translate %>
-  	<% end %>
-  <% end %>
-
 <% end %>

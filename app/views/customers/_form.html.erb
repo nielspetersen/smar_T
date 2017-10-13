@@ -1,5 +1,3 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<%= javascript_include_tag 'address_autocomplete' %>
 <% if current_user.is_planer? || current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)%>
   <%= simple_form_for @customer, validate: true do |f| %>
     <%= f.input :name, prompt: :translate %>

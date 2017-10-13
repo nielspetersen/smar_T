@@ -17,7 +17,7 @@ class OrderImportController < ApplicationController
           order.capacity = 0
           order.start_time = DateTime.now
           order.end_time = DateTime.now + 8.hours
-          order.active = true
+          order.status = OrderStatusEnum::ACTIVE
           order.comment = ""
           order.comment2 = ""
           order.save!

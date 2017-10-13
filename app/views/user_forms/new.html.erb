@@ -5,7 +5,7 @@
 
 
   <%= simple_form_for @user_form, validate: true do |f| %>
-    <%= f.input :username, prompt: :translate %>
+    <%= f.input :nickname, prompt: :translate %>
     <%= f.input :email, prompt: :translate %>
     <%= f.input :password, prompt: :translate %>
     <% if current_user.role == "admin" %>

@@ -4,19 +4,19 @@ class RestrictionsController < ApplicationController
   respond_to :html
 
   def index
-    if current_user && ( current_user.role == "admin" || (current_user.role == "superadmin" && current_user.company_id?))
+    if current_user && current_user.company_id? && (current_user.role == "admin" || (current_user.role == "superadmin" && current_user.company_id?))
       @restrictions = Restriction.where(company_id: current_user.company.id)
     end
   end
 
   def show
-    if current_user && ( current_user.role == "admin" || (current_user.role == "superadmin" && current_user.company_id?))
+    if current_user && (current_user.role == "admin" || (current_user.role == "superadmin" && current_user.company_id?))
       @restriction
     end
   end
 
   def new
-    if current_user && ( current_user.role == "admin" || (current_user.role == "superadmin" && current_user.company_id?))
+    if current_user && (current_user.role == "admin" || (current_user.role == "superadmin" && current_user.company_id?))
       @restriction = Restriction.new
     end
   end

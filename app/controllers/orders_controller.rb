@@ -10,9 +10,6 @@ class OrdersController < ApplicationController
       # remove parameters with blank values (e.g. prompt options)
       order_filter = filter_order_params.reject{|_, v| v.blank?}
       # convert active param to boolean value
-      if order_filter[:active]
-        order_filter[:active] = to_boolean(order_filter[:active])
-      end
       @orders = company.orders(order_filter)
     else
       @orders = []
@@ -84,10 +81,10 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:address, :customer_id, :pickup_location, :delivery_location, :capacity, :start_time, :end_time, :comment, :duration_pickup, :duration_delivery, :active, :order_type)
+      params.require(:order).permit(:address, :customer_id, :pickup_location, :delivery_location, :capacity, :start_time, :end_time, :comment, :duration_pickup, :duration_delivery, :status, :order_type)
     end
 
     def filter_order_params
-      params.permit(:order_type, :active)
+      params.permit(:order_type, :status)
     end
 end

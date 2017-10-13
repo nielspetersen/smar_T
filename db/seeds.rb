@@ -6,14 +6,14 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-User.create!(username: "superadmin", email: "superadmin@test.de", password: "password", role: "superadmin")
-User.create!(username: "admin", email: "test@test.de", password: "password", role: "admin")
-User.create!(username: "planer", email: "planer@test.de", password: "password", role: "planer")
-User.create!(username: "driver", email: "driver@test.de", password: "password", role: "driver")
-User.create!(username: "user", email: "user@test.de", password: "password", role: "user")
+User.create!(nickname: "Superadmin @ smar_T", email: "superadmin@smart.de", password: "password", role: "superadmin")
+# User.create!(username: "admin", email: "test@test.de", password: "password", role: "admin")
+# User.create!(username: "planer", email: "planer@test.de", password: "password", role: "planer")
+# User.create!(username: "driver", email: "driver@test.de", password: "password", role: "driver")
+# User.create!(username: "user", email: "user@test.de", password: "password", role: "user")
 
 # Create sample company
-Company.create(name: "My company", address: "Alexanderplatz 7, 10178 Berlin")
+# Company.create(name: "My company", address: "Alexanderplatz 7, 10178 Berlin")
 
 # Create sample customers for all categorical priorities
 # Customer.create(name: "Customer Prio A", company_id: Company.first.id, priority: "A")

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171008143927) do
+ActiveRecord::Schema.define(version: 20171009152727) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -26,7 +26,10 @@ ActiveRecord::Schema.define(version: 20171008143927) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "email"
   end
+
+  add_index "companies", ["email"], name: "index_companies_on_email", unique: true
 
   create_table "customers", force: true do |t|
     t.integer  "company_id"
@@ -96,7 +99,7 @@ ActiveRecord::Schema.define(version: 20171008143927) do
     t.string   "comment"
     t.integer  "duration_pickup",   default: 0
     t.integer  "duration_delivery", default: 0
-    t.boolean  "active"
+    t.integer  "status",            default: 1
     t.float    "pickup_lat"
     t.float    "pickup_long"
     t.float    "delivery_lat"
@@ -148,6 +151,7 @@ ActiveRecord::Schema.define(version: 20171008143927) do
     t.string   "username"
     t.string   "role"
     t.integer  "company_id"
+    t.string   "nickname"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

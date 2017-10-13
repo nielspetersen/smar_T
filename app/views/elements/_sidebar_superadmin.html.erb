@@ -21,8 +21,6 @@
                     <li class="divider"></li>
                     <li><%= link_to image_tag('Customer.svg') + "Kunden", customers_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Driver.svg') + "Fahrer", drivers_path %></li>
-                    <li class="divider"></li>
                     <li><%= link_to image_tag('Vehicle.svg') + "Fahrzeuge", vehicles_path %></li>
                     <li class="divider"></li>
                     <li><%= link_to image_tag('User.svg') + "Benutzer", registered_users_path %></li>
@@ -32,8 +30,6 @@
                     <li><%= link_to image_tag('Company.svg') + "Unternehmen", current_user.company  %></li>
                     <li class="divider"></li>
                     <li><%= link_to image_tag('Depot.svg') + "Depots", depots_path %></li>
-                    <li class="divider"></li>
-                    <li><%= link_to image_tag('Developer.svg') + "Entwickler", developer_index_path %></li>
           <% end%>
         <% else %>
           <!-- Sollte nicht der Fall sein -->

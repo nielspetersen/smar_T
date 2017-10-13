@@ -1,5 +1,5 @@
 <% if current_user && ( current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)) %>
-  <%= simple_form_for @restriction do |f| %>
+  <%= simple_form_for @restriction, validate: true do |f| %>
     <%= f.input :problem, :collection => {t('dp')  => 'DP', t('pp')  => 'PP', t('pdp') => 'PDP'}, prompt: :translate %>
     <%= f.input :dynamic, prompt: :translate %>
     <%= f.input :multi_vehicle, prompt: :translate %>

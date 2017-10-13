@@ -7,7 +7,7 @@
       <% if current_user.company.nil? %>
         <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen. Sie können daher kein Depot anlegen.</div>
       <% else %>
-	      <%= link_to t('.new', :default => t("helpers.links.new")), new_depot_path, :class => 'btn btn-primary btn-smart' %>
+	      <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_depot_path, :class => 'btn btn-primary btn-smart' %>
         <hr/>
         <table class="table table-striped">
           <thead>
@@ -25,9 +25,9 @@
                 <td><%= depot.address %></td>
                 <td><%= Time.at(depot.duration * 60).utc.strftime("%H:%M:%S") %></td>
                 <td>
-                  <%= link_to t('helpers.links.show'), depot, :class => 'btn btn-info btn-xs' %>
-                  <%= link_to t('helpers.links.edit'), edit_depot_path(depot), :class => 'btn btn-warning btn-xs' %>
-                  <%= link_to t('helpers.links.destroy'), depot, method: :delete, data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %>
+                  <%= link_to (fa_icon "search-plus 1x"), depot, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+                  <%= link_to (fa_icon "pencil 1x"), edit_depot_path(depot), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
+                  <%= link_to (fa_icon "trash 1x"), depot, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
                 </td>
               </tr>
             <% end %>

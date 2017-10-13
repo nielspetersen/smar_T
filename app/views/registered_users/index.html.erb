@@ -1,45 +1,50 @@
 <%- model_class = User -%>
-<% if current_user && (current_user.is_admin? || current_user.is_superadmin?) %>
+<% if current_user && (current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)) %>
   <div class="page-header">
     <h1>Benutzer</h1>
   </div>
-    <%= link_to t('.new', :default => t("helpers.links.new")), new_user_form_path, :class => 'btn btn-primary btn-smart' %>
-    <hr/>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Benutzername</th>
-          <th>Rolle</th>
-          <th>E-Mail</th>
-          <th>Unternehmen</th>
-          <th><%=t '.actions', :default => t("helpers.actions") %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @users.each do |registered_user| %>
+    <% if current_user.company.nil? %>
+        <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen. Die Benutzerliste ist daher leer.</div>
+    <% else %>
+      <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_user_form_path, :class => 'btn btn-primary btn-smart' %>
+      <hr/>
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td><%= registered_user.username %></td>
-            <td><%= registered_user.role %></td>
-            <td><%= registered_user.email %></td>
-            <% if registered_user.company %>
-              <td><%= registered_user.company.name %></td>
-            <% else %>
-              <td>-</td>
-            <% end %>
-            <td>
-              <%= link_to 'Anzeigen', registered_user_path(registered_user), :class => 'btn btn-info btn-xs' %>
-              <% if (current_user.is_admin?  && !(registered_user.role == "superadmin")) || (current_user.is_superadmin?) %>
-                <%= link_to 'Bearbeiten', edit_user_form_path(registered_user), :class => 'btn btn-warning btn-xs' %>
-              <% end %>
-              <% if (current_user.is_admin? && !(registered_user.role == "admin") && !(registered_user.role == "superadmin")) || (current_user.is_superadmin? && !(registered_user.role == "superadmin"))   %>
-                <%= link_to 'Löschen', registered_user_path(registered_user ), method: :delete, data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %>
-              <% end %>
-            </td>
+            <th>Nickname</th>
+            <th>Rolle</th>
+            <th>E-Mail</th>
+            <th>Unternehmen</th>
+            <th><%=t '.actions', :default => t("helpers.actions") %></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-
+        </thead>
+        <tbody>
+          <% @users.each do |registered_user| %>
+            <% if !registered_user.is_superadmin? %>
+              <tr>
+                <td><%= registered_user.nickname %></td>
+                <td><%= registered_user.role %></td>
+                <td><%= registered_user.email %></td>
+                <% if registered_user.company %>
+                  <td><%= registered_user.company.name %></td>
+                <% else %>
+                  <td>-</td>
+                <% end %>
+                <td>
+                  <%= link_to (fa_icon "search-plus 1x"), registered_user_path(registered_user), :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+                  <% if (current_user.is_admin?  && !(registered_user.role == "superadmin")) || (current_user.is_superadmin?) %>
+                    <%= link_to (fa_icon "pencil 1x"), edit_user_form_path(registered_user), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
+                  <% end %>
+                  <% if (current_user.is_admin? && !(registered_user.role == "admin") && !(registered_user.role == "superadmin")) || (current_user.is_superadmin? && !(registered_user.role == "superadmin"))   %>
+                    <%= link_to (fa_icon "trash 1x"), registered_user_path(registered_user), method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+  <% end %>
 <% else %>
   ZUGANG VERWEIGERT
 <% end %>

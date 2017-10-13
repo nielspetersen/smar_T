@@ -10,8 +10,10 @@ class Company < ActiveRecord::Base
     validates_attachment_file_name :logo, matches: [/png\z/, /jpe?g\z/]
     validates_with AttachmentSizeValidator, attributes: :logo, less_than_or_equal_to: 3.megabytes
 
-    validates :name, presence: {message: "Dieses Feld muss ausgefüllt werden"}
-    validates :address, presence: {message: "Dieses Feld muss ausgefüllt werden"}
+    validates :name, presence: {message: "Dieses Feld muss ausgefüllt werden."}
+    validates :address, presence: {message: "Dieses Feld muss ausgefüllt werden."}
+    validates :email, presence: {message: "Dieses Feld muss ausgefüllt werden."}
+    validates :email, uniqueness: {message: "Diese E-Mail ist bereits vergeben."}
    
     # Koordinaten aus Adresse
     geocoded_by :address
@@ -41,8 +43,9 @@ class Company < ActiveRecord::Base
     end
 
     # Gibt alle Tours zurück, die der Company indirekt über zugewiesene Customer angehören.
-    def tours
-      Tour.where(driver_id: self.drivers.ids)
+    def tours(select = {})
+      where_clause = {driver_id: self.drivers.ids}.merge(select)
+      Tour.where(where_clause)
     end
 
     # Returns true if time window restriction exists for this company

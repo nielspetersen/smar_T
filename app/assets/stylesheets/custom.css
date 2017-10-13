@@ -273,7 +273,7 @@ margin-left: 5px;
 }
 
 .active_circle_false {
-    background: none;
+    background: gray;
 }
 
 .locked_icon {
@@ -302,4 +302,13 @@ border-bottom: 1px solid #cccccc;
 margin-left: -10px;
 margin-right: -10px;
 padding-left: 10px;
+}
+
+.order_status_filter, .tour_status_filter {
+    margin-right: 20px;
+}
+
+/*Make font awesome icons larger*/
+.fa.fa-search-plus, .fa.fa-pencil, .fa.fa-trash{
+  font-size: 15px;
 }

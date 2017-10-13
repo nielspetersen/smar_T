@@ -3,13 +3,13 @@
 
 
     <% if current_user.role == "admin" %>
-        <h4><%= t('welcome_admin', name: current_user.username) %></h4>
+        <h4><%= t('welcome_admin', name: current_user.nickname) %></h4>
     <% elsif current_user.role =="superadmin" %>
         <%controller.redirect_to companies_path %>
     <% elsif current_user.role =="planer" %>
-        <h4><%= t('welcome_admin', name: current_user.username) %></h4>
+        <h4><%= t('welcome_admin', name: current_user.nickname) %></h4>
     <% elsif current_user.role =="driver" %>
-        <h4><%= t('welcome_admin', name: current_user.username) %></h4>
+        <h4><%= t('welcome_admin', name: current_user.nickname) %></h4>
         <p>Unter Tour können Sie die Ihnen zugeteilte Tour einsehen.</p>
     <% else%> 
         <p>Willkommen, Sie haben noch keien Rolle. Wenden sie sich an den Admin.</p>

@@ -12,7 +12,7 @@
     <th class="center">Kapazität</th>
     <th class="center">Priorität</th>
     <th class="center">Typ</th>
-    <th class="center">Aktiv</th>
+    <th class="center">Status</th>
   </tr>
   </thead>
 
@@ -35,7 +35,7 @@
                                                           [t('orders.types.delivery'), OrderTypeEnum::DELIVERY],
                                                           [t('orders.types.pickup'), OrderTypeEnum::PICKUP],
                                                           [t('orders.types.service'), OrderTypeEnum::SERVICE]]) %></td>
-        <td class="center"><div class="active_circle_<%= order.active %>"></div></td>
+        <td class="center"><%= f.select :status, options_for_select([[t('orders.status.active'), 1], [t('orders.status.completed'), 3], [t('orders.status.inactive'), 0]]) %></td>
         </tr>
       <% end %>
     <% end %>

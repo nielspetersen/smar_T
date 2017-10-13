@@ -7,7 +7,7 @@
       <% if current_user.company.nil? %>
         <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen. Sie können daher keine Kunden anlegen.</div>
       <% else %>
-	      <%= link_to t('.new', :default => t("helpers.links.new")), new_customer_path, :class => 'btn btn-primary btn-smart' %>
+	      <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_customer_path, :class => 'btn btn-primary btn-smart' %>
         <hr/>
         <table class="table table-striped">
           <thead>
@@ -27,9 +27,9 @@
                 <td><%= customer.telefon %></td>
                 <td class="center"><%= customer.priority %></td>
                 <td>
-                  <%= link_to t('helpers.links.show'), customer, :class => 'btn btn-info btn-xs' %>
-                  <%= link_to t('helpers.links.edit'), edit_customer_path(customer), :class => 'btn btn-warning btn-xs' %>
-                  <%= link_to t('helpers.links.destroy'), customer, method: :delete, data: { confirm: 'Möchten Sie den Kunden wirklich löschen?' }, :class => 'btn btn-danger btn-xs' %>
+                  <%= link_to (fa_icon "search-plus 1x"), customer, :title =>  t('helpers.links.show'), :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+                  <%= link_to (fa_icon "pencil 1x"), edit_customer_path(customer), :title => t('helpers.links.edit'), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
+                  <%= link_to (fa_icon "trash 1x"), customer, method: :delete, data: { confirm: 'Möchten Sie den Kunden wirklich löschen?' },:title => t('helpers.links.destroy'), :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
                 </td>
               </tr>
             <% end %>

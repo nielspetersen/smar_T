@@ -22,4 +22,5 @@
 //= require position
 //= require rails.validations
 //= require rails.validations.simple_form
+//= require address_autocomplete
 

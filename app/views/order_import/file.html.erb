@@ -5,5 +5,7 @@
 <%= form_tag confirm_order_import_path, multipart: true do %>
     <%= file_field_tag :file, accept: 'text/csv' %>
     <br>
-    <%= submit_tag t('.upload_csv'), class: "btn btn-primary btn-smart" %>
+    <%= button_tag type: 'submit', class: "btn btn-primary btn-smart"  do %>
+        <%= ((fa_icon "upload 1x") + " " + t('.upload_csv')) %>
+    <% end %>
 <% end %>

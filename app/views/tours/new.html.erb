@@ -26,15 +26,15 @@
           <td><%= tour.duration %></td>
           <td><%= tour.order_tours.count %></td>
           <td><%=l tour.created_at, format: :long %></td>
-          <td><%= link_to t('helpers.links.show'), tour, :class => 'btn btn-info btn-xs' %></td>
-          <td><%= link_to t('helpers.links.destroy'), tour, method: :delete, 
-          data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %></td>
+          <td><%= link_to (fa_icon "search-plus 1x"), tour, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %></td>
+          <td><%= link_to (fa_icon "trash 1x"), tour, method: :delete, 
+          data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
   
-  <%= link_to t('.new', :default => t("helpers.links.new")),
+  <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")),
               new_tour_path,
               :class => 'btn btn-primary' %>
   <% else %>

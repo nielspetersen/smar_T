@@ -4,11 +4,11 @@ class RegisteredUsersController < ApplicationController
   respond_to :html
 
   def index
-    if current_user && (current_user.is_admin?)
+    if current_user && current_user.is_admin? && current_user.company_id?
       @users = User.where(company_id: current_user.company.id)
     end
     if current_user && current_user.is_superadmin? && current_user.company_id?
-      @users = User.all
+      @users = User.where(company_id: current_user.company.id)
     end
   end
 
@@ -35,7 +35,7 @@ class RegisteredUsersController < ApplicationController
     @user.company_id = current_user.company_id
     if @user.save
       flash[:success] = t('.success', user_id: @user.id)
-    redirect_to(registered_user_path(@user))
+      redirect_to(registered_user_path(@user))
       else
         flash[:alert] = t('.failure')
         render 'new'
@@ -54,12 +54,14 @@ class RegisteredUsersController < ApplicationController
 
   def destroy
     if current_user && (current_user.is_admin? || current_user.is_superadmin?)
+      nickname = @user.nickname
+      user_id = @user.id
       if @user.destroy
-        flash[:success] = t('.success', user_id: @user.id)
-        redirect_to(registered_user_path)
-        else
-        flash[:alert] = t('.failure', user_id: @user.id)
-        redirect_to(registered_user_path)
+        flash[:success] = t('.success', nick_name: nickname, user_id: user_id)
+        redirect_to(registered_users_path)
+      else
+        flash[:alert] = t('.failure', nick_name: nickname, user_id: user_id)
+        redirect_to(registered_users_path)
       end
     end
   end
@@ -70,6 +72,6 @@ class RegisteredUsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:id, :email, :company_id, :password, :last_sign_in_at, :created_at, :username, :role)
+      params.require(:user).permit(:id, :email, :company_id, :password, :last_sign_in_at, :created_at, :nickname, :role)
     end
 end

@@ -28,8 +28,8 @@
             <td><%= order_tour.place+1 %></td>
             <td><%= order_tour.time %></td>
             <td><%= order_tour.duration %></td>
-            <td><%= link_to t('helpers.links.destroy'), order_tour, method: :delete, 
-            data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %></td>
+            <td><%= link_to (fa_icon "trash 1x"), order_tour, method: :delete, 
+            data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %></td>
           </tr>
         <% end %>
       </tbody>

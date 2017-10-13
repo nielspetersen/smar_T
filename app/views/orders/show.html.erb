@@ -23,8 +23,8 @@
             <dd><pre class="prettyprint"><%= @order.capacity %></pre></dd>
             <dt class="label label-default">Beschreibung</dt>
             <dd><pre class="prettyprint"><%= @order.comment %></pre></dd>
-            <dt class="label label-default">Aktiv</dt>
-            <dd><pre class="prettyprint"><%= @order.active %></pre></dd>
+            <dt class="label label-default">Status</dt>
+            <dd><pre class="prettyprint"><%= order_status_as_string(@order.status) %></pre></dd>
         </dl>
       </div>
       

@@ -33,104 +33,52 @@
           <%= check_box_tag :order_type_service, 1, true %>
           <%= submit_tag t('tours.generate_new_tours'), name: nil, id: 'btn_new_tour', class: 'btn btn-primary btn-smart' %>
         <% end %>
+        <div style="float: right;">
+        <%= form_tag tours_path, method: :get do %>
+          <%= label_tag :status, t('.filter_tour_status') %>
+          <%= select_tag :status, options_for_select([[t('tours.status.approved'), StatusEnum::APPROVED], [t('tours.status.started'), StatusEnum::STARTED], [t('orders.status.completed'), StatusEnum::COMPLETED]], params[:status]), prompt: t('tours.filter_tour_status_default'), onchange: "this.form.submit();", class: 'tour_status_filter' %>
+        <% end %>
+        </div>
         <div class="loader"><%= image_tag "ajax-loader.gif" %></div>
-        <hr>
-        <ul class="nav nav-tabs">
-          <li class="active">
-            <a  href="#1" data-toggle="tab"><%= t('.active_tours') %></a>
-          </li>
-          <li>
-            <a href="#2" data-toggle="tab"><%= t('.completed_tours') %></a>
-          </li>
-        </ul>
-        <% active_tours = @tours.where("status IN (?)", [StatusEnum::APPROVED, StatusEnum::STARTED]) %>
-        <% completed_tours = @tours.where(status: StatusEnum::COMPLETED) %>
         <div class="tab-content">
-          <div class="tab-pane active" id="1">
-            <% if active_tours.empty? %>
-              <h3><%= t('.no_active_tours_available') %></h3>
-            <% else %>
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th>Fahrer</th>
-                <th class="center">Dauer<br/>[hh:mm:ss]</th>
-                <th class="center">Anfahrpunkte</th>
-                <th>Algorithmus</th>
-                <th>Status</th>
-                <th>Erstellt am</th>
-                <th><%=t '.actions', :default => t("helpers.actions") %></th>
-              </tr>
-              </thead>
-              <tbody>
-              <% active_tours.each do |tour| %>
-                  <tr>
-                    <td><%= (Driver.where(id: tour.driver_id).first).name %></td>
-                    <td class="center"><%= Time.at(tour.duration * 60).utc.strftime("%H:%M:%S") %></td>
-                    <td class="center"><%= tour.order_tours.count %></td>
-                    <td><%= get_algorithm_display_text(tour.algorithm) %></td>
-                    <td><%= get_tour_status_as_string(tour.status) %></td>
-                    <td><%=l tour.created_at, format: :long %></td>
-                    <td>
-                      <%= link_to t('helpers.links.show'), tour, :class => 'btn btn-info btn-xs' %>
-                      <%= link_to t('helpers.links.destroy'), tour, method: :delete, data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %>
-                    </td>
-                  </tr>
-              <% end %>
-              <tr>
-                <td></td>
-                <td class="center"><strong><%= Time.at(@tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M:%S") %></strong></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              </tbody>
-            </table>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Fahrer</th>
+              <th class="center">Dauer<br/>[hh:mm:ss]</th>
+              <th class="center">Anfahrpunkte</th>
+              <th>Algorithmus</th>
+              <th>Status</th>
+              <th>Erstellt am</th>
+              <th><%=t '.actions', :default => t("helpers.actions") %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @tours.each do |tour| %>
+                <tr>
+                  <td><%= (Driver.where(id: tour.driver_id).first).name %></td>
+                  <td class="center"><%= Time.at(tour.duration * 60).utc.strftime("%H:%M:%S") %></td>
+                  <td class="center"><%= tour.order_tours.count %></td>
+                  <td><%= get_algorithm_display_text(tour.algorithm) %></td>
+                  <td><%= get_tour_status_as_string(tour.status) %></td>
+                  <td><%=l tour.created_at, format: :long %></td>
+                  <td>
+                    <%= link_to (fa_icon "search-plus 1x"), tour, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+                    <%= link_to (fa_icon "trash 1x"), tour, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                  </td>
+                </tr>
             <% end %>
-          </div>
-          <div class="tab-pane" id="2">
-            <% if completed_tours.empty? %>
-                <h3><%= t('.no_completed_tours_available') %></h3>
-            <% else %>
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th>Fahrer</th>
-                <th class="center">Dauer<br/>[hh:mm:ss]</th>
-                <th class="center">Anfahrpunkte</th>
-                <th>Algorithmus</th>
-                <th>Erstellt am</th>
-                <th><%=t '.actions', :default => t("helpers.actions") %></th>
-              </tr>
-              </thead>
-              <tbody>
-              <% completed_tours.each do |tour| %>
-                  <tr>
-                    <td><%= (Driver.where(id: tour.driver_id).first).name %></td>
-                    <td class="center"><%= Time.at(tour.duration * 60).utc.strftime("%H:%M:%S") %></td>
-                    <td class="center"><%= tour.order_tours.count %></td>
-                    <td><%= get_algorithm_display_text(tour.algorithm) %></td>
-                    <td><%=l tour.created_at, format: :long %></td>
-                    <td>
-                      <%= link_to t('helpers.links.show'), tour, :class => 'btn btn-info btn-xs' %>
-                      <%= link_to t('helpers.links.destroy'), tour, method: :delete, data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %>
-                    </td>
-                  </tr>
-              <% end %>
-              <tr>
-                <td></td>
-                <td class="center"><strong><%= Time.at(@tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M:%S") %></strong></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              </tbody>
-            </table>
-            <% end %>
-          </div>
+            <tr>
+              <td></td>
+              <td class="center"><strong><%= Time.at(@tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M:%S") %></strong></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
 
         <script>

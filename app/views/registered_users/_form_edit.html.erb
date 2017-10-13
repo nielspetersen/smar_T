@@ -1,18 +1,19 @@
-<% if current_user.role == "admin" && !(@user.role == "superadmin") %>
+<% if current_user.role == "admin" %>
   <%= simple_form_for @user, :url => registered_user_path(@user) do |f| %>
-    <%= f.input :username, prompt: :translate %>
+    <%= f.input :nickname, prompt: :translate %>
     <%= f.input :email, prompt: :translate %>
     <% if  !(@user.role == "admin") %>
+      <%= f.input :password, prompt: :translate %>
       <%= f.input :role, :collection => {t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
     <% end %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>
 <% elsif current_user.role == "superadmin"%>
 <%= simple_form_for @user, :url => registered_user_path(@user) do |f| %>
-    <%= f.input :username, prompt: :translate %>
+    <%= f.input :nickname, prompt: :translate %>
     <%= f.input :email, prompt: :translate %>
-    <% if  !(@user.role == "superadmin") %>
-    <%= f.input :role, :collection => {t('admin')  => 'admin', t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
+    <% if !(@user.role == "superadmin") %>
+      <%= f.input :role, :collection => {t('admin')  => 'admin', t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
     <% end %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>

@@ -1,24 +1,27 @@
-<% if current_user && (current_user.is_admin? || current_user.is_superadmin?) %>
-    <div class="page-header">
+<% if current_user && (current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)) %>
+      <div class="page-header">
       <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => User %></h1>
     </div>
 
- <%= simple_form_for @user_form, validate: true do |f| %>
-    <%= f.input :username, prompt: :translate %>
-    <%= f.input :email, prompt: :translate %>
-    <% if current_user.role == "admin" %>
-    <%= f.input :role, :collection => {t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
-    <% elsif current_user.role == "superadmin"%>
-    <%= f.input :role, :collection => {t('admin')  => 'admin', t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
+    <%= simple_form_for @user_form, validate: true do |f| %>
+      <%= f.input :nickname, prompt: :translate %>
+      <%= f.input :email, prompt: :translate %>
+      <% if current_user.role == "admin" && (@user_form.role =="driver" || @user_form.role == "planer") %>
+        <%= f.input :password, prompt: :translate %>
+        <%= f.input :role, :collection => {t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
+      <% elsif current_user.role == "admin" && (@user_form.role =="admin") %>
+        <%= f.input :role, :collection => {t('admin')  => 'admin'}, prompt: :translate, :disabled => true %>
+      <% elsif current_user.role == "superadmin" && (@user_form.role =="driver" || @user_form.role == "planer"|| @user_form.role == "admin")%>
+        <%= f.input :password, prompt: :translate %>
+        <%= f.input :role, :collection => {t('admin')  => 'admin', t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
+      <% end %>
+      <div id="driver">
+        <div id="driver_heading"><b><%=t('driver_properties') %></b></div>
+        <%= f.input :working_time, as: :integer, prompt: :translate %>
+        <%= f.input :active, as: :boolean, prompt: :translate %>
+      </div>
+      <%= f.button :submit, prompt: :translate %>
     <% end %>
-    <div id="driver">
-    <div id="driver_heading"><b><%=t('driver_properties') %></b></div>
-    <%= f.input :working_time, as: :integer, prompt: :translate %>
-    <%= f.input :active, as: :boolean, prompt: :translate %>
-    </div>
-    <%= f.button :submit, prompt: :translate %>
-  <% end %>
-
 <% else %>
   ZUGANG VERWEIGERT
 <% end %>

@@ -5,10 +5,11 @@ class ToursController < ApplicationController
 
   def index
     # Nur Daten die Zur Rolle passen anzeigen
+    tour_filter = filter_tour_params.reject{|_, v| v.blank?}
     if (current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)) && !current_user.company.nil?
-      @tours = current_user.company.tours
+      @tours = current_user.company.tours(tour_filter)
     elsif current_user.is_driver?
-      @tours = current_user.company.tours
+      @tours = current_user.company.tours(tour_filter)
     else
       @tours = []
     end
@@ -120,6 +121,10 @@ class ToursController < ApplicationController
 
     def new_tour_params
       params.permit(:order_type_delivery, :order_type_pickup, :order_type_service)
+    end
+
+    def filter_tour_params
+      params.permit(:status)
     end
 
     def preprocess_order_type_params(params)

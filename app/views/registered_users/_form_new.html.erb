@@ -1,6 +1,6 @@
 <% if current_user.is_admin? %>
   <%= simple_form_for @user, :url => registered_users_path, :method => :post do |f| %>
-    <%= f.input :username, prompt: :translate %>
+    <%= f.input :nickname, prompt: :translate %>
     <%= f.input :email, prompt: :translate %>
     <%= f.input :password, prompt: :translate %>
     <%= f.input :role, :collection => {t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>
@@ -8,7 +8,7 @@
   <% end %>
 <% elsif current_user.is_superadmin? %>
 <%= simple_form_for @user, :url => registered_users_path, :method => :post do |f| %>
-    <%= f.input :username, prompt: :translate %>
+    <%= f.input :nickname, prompt: :translate %>
     <%= f.input :email, prompt: :translate %>
     <%= f.input :password, prompt: :translate %>
     <%= f.input :role, :collection => {t('admin')  => 'admin', t('planer')  => 'planer', t('driver') => 'driver'}, prompt: :translate %>

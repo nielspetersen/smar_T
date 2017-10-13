@@ -25,8 +25,8 @@
                 <td class="center"><%= Time.at(driver.working_time * 60).utc.strftime("%H:%M:%S") %></td>
                 <td><%=l driver.created_at, format: :long %></td>
                 <td>
-                  <%= link_to t('helpers.links.show'), driver, :class => 'btn btn-info btn-xs' %>
-                  <%= link_to t('helpers.links.edit'), edit_driver_path(driver), :class => 'btn btn-warning btn-xs' %>
+                  <%= link_to (fa_icon "search-plus 1x"), driver, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+                  <%= link_to (fa_icon "pencil 1x"), edit_driver_path(driver), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
                 </td>
               </tr>
             <% end %>

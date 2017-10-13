@@ -66,16 +66,16 @@ de:
   edit:
    title: "Unternehmen bearbeiten"
   create:
-   success: "Unternehmen %{company_id} wurde erfolgreich angelegt"
+   success: "Unternehmen %{company_name} wurde erfolgreich angelegt"
    failure: "Unternehmen konnte nicht angelegt werden"
   update:
-   success: "Unternehmen %{company_id} wurde aktualisiert"
-   failure: "Unternehmen %{company_id} konnte nicht aktualisiert werden"
+   success: "Unternehmen %{company_name} wurde aktualisiert"
+   failure: "Unternehmen %{company_name} konnte nicht aktualisiert werden"
   destroy:
-   success: "Unternehmen %{company_id} wurde gelöscht"
-   failure: "Unternehmen %{company_id} konnte nicht gelöscht werden"
+   success: "Unternehmen %{company_name} wurde gelöscht"
+   failure: "Unternehmen %{company_name} konnte nicht gelöscht werden"
   form:
-   address_hint: "Adresse bitte im Format 'Lietzenburger Straße 71, 29386 Dedelstorf' eingeben"
+   address_hint: "Adresse bitte im Format 'Lietzenburger Straße 71, 29386 Dedelstorf' eingeben."
    google_maps_key_hint: "Ein Google Maps API-Schlüssel ist für die Berechnung der Touren und Validierung der Adressen notwendig. Falls Sie noch keinen API-Schlüssel besitzen, können Sie unter https://developers.google.com/maps/?hl=de einen anfordern."
    company_logo_hint: "Erlaubte Dateiformate: .PNG und .JPEG, maximale Dateigröße 3 MB"
    upload_logo: "Logo ändern"
@@ -113,10 +113,12 @@ de:
    failure: "Fahrer: %{name} (ID %{driver_id})  konnte nicht gelöscht werden"
  orders:
   filter_order_type_default: "Alle Typen"
-  filter_order_status_default: "Auswählen"
+  filter_order_status_default: "Alle"
   status:
     active: "Aktiv"
     inactive: "Inaktiv"
+    assigned: "Zugewiesen"
+    completed: "Abgeschlossen"
   types:
     delivery: "Lieferung"
     pickup: "Abholung"
@@ -153,11 +155,11 @@ de:
    success: "Benutzer %{user_id} wurde erfolgreich angelegt"
    failure: "Benutzer konnte nicht angelegt werden"
   update:
-   success: "Benutzer %{user_id} wurde aktualisiert"
+   success: "Benutzer %{user_nickname} wurde aktualisiert"
    failure: "Benutzer %{user_id} konnte nicht aktualisiert werden"
   destroy:
-   success: "Benutzer %{user_id} wurde gelöscht"
-   failure: "Benutzer %{user_id} konnte nicht gelöscht werden"
+   success: "Benutzer %{nick_name} (%{user_id}) wurde gelöscht"
+   failure: "Benutzer %{nick_name} (%{user_id}) konnte nicht gelöscht werden"
  user_forms:
   show:
    title: "Benutzer"
@@ -166,14 +168,14 @@ de:
   edit:
    title: "Benutzer bearbeiten"
   create:
-   success: "Benutzer %{user_id} wurde erfolgreich angelegt"
+   success: "Benutzer %{user_nickname} wurde erfolgreich angelegt"
    failure: "Benutzer konnte nicht angelegt werden"
   update:
-   success: "Benutzer %{user_id} wurde aktualisiert"
-   failure: "Benutzer %{user_id} konnte nicht aktualisiert werden"
+   success: "Benutzer %{user_nickname} wurde aktualisiert"
+   failure: "Benutzer %{user_nickname} konnte nicht aktualisiert werden"
   destroy:
-   success: "Benutzer %{user_id} wurde gelöscht"
-   failure: "Benutzer %{user_id} konnte nicht gelöscht werden"
+   success: "Benutzer %{user_nickname} wurde gelöscht"
+   failure: "Benutzer %{user_nickname} konnte nicht gelöscht werden"
  restrictions:
   show:
    title: "Beschränkung"
@@ -194,6 +196,11 @@ de:
   no_google_maps_api_key_assigned: "Ihrem Unternehmen wurde noch kein Google Maps API Key zugewiesen. Bitte setzen Sie den API Schlüssel in den Unternehmenseinstellungen oder kontaktieren Sie den Administrator."
   generate_new_tours: "Generieren"
   no_available_drivers: "Es stehen keine Fahrer zur Verfügung. Bitte stellen Sie sicher, dass Ihrem Unternehmen Benutzer mit der Rolle: Fahrer zugewiesen und diese aktiv sind. Weiterhin werden nur Fahrer mit einem zugewiesenen Fahrzeug berücksichtigt."
+  filter_tour_status_default: "Alle"
+  status:
+   approved: "Bereit"
+   started: "Gestartet"
+   completed: "Abgeschlossen"
   show:
    title: "Tour"
    print_tour: "Drucken"
@@ -204,6 +211,7 @@ de:
    no_active_tours_available: "Keine aktiven Touren vorhanden"
    no_completed_tours_available: "Keine abgeschlossenen Touren vorhanden"
    generate_new_tours_hint: "Neue Touren generieren:"
+   filter_tour_status: "Nach Status filtern:"
   new:
    title: "Neue Tour"
    no_company_assigned: "Ihr Benutzerkonto ist keinem Unternehmen zugeordnet. Bitte kontaktieren Sie den Administrator."
@@ -294,11 +302,6 @@ de:
    user_form:
     create: "Speichern"
     update: "Speichern"
-  tours:
-    tour_generated: "Erstellt"
-    tour_approved: "Bereit"
-    tour_started: "Gestartet"
-    tour_completed: "Abgeschlossen"
 
  attributes:
   name: "Name"
@@ -320,7 +323,7 @@ de:
   duration: "Dauer"
   priority: "Priorität"
   working_time: "Arbeitszeit in Minuten"
-  active: "Aktiv"
+  status: "Status"
   driver: "Fahrer"
   company: "Unternehmen"
   capacity: "Kapazität"
@@ -340,7 +343,7 @@ de:
  devise:
   sign_in: "Anmelden"
   sign_out: "Abmelden"
-  edit_account: "Account bearbeiten"
+  edit_account: "Benutzer bearbeiten"
   list_of_companies: "Liste aller Unternehmen"
   navbar_text: "Sie sind eingeloggt als %{name} im Unternehmen: %{company_name} (%{company_id})."
 

@@ -20,13 +20,13 @@ module ToursHelper
   def get_tour_status_as_string(status)
     case status
       when StatusEnum::GENERATED
-        t('helpers.tours.tour_generated')
+        t('tours.status.generated')
       when StatusEnum::APPROVED
-        t('helpers.tours.tour_approved')
+        t('tours.status.approved')
       when StatusEnum::STARTED
-        t('helpers.tours.tour_started')
+        t('tours.status.started')
       when StatusEnum::COMPLETED
-        t('helpers.tours.tour_completed')
+        t('tours.status.completed')
     end
   end
 end

@@ -1,11 +1,15 @@
 <%- model_class = Company -%>
 <% if (current_user && current_user.role == "admin") %>
-    <%controller.redirect_to :action => "show", :id => current_user.company_id %>
+    <% if current_user.company.nil? %>
+        <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen.</div>
+    <% else %>
+      <%controller.redirect_to :action => "show", :id => current_user.company_id %>
+    <% end %>
 <% elsif current_user && current_user.role == "superadmin" %>
     <div class="page-header">
       <h1>Übersicht: Unternehmen</h1>
     </div>
-    <%= link_to t('.new', :default => t("helpers.links.new")), new_company_path, :class => 'btn btn-primary btn-smart' %>
+    <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_company_path, :class => 'btn btn-primary btn-smart' %>
     <hr/>
     <table class="table table-striped">
       <thead>
@@ -13,6 +17,7 @@
         <th><%= model_class.human_attribute_name(:name) %></th>
         <th><%= model_class.human_attribute_name(:address) %></th>
         <th><%= model_class.human_attribute_name(:telefon) %></th>
+        <th><%= model_class.human_attribute_name(:email) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
       </thead>
@@ -22,10 +27,11 @@
             <td><%= company.name %></td>
             <td><%= company.address %></td>
             <td><%= company.telefon %></td>
+            <td><%= company.email %></td>
             <td>
-              <%= link_to t('helpers.links.show'), company, :class => 'btn btn-info btn-xs' %>
-              <!--<%= link_to t('helpers.links.edit'), edit_company_path(company), :class => 'btn btn-warning btn-xs' %>-->
-              <%= link_to t('helpers.links.destroy'), company, method: :delete, data: { confirm: t('helpers.links.confirm') }, :class => 'btn btn-danger btn-xs' %>
+              <%= link_to (fa_icon "search-plus 1x"), company, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+              <!--<%= link_to (fa_icon "pencil 1x"), edit_company_path(company), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>-->
+              <%= link_to (fa_icon "trash 1x"), company, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
             </td>
           </tr>
       <% end %>

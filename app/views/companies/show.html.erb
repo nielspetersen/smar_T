@@ -10,11 +10,15 @@
         <dd><pre class="prettyprint"><%= @company.name %></pre></dd>
         <dt class="label label-default"><%= model_class.human_attribute_name(:address) %></dt>
         <dd><pre class="prettyprint"><%= @company.address %></pre></dd>
+        <dt class="label label-default"><%= model_class.human_attribute_name(:email) %></dt>
+        <dd><pre class="prettyprint"><%= @company.email %></pre></dd>
         <dt class="label label-default"><%= model_class.human_attribute_name(:telefon) %></dt>
         <dd><pre class="prettyprint"><%= @company.telefon %></pre></dd>
         <dt class="label label-default"><%= model_class.human_attribute_name(:google_maps_api_key) %></dt>
         <dd><pre class="prettyprint"><%= @company.google_maps_api_key %></pre></dd>
-        <%= image_tag @company.logo.url %>
+        <% if @company.logo? %>
+          <%= image_tag @company.logo.url %>
+        <% end %>
       </dl>
     </div>
 
