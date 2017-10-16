@@ -5,14 +5,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :company
-
- after_destroy :destroy_driver
-  
-  def destroy_driver
-     if Driver.find_by_user_id(id)
-	Driver.destroy(Driver.find_by_user_id(id))
-     end
-  end
+  has_one :driver, dependent: :destroy
 
   USER_ROLE = "user"
   SUPERADMIN_ROLE = "superadmin"

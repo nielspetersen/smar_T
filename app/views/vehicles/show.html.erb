@@ -7,6 +7,12 @@
       
       <div class="fieldset">
         <dl>
+            <dt class="label label-default"><%=model_class.human_attribute_name(:registration_number) %></dt>
+            <dd><pre class="prettyprint"><%= @vehicle.registration_number %></pre></dd>
+            <dt class="label label-default"><%=model_class.human_attribute_name(:manufacturer) %></dt>
+            <dd><pre class="prettyprint"><%= @vehicle.manufacturer %></pre></dd>
+            <dt class="label label-default"><%=model_class.human_attribute_name(:model) %></dt>
+            <dd><pre class="prettyprint"><%= @vehicle.model %></pre></dd>
             <dt class="label label-default">Position</dt>
             <dd><pre class="prettyprint"><%= @vehicle.position %></pre></dd>
             <dt class="label label-default">Kapazität</dt>

@@ -10,10 +10,10 @@
           <dl>
               <dt class="label label-default">Name</dt>
               <dd><pre class="prettyprint"><%= @driver.name %></pre></dd>
-              <dt class="label label-default">Aktiv</dt>
-              <dd><pre class="prettyprint"><%= @driver.active %></pre></dd>
-              <dt class="label label-default">Arbeitszeit</dt>
-              <dd><pre class="prettyprint"><%= @driver.working_time %></pre></dd>
+              <dt class="label label-default"><%= model_class.human_attribute_name(:working_time) %> [hh:mm]</dt> 
+             <dd><pre class="prettyprint"><%=  Time.at(@driver.working_time * 60).utc.strftime("%H:%M") %></pre></dd> 
+             <dt class="label label-default"><%= model_class.human_attribute_name(:active) %></dt> 
+             <dd><pre class="prettyprint"><%= @driver.active %></pre></dd> 
           </dl>
         </div>
 

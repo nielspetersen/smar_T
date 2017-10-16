@@ -1,0 +1,35 @@
+<%- model_class = Tour -%>
+<% if current_user %>
+    <% if current_user.is_admin? || current_user.is_planer? || current_user.is_driver? || (current_user.is_superadmin? && current_user.company_id?)%>
+        <div class="fieldset">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th></th>
+              <th class="center">#</th>
+              <th>Kunde</th>
+              <th>Adresse</th>
+              <th>Beschreibung</th>
+            </tr>
+            </thead>
+            <%= form_tag finish_tour_path(), method: :post do %>
+              <tbody>
+              <% @order_tours.each do |order_tour| %>
+                  <tr id="orderTour-<%= order_tour.id %>">
+                    <td><%= check_box_tag "order_ids[]", "#{order_tour.order.id}", true, { multiple: true } %></td>
+                    <td class="center"><%= order_tour.place + 1 %></td>
+                    <td><%= order_tour.order.customer.name %></td>
+                    <td><%= order_tour.location %></td>
+                    <td><%= order_tour.comment %></td>
+                  </tr>
+              <% end %>
+              </tbody>
+          </table>
+          <%= submit_tag t('.finish_tour') %><% end %>
+        </div>
+        <% else %>
+        ZUGANG VERWEIGERT
+    <% end %>
+<% else %>
+    ZUGANG VERWEIGERT
+<% end %>

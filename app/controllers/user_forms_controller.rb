@@ -36,6 +36,6 @@ class UserFormsController < ApplicationController
   private
 
   def user_form_params
-    params.require(:user_form).permit(:user_id, :name, :work_start_time, :work_end_time, :active, :working_time, :id, :email, :company_id, :password, :last_sign_in_at, :created_at, :nickname, :role)
+    params.require(:user_form).permit(:user_id, :name, :work_start_time, :work_end_time, :active, :working_time, :hour, :minute, :id, :email, :company_id, :password, :last_sign_in_at, :created_at, :nickname, :role)
   end
 end

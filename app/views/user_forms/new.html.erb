@@ -15,7 +15,12 @@
     <% end %>
     <div id="driver">
     <div id="driver_heading"><b><%=t('driver_properties') %></b></div>
-    <%= f.input :working_time, as: :integer, prompt: :translate %>
+   <div id="working_time_heading"><b><%=t('attributes.working_time') %></b></div>
+    <%= f.hidden_field :working_time, as: :integer, prompt: :translate %>
+    <%= f.label :hour %>:
+    <%= f.select :hour, (0..23), as: :integer %>
+    <%= f.label :minute %>:
+    <%= f.select :minute, (0..59), as: :integer %>
     <%= f.input :active, as: :boolean, prompt: :translate %>
     </div>
     <%= f.button :submit, prompt: :translate %>

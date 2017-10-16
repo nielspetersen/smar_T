@@ -304,6 +304,10 @@ margin-right: -10px;
 padding-left: 10px;
 }
 
+#working_time_heading{
+margin-bottom: 10px;
+}
+
 .order_status_filter, .tour_status_filter {
     margin-right: 20px;
 }

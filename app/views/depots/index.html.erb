@@ -1,20 +1,22 @@
 <%- model_class = Depot -%>
 <% if current_user %>
-    <% if (current_user.is_superadmin? && current_user.company_id?) || current_user.is_admin? %>
+    <% if (current_user.is_superadmin? && current_user.company_id?) || current_user.is_admin? ||  current_user.is_planer? %>
       <div class="page-header">
         <h1>Depot</h1>
       </div>
       <% if current_user.company.nil? %>
         <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen. Sie können daher kein Depot anlegen.</div>
       <% else %>
-	      <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_depot_path, :class => 'btn btn-primary btn-smart' %>
+	<% if (current_user.is_superadmin? && current_user.company_id?) || current_user.is_admin? %>
+        <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_depot_path, :class => 'btn btn-primary btn-smart' %>
+        <% end %>
         <hr/>
         <table class="table table-striped">
           <thead>
             <tr>
               <th>Name</th>
               <th>Adresse</th>
-              <th>Einladedauer<br/>[hh:mm:ss]</th>
+              <th>Einladedauer<br/>[hh:mm]</th>
               <th><%=t '.actions', :default => t("helpers.actions") %></th>
             </tr>
           </thead>
@@ -23,11 +25,13 @@
               <tr>
                 <td><%= depot.name %></td>
                 <td><%= depot.address %></td>
-                <td><%= Time.at(depot.duration * 60).utc.strftime("%H:%M:%S") %></td>
+                <td><%= Time.at(depot.duration * 60).utc.strftime("%H:%M") %></td>
                 <td>
                   <%= link_to (fa_icon "search-plus 1x"), depot, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+                  <% if (current_user.is_superadmin? && current_user.company_id?) || current_user.is_admin? %>
                   <%= link_to (fa_icon "pencil 1x"), edit_depot_path(depot), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
-                  <%= link_to (fa_icon "trash 1x"), depot, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                  <%= link_to (fa_icon "trash 1x"), depot, method: :delete, data: { confirm: t('.confirm', name: depot.name) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

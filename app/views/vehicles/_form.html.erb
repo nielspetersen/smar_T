@@ -1,5 +1,8 @@
 <% if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?) || current_user.is_planer? %>
   <%= simple_form_for @vehicle, validate: true do |f| %>
+    <%= f.input :registration_number, prompt: :translate %>
+    <%= f.input :manufacturer, prompt: :translate %>
+    <%= f.input :model, prompt: :translate %>
     <%= f.input :position, prompt: :translate, input_html: { id: 'address' } %>
     <%= f.input :capacity, prompt: :translate %>
     <%= f.association :driver, collection: current_user.company.drivers, :include_blank => t('.driver_empty'),prompt: :translate %>

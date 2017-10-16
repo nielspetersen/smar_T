@@ -9,7 +9,7 @@
     <tr>
       <th class="center">#</th>
       <th>Kunde</th>
-      <th class="center"><%= model_class.human_attribute_name(:duration) %><br/>[hh:mm:ss]</th>
+      <th class="center"><%= model_class.human_attribute_name(:duration) %><br/>[hh:mm]</th>
       <th>Beschreibung</th>
     </tr>
     </thead>
@@ -23,14 +23,14 @@
           <% end %>
           <%= order_tour.location %>
         </td>
-        <td class="center"><%= Time.at(order_tour.duration * 60).utc.strftime("%H:%M:%S") %></td>
+        <td class="center"><%= Time.at(order_tour.duration * 60).utc.strftime("%H:%M") %></td>
         <td><%= order_tour.comment %></td>
       </tr>
     <% end %>
     <tr>
       <td></td>
       <td></td>
-      <td class="center"><strong><%= Time.at(@order_tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M:%S") %></strong></td>
+      <td class="center"><strong><%= Time.at(@order_tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
       <td></td>
     </tr>
     </tbody>

@@ -4,13 +4,13 @@ class DepotsController < ApplicationController
   respond_to :html
 
   def index
-    if (current_user.is_admin? || current_user.is_superadmin?) && current_user.company_id?
+    if (current_user.is_admin? || current_user.is_superadmin? || current_user.is_planer?) && current_user.company_id?
       @depots = Depot.where(company_id: current_user.company.id)
     end
   end
 
   def show
-    if (current_user.is_admin? || current_user.is_superadmin?) && current_user.company_id?
+    if (current_user.is_admin? || current_user.is_superadmin? || current_user.is_planer?) && current_user.company_id?
       if @depot.company_id == current_user.company_id
         @depot
       end

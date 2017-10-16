@@ -1,5 +1,6 @@
 class ToursController < ApplicationController
-  before_action :set_tour, only: [:show, :edit, :update, :destroy, :print]
+  include OrderToursHelper
+  before_action :set_tour, only: [:show, :edit, :update, :destroy, :print, :complete, :finish]
 
   respond_to :html
 
@@ -106,8 +107,47 @@ class ToursController < ApplicationController
         end
       end
     else
-      redirect_to 'index'
+      redirect_to action: 'index'
     end
+  end
+
+  def complete
+    unless @tour
+      redirect_to action: 'index'
+    end
+    # avoid submitting order_tours for vehicle position, home, etc.
+    @order_tours = @tour.order_tours.where(kind: available_order_tour_types())
+  end
+
+  def finish
+    unless @tour
+      redirect_to action: 'index'
+    end
+    tour_complete_params = finish_tour_params.reject{|_, v| v.blank? }
+
+    begin
+      @tour.update_attributes!(status: StatusEnum::COMPLETED)
+      order_tours = @tour.order_tours.where(kind: available_order_tour_types())
+      order_tours.each do |order_tour|
+        if tour_complete_params[:order_ids].include? order_tour.order_id.to_s
+          order = Order.find(order_tour.order_id)
+          if order
+            order.update_attributes!(status: OrderStatusEnum::COMPLETED)
+          end
+        else
+          # remove incomplete orders from completed tour
+          order = Order.find(order_tour.order_id)
+          if order
+            order.update_attributes!(status: OrderStatusEnum::ACTIVE)
+          end
+          order_tour.destroy
+        end
+      end
+      flash[:success] = t('.success', tour_id: @tour.id)
+    rescue ActiveRecord::ActiveRecordError => e
+      flash[:alert] = t('.failure')
+    end
+    redirect_to action: 'index'
   end
 
   private
@@ -125,6 +165,10 @@ class ToursController < ApplicationController
 
     def filter_tour_params
       params.permit(:status)
+    end
+
+    def finish_tour_params
+      params.permit(:id, order_ids: [])
     end
 
     def preprocess_order_type_params(params)

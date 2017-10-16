@@ -36,7 +36,7 @@
                     <%= link_to (fa_icon "pencil 1x"), edit_user_form_path(registered_user), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
                   <% end %>
                   <% if (current_user.is_admin? && !(registered_user.role == "admin") && !(registered_user.role == "superadmin")) || (current_user.is_superadmin? && !(registered_user.role == "superadmin"))   %>
-                    <%= link_to (fa_icon "trash 1x"), registered_user_path(registered_user), method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                    <%= link_to (fa_icon "trash 1x"), registered_user_path(registered_user), method: :delete, data: { confirm: t('.confirm', name: registered_user.nickname) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
                   <% end %>
                 </td>
               </tr>

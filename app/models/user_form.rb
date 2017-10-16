@@ -1,7 +1,7 @@
 class UserForm
   include ActiveModel::Model
 
-  attr_accessor :user_id, :name, :work_start_time, :work_end_time, :active, :working_time, :id, :email, :company_id, :password, :last_sign_in_at, :created_at, :nickname, :role
+  attr_accessor :user_id, :name, :work_start_time, :work_end_time, :active, :working_time, :hour, :minute, :id, :email, :company_id, :password, :last_sign_in_at, :created_at, :nickname, :role
 
   validate :email_is_unique
   validates :email, presence: true, format: { with: /\A[^@\s]+@[^@\s]+\z/}
@@ -24,9 +24,13 @@ class UserForm
     if @user.role == "driver"
     @driver = Driver.find_by_user_id(@user.id)
       self.working_time = attr[:working_time].nil? ? @driver.working_time : attr[:working_time]
+       self.hour = attr[:hour].nil? ? Integer(working_time) / 60 : attr[:hour]
+       self.minute = attr[:minute].nil? ? Integer(working_time) % 60 : attr[:minute]
       self.active = attr[:active].nil? ? @driver.active : attr[:active]
     elsif (@user.role == "planer" && attr[:role] == "driver") 
       self.working_time = attr[:working_time].nil? ? @driver.working_time : attr[:working_time]
+      self.hour = attr[:hour].nil? ? Integer(working_time) / 60 : attr[:hour]
+      self.minute = attr[:minute].nil? ? Integer(working_time) % 60 : attr[:minute]
       self.active = attr[:active].nil? ? @driver.active : attr[:active]
     end
    
@@ -44,6 +48,7 @@ def id
 end
 
    def save
+      timeToInt
       if valid?
           persist_user
           if role == "driver"
@@ -57,6 +62,7 @@ end
      end
 
 def update
+    timeToInt
     if valid?
         if @user.role == "planer" && role == "driver"
         	persist_driver
@@ -104,7 +110,9 @@ private
     @driver.update_attributes(
         :name => nickname,
         :active => active,
-        :working_time => working_time
+        :working_time => working_time,
+        :hour => hour,
+        :minute => minute
         )
    end
 
@@ -113,5 +121,15 @@ private
       errors.add(:email, I18n.t('errors.messages.taken'))
     end
 end
+
+  def timeToInt
+  if hour.nil?
+  self.hour = 0
+  end
+  if minute.nil?
+  self.minute = 0
+  end
+  self.working_time = 60 * Integer(hour) + Integer(minute)
+  end
 
 end

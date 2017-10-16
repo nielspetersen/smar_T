@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :tours
 
   get 'tours/:id/print' => 'tours#print', as: 'print_tour'
+  get 'tours/:id/complete' => 'tours#complete', as: 'complete_tour'
+  post 'tours/:id/finish' => 'tours#finish', as: 'finish_tour'
 
   resources :restrictions
 

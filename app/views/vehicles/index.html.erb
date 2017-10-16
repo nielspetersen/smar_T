@@ -12,6 +12,9 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th><%= model_class.human_attribute_name(:registration_number) %></th>
+              <th><%= model_class.human_attribute_name(:manufacturer) %></th>
+              <th><%= model_class.human_attribute_name(:model) %></th>
               <th><%= model_class.human_attribute_name(:position) %></th>
               <th class="center"><%= model_class.human_attribute_name(:capacity) %></th>
               <th><%= model_class.human_attribute_name(:driver) %></th>
@@ -21,6 +24,9 @@
           <tbody>
             <% @vehicles.each do |vehicle| %>
               <tr>
+                <td><%= vehicle.registration_number %></td>
+                <td><%= vehicle.manufacturer %></td>
+                <td><%= vehicle.model %></td>
                 <td><%= vehicle.position %></td>
                 <td class="center"><%= vehicle.capacity %></td>
                 <% if vehicle.driver %>
@@ -31,7 +37,7 @@
                 <td>
                   <%= link_to (fa_icon "search-plus 1x"), vehicle, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
                   <%= link_to (fa_icon "pencil 1x"), edit_vehicle_path(vehicle), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
-                  <%= link_to (fa_icon "trash 1x"), vehicle, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                  <%= link_to (fa_icon "trash 1x"), vehicle, method: :delete, data: { confirm: t('.confirm', name: vehicle.id) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
                 </td>
               </tr>
             <% end %>

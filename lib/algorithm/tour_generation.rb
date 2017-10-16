@@ -51,9 +51,14 @@ module Algorithm
 
       best_algorithm_index = tours_duration.each_with_index.min[1] # index of the min value in array
 
-      # change status of selected tour combination to approved
+      # change status of selected tour combination to approved and from orders to assigned
       Tour.where(status: StatusEnum::GENERATED).where(algorithm: best_algorithm_index).each do |tour|
         tour.update_attributes(status: StatusEnum::APPROVED)
+        tour.order_tours.each do |order_tour|
+          if ['delivery', 'pickup', 'service'].include? order_tour.kind
+            order_tour.order.update_attributes(status: OrderStatusEnum::ASSIGNED)
+          end
+        end
       end
       # delete inefficient tour combinations
       Tour.where(status: StatusEnum::GENERATED).where.not(algorithm: best_algorithm_index).destroy_all

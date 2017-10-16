@@ -43,6 +43,8 @@ de:
   edit:
    title: "Benutzer bearbeiten"
  customers:
+  index:
+   confirm: "Möchten Sie den Kunden '%{name}' wirklich löschen?"
   show:
    title: "Kunde"
   new:
@@ -59,6 +61,8 @@ de:
    success: "Kunde %{customer_id} wurde gelöscht"
    failure: "Kunde %{customer_id} konnte nicht gelöscht werden"
  companies:
+  index:
+   confirm: "Möchten Sie das Unternehmen '%{name}' wirklich löschen?"
   show:
    title: "Unternehmen"
   new:
@@ -80,6 +84,8 @@ de:
    company_logo_hint: "Erlaubte Dateiformate: .PNG und .JPEG, maximale Dateigröße 3 MB"
    upload_logo: "Logo ändern"
  depots:
+  index:
+   confirm: "Möchten Sie das Depot '%{name}' wirklich löschen?"
   show:
    title: "Depot"
   new:
@@ -126,6 +132,7 @@ de:
   show:
    title: "Auftrag"
   index:
+   confirm: "Möchten Sie den Auftrag '%{name}' wirklich löschen?"
    title: "Aufträge"
    order_import: "Aufträge importieren"
    filter_order_type: "Nach Typ filtern:"
@@ -145,6 +152,8 @@ de:
    success: "Auftrag %{order_id} wurde gelöscht"
    failure: "Auftrag %{order_id} konnte nicht gelöscht werden"
  registered_users:
+  index:
+   confirm: "Möchten Sie den Benutzer '%{name}' wirklich löschen?"
   show:
    title: "Benutzer"
   new:
@@ -205,6 +214,7 @@ de:
    title: "Tour"
    print_tour: "Drucken"
   index:
+   confirm: "Möchten Sie die Tour '%{name}' wirklich löschen?"
    title: "Touren"
    active_tours: "Aktuell"
    completed_tours: "Abgeschlossen"
@@ -226,7 +236,14 @@ de:
   destroy:
    success: "Tour %{tour_id} wurde gelöscht"
    failure: "Tour %{tour_id} konnte nicht gelöscht werden"
+  complete:
+   finish_tour: "Tour abschließen"
+  finish:
+   success: "Die Tour (ID %{tour_id}) wurde erfolgreich abgeschlossen."
+   failure: "Es ist ein Fehler aufgetreten. Die Tour und die dazugehörigen Aufträge konnte nicht abgeschlossen werden."
  vehicles:
+  index:
+   confirm: "Möchten Sie das Fahrzeug '%{name}' wirklich löschen?"
   show:
    title: "Fahrzeug"
   new:
@@ -322,7 +339,7 @@ de:
   time: "Zeit"
   duration: "Dauer"
   priority: "Priorität"
-  working_time: "Arbeitszeit in Minuten"
+  working_time: "Arbeitszeit"
   status: "Status"
   driver: "Fahrer"
   company: "Unternehmen"
@@ -339,6 +356,13 @@ de:
   user: "Benutzer"
   position: "Standort"
   order_type: "Typ"
+  model: "Modell"
+  manufacturer: "Hersteller"
+  registration_number: "Kennzeichen"
+  active: "Aktiv"
+  hour: "Stunde"
+  minute: "Minute"
+  password: "Passwort"
 
  devise:
   sign_in: "Anmelden"

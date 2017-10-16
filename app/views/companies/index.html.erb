@@ -31,7 +31,7 @@
             <td>
               <%= link_to (fa_icon "search-plus 1x"), company, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
               <!--<%= link_to (fa_icon "pencil 1x"), edit_company_path(company), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>-->
-              <%= link_to (fa_icon "trash 1x"), company, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+              <%= link_to (fa_icon "trash 1x"), company, method: :delete, data: { confirm: t('.confirm', name: company.name) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
             </td>
           </tr>
       <% end %>

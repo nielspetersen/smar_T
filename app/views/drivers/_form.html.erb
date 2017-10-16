@@ -1,7 +1,12 @@
 <% if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?) || current_user.is_planer? %>
   <%= simple_form_for @driver do |f| %>
     <%= f.input :name, prompt: :translate, :disabled => true %>
-    <%= f.input :working_time, prompt: :translate %>
+    <div id="working_time_heading"><b><%=t('attributes.working_time') %></b></div>
+    <%= f.hidden_field :working_time, as: :integer, prompt: :translate %>
+    <%= f.label :hour %>:
+    <%= f.select :hour, (0..23), as: :integer %>
+    <%= f.label :minute %>:
+    <%= f.select :minute, (0..59), as: :integer %>
     <%= f.input :active, prompt: :translate %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>

@@ -10,4 +10,8 @@ class Tour < ActiveRecord::Base
     end
     tour_duration
   end
+
+  def completed?
+    self.status == StatusEnum::COMPLETED
+  end
 end

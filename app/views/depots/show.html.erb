@@ -1,6 +1,6 @@
 <%- model_class = Depot -%>
 <% if current_user %>
-    <% if (current_user.is_superadmin? && current_user.company_id?)  || current_user.is_admin? %>
+    <% if (current_user.is_superadmin? && current_user.company_id?)  || current_user.is_admin?  || current_user.is_planer? %>
       <% if current_user.company_id == @depot.company_id%>
         <div class="page-header">
           <h1><%=t '.title', :default => Depot %></h1>
@@ -22,6 +22,7 @@
         <div class="form-group">
           <%= link_to t('.back', :default => t("helpers.links.back")),
                       depots_path, :class => 'btn btn-default'  %>
+          <% if (current_user.is_superadmin? && current_user.company_id?)  || current_user.is_admin? %>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_depot_path(@depot), :class => 'btn btn-default' %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -29,6 +30,7 @@
                       :method => 'delete',
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => t('helpers.links.confirm'))) },
                       :class => 'btn btn-danger' %>
+           <% end %>
         </div>
       <% else %>
           <div class="alert alert-danger">Falsches Unternehmen!</div>

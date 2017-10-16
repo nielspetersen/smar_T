@@ -27,9 +27,9 @@
           <thead>
             <tr>
               <th>Abholort</th>
-              <th class="center">Einladedauer<br/>[hh:mm:ss]</th>
+              <th class="center">Einladedauer<br/>[hh:mm]</th>
               <th>Lieferort</th>
-              <th class="center">Ausladedauer<br/>[hh:mm:ss]</th>
+              <th class="center">Ausladedauer<br/>[hh:mm]</th>
               <th class="center">Kapazität</th>
               <th class="center">Priorität</th>
               <th class="center"><%= t('attributes.order_type') %></th>
@@ -41,9 +41,9 @@
             <% @orders.each do |order| %>
               <tr>
                 <td><%= order.pickup_location %></td>
-                <td class="center"><%= Time.at(order.duration_pickup * 60).utc.strftime("%H:%M:%S") %></td>
+                <td class="center"><%= Time.at(order.duration_pickup * 60).utc.strftime("%H:%M") %></td>
                 <td><%= order.delivery_location %></td>
-                <td class="center"><%= Time.at(order.duration_delivery * 60).utc.strftime("%H:%M:%S") %></td>
+                <td class="center"><%= Time.at(order.duration_delivery * 60).utc.strftime("%H:%M") %></td>
                 <td class="center"><%= order.capacity %></td>
                 <% if order.customer %>
                     <td class="center"><%= order.customer.priority %></td>
@@ -55,15 +55,15 @@
                 <td>
                   <%= link_to (fa_icon "search-plus 1x"), order, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
                   <%= link_to (fa_icon "pencil 1x"), edit_order_path(order), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
-                  <%= link_to (fa_icon "trash 1x"), order, method: :delete, data: { confirm: t('helpers.links.confirm') }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+                  <%= link_to (fa_icon "trash 1x"), order, method: :delete, data: { confirm: t('.confirm', name: order.id) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
                 </td>
               </tr>
             <% end %>
             <tr>
               <td></td>
-              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration_pickup * 60 }).utc.strftime("%H:%M:%S") %></strong></td>
+              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration_pickup * 60 }).utc.strftime("%H:%M") %></strong></td>
               <td></td>
-              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration_delivery * 60 }).utc.strftime("%H:%M:%S") %></strong></td>
+              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration_delivery * 60 }).utc.strftime("%H:%M") %></strong></td>
               <td></td>
               <td></td>
               <td></td>

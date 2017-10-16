@@ -18,13 +18,8 @@ class OrdersController < ApplicationController
 
   def show
     if current_user
-      if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)
+      if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?) || current_user.is_planer?
         @order
-      elsif current_user.is_planer?
-### working
-        if @order.company.id == current_user.company_id
-          @order
-        end
       end
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009152727) do
+ActiveRecord::Schema.define(version: 20171013205330) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20171009152727) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.datetime "working_time_picker"
   end
 
   add_index "drivers", ["user_id"], name: "index_drivers_on_user_id"
@@ -168,6 +169,9 @@ ActiveRecord::Schema.define(version: 20171009152727) do
     t.float    "longitude"
     t.integer  "company_id"
     t.integer  "driver_id"
+    t.string   "model"
+    t.string   "registration_number"
+    t.string   "manufacturer"
   end
 
   add_index "vehicles", ["company_id"], name: "index_vehicles_on_company_id"
