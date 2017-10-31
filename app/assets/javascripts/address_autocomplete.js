@@ -36,16 +36,19 @@ $( document ).ready(function() {
     });
 });
 
-/*Address autocompletion for 'order_delivery_location' field*/
+
+/*Address autocompletion for imported Orders address fields*/
 
 $( document ).ready(function() {
+
+  $('[id$=location]').each(function() {
 
     var addressPicker = new AddressPicker({
             language: 'de'
         }
     );
 
-    $('#order_delivery_location').typeahead(
+    $(this).typeahead(
         {
             highlight: true
         },
@@ -60,13 +63,17 @@ $( document ).ready(function() {
     );
 
     var address = "";
-    addressPicker.bindDefaultTypeaheadEvent($('#order_delivery_location'));
-    $(addressPicker).on('addresspicker:selected', function (event, result) {
+    addressPicker.bindDefaultTypeaheadEvent($(this));
+   $(addressPicker).on('addresspicker:selected', function (event, result) {
         address = result.placeResult.formatted_address;
-        $('#order_delivery_location').val(address);
+        $(this).val(address);
     });
 
-    $('#order_delivery_location').on('blur', function (event, result) {
-        $('#order_delivery_location').val(address);
+    $(this).on('blur', function (event, result) {
+       $(this).val(address);
+       if($(this).val() != ""){
+       jQuery('[id$=status]').prop("disabled", false);
+       }
     });
+   });
 });

@@ -61,6 +61,8 @@ de:
    success: "Kunde %{customer_id} wurde gelöscht"
    failure: "Kunde %{customer_id} konnte nicht gelöscht werden"
  companies:
+  tour_start:
+   time: "Uhr"
   index:
    confirm: "Möchten Sie das Unternehmen '%{name}' wirklich löschen?"
   show:
@@ -102,6 +104,7 @@ de:
    success: "Depot %{depot_id} wurde gelöscht"
    failure: "Depot %{depot_id} konnte nicht gelöscht werden"
  drivers:
+  start_tour: "Starten"
   show:
    title: "Fahrer"
   new:
@@ -125,12 +128,14 @@ de:
     inactive: "Inaktiv"
     assigned: "Zugewiesen"
     completed: "Abgeschlossen"
+    invalid: "Ungültig"
   types:
     delivery: "Lieferung"
     pickup: "Abholung"
     service: "Service"
   show:
    title: "Auftrag"
+   belongs_to_tour: "gehört zu "
   index:
    confirm: "Möchten Sie den Auftrag '%{name}' wirklich löschen?"
    title: "Aufträge"
@@ -206,6 +211,8 @@ de:
   generate_new_tours: "Generieren"
   no_available_drivers: "Es stehen keine Fahrer zur Verfügung. Bitte stellen Sie sicher, dass Ihrem Unternehmen Benutzer mit der Rolle: Fahrer zugewiesen und diese aktiv sind. Weiterhin werden nur Fahrer mit einem zugewiesenen Fahrzeug berücksichtigt."
   filter_tour_status_default: "Alle"
+  started_at_timestamp: "Gestartet am: "
+  completed_at_timestamp: "Abgeschlossen am: "
   status:
    approved: "Bereit"
    started: "Gestartet"
@@ -213,6 +220,8 @@ de:
   show:
    title: "Tour"
    print_tour: "Drucken"
+   complete_tour: "Tour abschliessen"
+   expected_time_of_arrival: "gesch. Ankunftszeit"
   index:
    confirm: "Möchten Sie die Tour '%{name}' wirklich löschen?"
    title: "Touren"
@@ -363,6 +372,11 @@ de:
   hour: "Stunde"
   minute: "Minute"
   password: "Passwort"
+  default_tour_start: "normale Startzeit für Touren"
+ activerecord:
+  attributes:
+   restriction:
+    work_time: "Arbeitszeitbeschränkung"
 
  devise:
   sign_in: "Anmelden"

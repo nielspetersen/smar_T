@@ -26,6 +26,8 @@ module OrdersHelper
         t('orders.status.assigned')
       when 3
         t('orders.status.completed')
+      when 4
+        t('orders.status.invalid')
       else
         ""
     end

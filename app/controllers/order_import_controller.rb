@@ -12,12 +12,10 @@ class OrderImportController < ApplicationController
         if is_number?(row[0].squish) # ignore header and validate customer_reference
           order = Order.new
           order.customer = Customer.customer_by_customer_reference(row[0].squish.to_i, current_user.company, row[1].squish, row[3].squish)
-          order.delivery_location = row[2].squish
-          order.duration_delivery = row[4].squish
+          order.location = row[2].squish
+          order.duration = row[4].squish
           order.capacity = 0
-          order.start_time = DateTime.now
-          order.end_time = DateTime.now + 8.hours
-          order.status = OrderStatusEnum::ACTIVE
+          order.status = OrderStatusEnum::INVALID
           order.comment = ""
           order.comment2 = ""
           order.save!
@@ -25,7 +23,15 @@ class OrderImportController < ApplicationController
         end
       end
     end
-    @imported_orders = Order.where(id: new_order_ids)
+    @check_orders = Order.where(id: new_order_ids)
+    @check_orders.each do |order|
+      if order.lat && order.long
+      order.status = OrderStatusEnum::ACTIVE
+      order.save!
+      end
+    end
+    @imported_orders = Order.where(id: new_order_ids).where.not(status: 4)
+    @invalid_orders = Order.where(id: new_order_ids).where(status: 4)
   end
 
   def complete

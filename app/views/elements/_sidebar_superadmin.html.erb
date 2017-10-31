@@ -13,23 +13,23 @@
         <% if user_signed_in? %>
           <% if current_user.company_id? %>
                     <li class="divider"></li>
-                    <li onmouseover="this.style.backgroundColor='#3a3d44'" onmouseout="this.style.backgroundColor='#3792d5'" style="background-color:#3792d5;"><%= link_to image_tag('Company.svg') + "Zur Übersicht", companies_path %></li>
+                    <li onmouseover="this.style.backgroundColor='#3a3d44'" onmouseout="this.style.backgroundColor='#3792d5'" style="background-color:#3792d5;"><%= link_to image_tag('Back.svg') + "Zur Übersicht", companies_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Tour.svg') + "Touren", tours_path %></li>
+                    <li><%= active_link_to image_tag('Tour.svg') + "Touren", tours_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Order.svg') + "Aufträge", orders_path %></li>
+                    <li><%= active_link_to image_tag('Order.svg') + "Aufträge", orders_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Customer.svg') + "Kunden", customers_path %></li>
+                    <li><%= active_link_to image_tag('Customer.svg') + "Kunden", customers_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Vehicle.svg') + "Fahrzeuge", vehicles_path %></li>
+                    <li><%= active_link_to image_tag('Vehicle.svg') + "Fahrzeuge", vehicles_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('User.svg') + "Benutzer", registered_users_path %></li>
+                    <li><%= active_link_to image_tag('User.svg') + "Benutzer", registered_users_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Restrictions.svg') + "Beschränkungen", restrictions_path %></li>
+                    <li><%= active_link_to image_tag('Restrictions.svg') + "Beschränkungen", restrictions_path %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Company.svg') + "Unternehmen", current_user.company  %></li>
+                    <li><%= active_link_to image_tag('Company.svg') + "Unternehmen", current_user.company  %></li>
                     <li class="divider"></li>
-                    <li><%= link_to image_tag('Depot.svg') + "Depots", depots_path %></li>
+                    <li><%= active_link_to image_tag('Depot.svg') + "Depots", depots_path %></li>
           <% end%>
         <% else %>
           <!-- Sollte nicht der Fall sein -->

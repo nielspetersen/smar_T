@@ -1,40 +1,40 @@
 class ToursController < ApplicationController
   include OrderToursHelper
-  before_action :set_tour, only: [:show, :edit, :update, :destroy, :print, :complete, :finish]
+  before_action :set_tour, only: [:show, :edit, :update, :destroy, :print, :start, :complete, :finish]
 
   respond_to :html
 
   def index
     # Nur Daten die Zur Rolle passen anzeigen
+    @tours = []
     tour_filter = filter_tour_params.reject{|_, v| v.blank?}
     if (current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)) && !current_user.company.nil?
       @tours = current_user.company.tours(tour_filter)
     elsif current_user.is_driver?
-      @tours = current_user.company.tours(tour_filter)
-    else
-      @tours = []
+      if current_user.try(:driver).try(:has_tours?)
+        @tours = current_user.driver.tours(tour_filter)
+      end
     end
+    @tours
   end
 
   def show
-    if current_user
-      if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)
+    if current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)
+      @order_tours = @tour.order_tours.sort_by &:place
+      @hash = @order_tours.map do | order_tour|
+        place = order_tour.place+1
+        {latitude: order_tour.latitude, longitude: order_tour.longitude, place: place.to_s}
+      end
+    elsif current_user.is_planer? || current_user.is_driver?
+      if @tour.driver.company == current_user.company
         @order_tours = @tour.order_tours.sort_by &:place
         @hash = @order_tours.map do | order_tour|
           place = order_tour.place+1
           {latitude: order_tour.latitude, longitude: order_tour.longitude, place: place.to_s}
         end
-      elsif current_user.is_planer?
-        if @tour.driver.company == current_user.company
-          @order_tours = @tour.order_tours.sort_by &:place
-          @hash = @order_tours.map do | order_tour|
-            place = order_tour.place+1
-            {latitude: order_tour.latitude, longitude: order_tour.longitude, place: place.to_s}
-          end
-        end
       end
-      respond_with(@tour, @hash)
     end
+    respond_with(@tour, @hash)
   end
 
   def new
@@ -111,6 +111,14 @@ class ToursController < ApplicationController
     end
   end
 
+  def start
+    unless @tour
+      redirect_to action: 'index'
+    end
+    @tour.update_attributes(status: StatusEnum::STARTED, started_at: DateTime.now)
+    redirect_to action: 'show'
+  end
+
   def complete
     unless @tour
       redirect_to action: 'index'
@@ -126,7 +134,7 @@ class ToursController < ApplicationController
     tour_complete_params = finish_tour_params.reject{|_, v| v.blank? }
 
     begin
-      @tour.update_attributes!(status: StatusEnum::COMPLETED)
+      @tour.update_attributes!(status: StatusEnum::COMPLETED, completed_at: DateTime.now)
       order_tours = @tour.order_tours.where(kind: available_order_tour_types())
       order_tours.each do |order_tour|
         if tour_complete_params[:order_ids].include? order_tour.order_id.to_s
@@ -143,6 +151,8 @@ class ToursController < ApplicationController
           order_tour.destroy
         end
       end
+      @tour.update_place_order_tours()
+
       flash[:success] = t('.success', tour_id: @tour.id)
     rescue ActiveRecord::ActiveRecordError => e
       flash[:alert] = t('.failure')

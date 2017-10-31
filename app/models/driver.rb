@@ -19,20 +19,27 @@ class Driver < ActiveRecord::Base
     Tour.where(options).last
   end
 
+  def has_tours?
+    Tour.where(driver: self).any?
+  end
+
+  def tours(select = {})
+    where_clause = { driver: self }.merge(select)
+    Tour.where(where_clause)
+  end
+
   def timeToInt
-  if hour.nil?
-  self.hour = 0
-  end
-  if minute.nil?
-  self.minute = 0
-  end
-  self.working_time = 60 * Integer(hour) + Integer(minute)
+    if hour.nil?
+     self.hour = 0
+    end
+    if minute.nil?
+      self.minute = 0
+    end
+    self.working_time = 60 * Integer(hour) + Integer(minute)
   end
   
   def intToTime
-  self.hour = Integer(working_time) / 60
-  self.minute = Integer(working_time) % 60
+    self.hour = Integer(working_time) / 60
+    self.minute = Integer(working_time) % 60
   end
-
-
 end

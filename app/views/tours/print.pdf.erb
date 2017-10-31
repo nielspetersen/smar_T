@@ -1,5 +1,5 @@
 <%- model_class = Tour -%>
-<span><h2 style="display:inline;">Tourenplan</h2><%= wicked_pdf_image_tag @tour.driver.company.logo.try(:url, :thumb), style: 'float: right' %></span>
+<span><h2 style="display:inline;">Tourenplan</h2><%= wicked_pdf_image_tag @tour.driver.company.logo.try(:url, :thumb), style: 'float: right' unless @tour.driver.company.logo %></span>
 <h3>Fahrer: <%= @tour.driver.name %> | Datum: <%= Date.today.strftime("%d.%m.%Y") %></h3>
 <div style="clear: both;"></div>
 

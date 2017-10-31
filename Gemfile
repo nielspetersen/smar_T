@@ -75,7 +75,8 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'tzinfo-data'
 gem 'validates_formatting_of'
-gem 'font-awesome-rails' 
+gem 'font-awesome-rails'
+gem 'active_link_to'
 
 gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'rails-4-x' # For 4.x
 gem 'devise-i18n'
@@ -101,6 +102,8 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'better_errors', '~> 2.4'
 end
 
 group :development, :test do
@@ -108,5 +111,4 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.8'
   gem 'faker', '~> 1.7', '>= 1.7.3'
   gem 'webmock', '~> 3.0', '>= 3.0.1'
-  gem 'better_errors'
 end

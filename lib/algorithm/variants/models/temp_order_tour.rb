@@ -24,10 +24,8 @@ class TempOrderTour
 
   def duration
     case self.kind
-      when "delivery"
-        return self.order.duration_delivery
-      when "pickup"
-        return self.order.duration_pickup
+      when "delivery", "pickup"
+        return self.order.duration
       when "depot"
         depot = Depot.where(company: self.tour.driver.company).first
         if depot
@@ -43,10 +41,8 @@ class TempOrderTour
 
   def location
     case self.kind
-      when "delivery"
-        return self.order.delivery_location
-      when "pickup"
-        return self.order.pickup_location
+      when "delivery", "pickup"
+        return self.order.location
       when "vehicle_position"
         return self.tour.driver.vehicle.position
       when "home"
@@ -65,10 +61,8 @@ class TempOrderTour
 
   def latitude
     case self.kind
-      when "delivery"
-        return self.order.delivery_lat
-      when "pickup"
-        return self.order.pickup_lat
+      when "delivery", "pickup"
+        return self.order.lat
       when "vehicle_position"
         return self.tour.driver.vehicle.latitude
       when "home"
@@ -78,7 +72,7 @@ class TempOrderTour
         if depot
           return depot.latitude
         else
-          return nil
+          return self.tour.driver.company.latitude
         end
       else
         return nil
@@ -87,10 +81,8 @@ class TempOrderTour
 
   def longitude
     case self.kind
-      when "delivery"
-        return self.order.delivery_long
-      when "pickup"
-        return self.order.pickup_long
+      when "delivery", "pickup"
+        return self.order.long
       when "vehicle_position"
         return self.tour.driver.vehicle.longitude
       when "home"
@@ -100,7 +92,7 @@ class TempOrderTour
         if depot
           return depot.longitude
         else
-          return nil
+          return self.tour.driver.company.longitude
         end
       else
         return nil

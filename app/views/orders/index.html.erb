@@ -6,14 +6,14 @@
       </div>
       <% if current_user.company.try(:customers).blank? %>
         <div class="alert alert-info">Ihrem Benutzeraccount wurden noch keine Kunden zugewiesen. Sie können daher nur Aufträge importieren und nicht direkt anlegen.</div>
-        <%= link_to t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
+        <%= link_to (fa_icon "upload 1x") + " " + t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
         <% else %>
 	      <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("orders.new.title")), new_order_path, :class => 'btn btn-primary btn-smart' %>
         <%= link_to (fa_icon "upload 1x") + " " + t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
         <div style="float: right;">
           <%= form_tag orders_path, method: :get do %>
             <%= label_tag :status, t('.filter_order_status') %>
-            <%= select_tag :status, options_for_select([[t('orders.status.active'), 1], [t('orders.status.assigned'), 2], [t('orders.status.completed'), 3], [t('orders.status.inactive'), 0]], params[:status]), prompt: t('orders.filter_order_status_default'), onchange: "this.form.submit();", class: "order_status_filter" %>
+            <%= select_tag :status, options_for_select([[t('orders.status.active'), 1], [t('orders.status.assigned'), 2], [t('orders.status.completed'), 3], [t('orders.status.inactive'), 0], [t('orders.status.invalid'), 4]], params[:status]), prompt: t('orders.filter_order_status_default'), onchange: "this.form.submit();", class: "order_status_filter" %>
             <%= label_tag :order_type, t('.filter_order_type') %>
             <%= select_tag :order_type, options_for_select([[t('orders.types.delivery'), OrderTypeEnum::DELIVERY],
                                                             [t('orders.types.pickup'), OrderTypeEnum::PICKUP],
@@ -26,10 +26,8 @@
           <table class="table table-striped">
           <thead>
             <tr>
-              <th>Abholort</th>
-              <th class="center">Einladedauer<br/>[hh:mm]</th>
-              <th>Lieferort</th>
-              <th class="center">Ausladedauer<br/>[hh:mm]</th>
+              <th>Adresse</th>
+              <th class="center">Dauer<br/>[hh:mm]</th>
               <th class="center">Kapazität</th>
               <th class="center">Priorität</th>
               <th class="center"><%= t('attributes.order_type') %></th>
@@ -39,11 +37,13 @@
           </thead>
           <tbody>
             <% @orders.each do |order| %>
+             <% if order.status == 4 %>
+              <tr class="bg-danger">
+             <% else %>
               <tr>
-                <td><%= order.pickup_location %></td>
-                <td class="center"><%= Time.at(order.duration_pickup * 60).utc.strftime("%H:%M") %></td>
-                <td><%= order.delivery_location %></td>
-                <td class="center"><%= Time.at(order.duration_delivery * 60).utc.strftime("%H:%M") %></td>
+             <% end %>
+                <td><%= order.location %></td>
+                <td class="center"><%= Time.at(order.duration * 60).utc.strftime("%H:%M") %></td>
                 <td class="center"><%= order.capacity %></td>
                 <% if order.customer %>
                     <td class="center"><%= order.customer.priority %></td>
@@ -61,9 +61,7 @@
             <% end %>
             <tr>
               <td></td>
-              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration_pickup * 60 }).utc.strftime("%H:%M") %></strong></td>
-              <td></td>
-              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration_delivery * 60 }).utc.strftime("%H:%M") %></strong></td>
+              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
               <td></td>
               <td></td>
               <td></td>

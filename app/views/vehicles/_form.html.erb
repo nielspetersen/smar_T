@@ -4,7 +4,9 @@
     <%= f.input :manufacturer, prompt: :translate %>
     <%= f.input :model, prompt: :translate %>
     <%= f.input :position, prompt: :translate, input_html: { id: 'address' } %>
+    <% if  current_user.company.capacity_restriction? %>
     <%= f.input :capacity, prompt: :translate %>
+    <% end %>
     <%= f.association :driver, collection: current_user.company.drivers, :include_blank => t('.driver_empty'),prompt: :translate %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>

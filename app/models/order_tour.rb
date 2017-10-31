@@ -12,10 +12,8 @@ class OrderTour < ActiveRecord::Base
 
   def duration
     case self.kind
-    when "delivery"
-      return self.order.duration_delivery
-    when "pickup"
-      return self.order.duration_pickup
+    when "delivery", "pickup"
+      return self.order.duration
     when "depot"
       depot = Depot.where(company: self.tour.driver.company).first
       if depot
@@ -31,10 +29,8 @@ class OrderTour < ActiveRecord::Base
 
   def location
     case self.kind
-    when "delivery"
-      return self.order.delivery_location
-    when "pickup"
-      return self.order.pickup_location
+    when "delivery", "pickup"
+      return self.order.location
     when "vehicle_position"
       return self.tour.driver.vehicle.position
     when "home"
@@ -53,10 +49,8 @@ class OrderTour < ActiveRecord::Base
 
   def latitude
     case self.kind
-    when "delivery"
-      return self.order.delivery_lat
-    when "pickup"
-      return self.order.pickup_lat
+    when "delivery", "pickup"
+      return self.order.lat
     when "vehicle_position"
       return self.tour.driver.vehicle.latitude
     when "home"
@@ -75,10 +69,8 @@ class OrderTour < ActiveRecord::Base
 
   def longitude
     case self.kind
-    when "delivery"
-      return self.order.delivery_long
-    when "pickup"
-      return self.order.pickup_long
+    when "delivery", "pickup"
+      return self.order.long
     when "vehicle_position"
       return self.tour.driver.vehicle.longitude
     when "home"

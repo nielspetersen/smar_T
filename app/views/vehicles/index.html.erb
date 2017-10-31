@@ -16,7 +16,9 @@
               <th><%= model_class.human_attribute_name(:manufacturer) %></th>
               <th><%= model_class.human_attribute_name(:model) %></th>
               <th><%= model_class.human_attribute_name(:position) %></th>
+              <% if  current_user.company.capacity_restriction? %>
               <th class="center"><%= model_class.human_attribute_name(:capacity) %></th>
+              <% end %>
               <th><%= model_class.human_attribute_name(:driver) %></th>
               <th><%=t '.actions', :default => t("helpers.actions") %></th>
             </tr>
@@ -28,7 +30,9 @@
                 <td><%= vehicle.manufacturer %></td>
                 <td><%= vehicle.model %></td>
                 <td><%= vehicle.position %></td>
+                <% if  current_user.company.capacity_restriction? %>
                 <td class="center"><%= vehicle.capacity %></td>
+                <% end %>
                 <% if vehicle.driver %>
                 <td><%= vehicle.driver.name %></td>
                 <% else %>

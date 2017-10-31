@@ -15,8 +15,10 @@
             <dd><pre class="prettyprint"><%= @vehicle.model %></pre></dd>
             <dt class="label label-default">Position</dt>
             <dd><pre class="prettyprint"><%= @vehicle.position %></pre></dd>
+           <% if  current_user.company.capacity_restriction? %>
             <dt class="label label-default">Kapazität</dt>
             <dd><pre class="prettyprint"><%= @vehicle.capacity %></pre></dd>
+            <% end %>
             <dt class="label label-default">Fahrer</dt>
             <dd><pre class="prettyprint"><%= @vehicle.driver_id %></pre></dd>
         </dl>

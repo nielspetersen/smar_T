@@ -12,22 +12,21 @@
         <% end %>
 
         <%=f.association :customer, :as => :collection_select, collection: Customer.where(company_id: current_user.company_id),  prompt: :translate %>
-
-        <div id="type_1" class="type_forms">
-          <%= f.input :pickup_location, prompt: :translate,  input_html: { id: 'address' } %>
-          <%= f.input :duration_pickup, prompt: :translate %>
-        </div>
-
-        <div id="type_2" class="type_forms">
-          <%= f.input :delivery_location, prompt: :translate,  input_html: { id: 'order_delivery_location' } %>
-          <%= f.input :duration_delivery, prompt: :translate %>
-        </div>
-
+        <%= f.input :location, prompt: :translate,  input_html: { id: 'location' } %>
+        <%= f.input :duration, prompt: :translate %>
+        <% if  current_user.company.time_window_restriction? %>
         <%= f.input :start_time, prompt: :translate %>
         <%= f.input :end_time, prompt: :translate %>
+        <% end %>
+        <% if  current_user.company.capacity_restriction? %>
         <%= f.input :capacity, prompt: :translate %>
+        <% end %>
         <%= f.input :comment, prompt: :translate %>
+        <% if @order.status == 4 %>
+        <%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.completed') => 3, t('orders.status.invalid') => 4 }, selected: @order.status, :disabled => true %>
+        <% else %>
         <%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.completed') => 3 }, selected: @order.status %>
+        <% end %>
         <%= f.button :submit, prompt: :translate %>
     <% end %>
 <% end %>

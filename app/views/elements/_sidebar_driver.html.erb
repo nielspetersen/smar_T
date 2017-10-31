@@ -9,20 +9,8 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
       <ul class="nav navbar-nav">
-	<% if defined?(Devise) %>
-        <% if user_signed_in? %>
 	      <li class="divider"></li>
-              <% if @tour %>
-              <li><%= link_to image_tag('Tour.svg') + "Touren", tours_path %></li>
-              <% else %>
-              <li><%= link_to "NO TOUR" %></li>
-              <% end %>
-        <% else %>
-          <!-- Sollte nicht der Fall sein -->
-        <% end %>
-      <% end %>
-          </ul>
-        </li>          
+        <li><%= active_link_to image_tag('Tour.svg') + "Touren", tours_path %></li>
       </ul>
     </div>
 </nav>

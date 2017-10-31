@@ -76,7 +76,7 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:address, :customer_id, :pickup_location, :delivery_location, :capacity, :start_time, :end_time, :comment, :duration_pickup, :duration_delivery, :status, :order_type)
+      params.require(:order).permit(:address, :customer_id, :location, :capacity, :start_time, :end_time, :comment, :duration, :status, :order_type)
     end
 
     def filter_order_params

@@ -54,4 +54,11 @@ var deleteCompanyLogo = function() {
     $('input#company_logo').val('');
     $('#current_company_logo').remove();
     $('button#delete_company_logo').hide();
-}
+};
+
+$(function () {
+    $('.order_import input').change(function() {
+        $('#upload-orders-btn').prop('disabled', ($('#inputfile').val() == ""));
+        }
+    )
+});

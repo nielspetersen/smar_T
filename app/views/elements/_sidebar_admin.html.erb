@@ -12,21 +12,21 @@
 	<% if defined?(Devise) %>
         <% if user_signed_in? %>
 	          <li class="divider"></li>
-              <li><%= link_to image_tag('Tour.svg') + "Touren", tours_path %></li>
+              <li><%= active_link_to image_tag('Tour.svg') + "Touren", tours_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('Order.svg') + "Aufträge", orders_path %></li>
+              <li><%= active_link_to image_tag('Order.svg') + "Aufträge", orders_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('Customer.svg') + "Kunden", customers_path %></li>
+              <li><%= active_link_to image_tag('Customer.svg') + "Kunden", customers_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('Vehicle.svg') + "Fahrzeuge", vehicles_path %></li>
+              <li><%= active_link_to image_tag('Vehicle.svg') + "Fahrzeuge", vehicles_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('User.svg') + "Benutzer", registered_users_path %></li>
+              <li><%= active_link_to image_tag('User.svg') + "Benutzer", registered_users_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('Restrictions.svg') + "Beschränkungen", restrictions_path %></li>
+              <li><%= active_link_to image_tag('Restrictions.svg') + "Beschränkungen", restrictions_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('Company.svg') + "Unternehmen", companies_path %></li>
+              <li><%= active_link_to image_tag('Company.svg') + "Unternehmen", companies_path %></li>
               <li class="divider"></li>
-              <li><%= link_to image_tag('Depot.svg') + "Depots", depots_path %></li>
+              <li><%= active_link_to image_tag('Depot.svg') + "Depots", depots_path %></li>
         <% else %>
           <!-- Sollte nicht der Fall sein -->
         <% end %>

@@ -38,7 +38,8 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    @company = Company.new(company_params)
+    company_parameter = extract_tour_start(company_params)
+    @company = Company.new(company_parameter)
     if @company.save
       restriction = Restriction.new
       restriction.company = @company
@@ -55,7 +56,8 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    if @company.update(company_params)
+    company_parameter = extract_tour_start(company_params)
+    if @company.update(company_parameter)
       if company_params[:logo].blank?
         @company.logo.destroy
       end
@@ -83,6 +85,14 @@ class CompaniesController < ApplicationController
     end
 
     def company_params
-      params.require(:company).permit(:user_id, :name, :address, :email, :telefon, :google_maps_api_key, :logo)
+      params.require(:company).permit(:user_id, :name, :address, :email, :telefon, :default_tour_start, :default_tour_start_hour, :default_tour_start_minute, :google_maps_api_key, :logo)
     end
+
+  def extract_tour_start(company_parameter)
+    tour_start = company_parameter[:default_tour_start_hour] + ":" + company_parameter[:default_tour_start_minute]
+    company_parameter.delete(:default_tour_start_hour)
+    company_parameter.delete(:default_tour_start_minute)
+    company_parameter[:default_tour_start] = tour_start
+    company_parameter
+  end
 end
