@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171030072927) do
+ActiveRecord::Schema.define(version: 20171031110259) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 20171030072927) do
   create_table "orders", force: true do |t|
     t.integer  "customer_id"
     t.integer  "capacity",    default: 0
-    t.datetime "start_time",  default: '2012-01-01 00:00:00'
-    t.datetime "end_time",    default: '2099-01-01 00:00:00'
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "comment"
