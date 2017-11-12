@@ -39,7 +39,7 @@ class DriversController < ApplicationController
     @driver = Driver.new(driver_params)
     @driver.timeToInt
     if @driver.save
-      flash[:success] = t('.success', name: @driver.name, driver_id: @driver.id)
+      flash[:success] = t('.success', name: @driver.name)
       redirect_to drivers_path
     else
       flash[:alert] = t('.failure')
@@ -49,20 +49,20 @@ class DriversController < ApplicationController
 
   def update
     if @driver.update(driver_params)
-      flash[:success] = t('.success', name: @driver.name, driver_id: @driver.id)
+      flash[:success] = t('.success', name: @driver.name)
     respond_with(@driver)
     else
-      flash[:alert] = t('.failure', name: @driver.name, driver_id: @driver.id)
+      flash[:alert] = t('.failure', name: @driver.name)
       render("edit")
     end
   end
 
   def destroy
     if @driver.destroy
-        flash[:success] = t('.success', name: @driver.name, driver_id: @driver.id)
+        flash[:success] = t('.success', name: @driver.name)
     respond_with(@driver)
     else
-      flash[:alert] = t('.failure', name: @driver.name, driver_id: @driver.id)
+      flash[:alert] = t('.failure', name: @driver.name)
       respond_with(@driver)
     end
   end

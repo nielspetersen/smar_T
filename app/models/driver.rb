@@ -29,13 +29,15 @@ class Driver < ActiveRecord::Base
   end
 
   def timeToInt
-    if hour.nil?
-     self.hour = 0
+    if self.hour || self.minute
+    	if hour.nil?
+     		self.hour = 0
+    	end
+    	if minute.nil?
+      	self.minute = 0
+    	end
+    	self.working_time = 60 * Integer(hour) + Integer(minute)
     end
-    if minute.nil?
-      self.minute = 0
-    end
-    self.working_time = 60 * Integer(hour) + Integer(minute)
   end
   
   def intToTime

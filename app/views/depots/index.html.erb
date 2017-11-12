@@ -16,7 +16,7 @@
             <tr>
               <th>Name</th>
               <th>Adresse</th>
-              <th>Einladedauer<br/>[hh:mm]</th>
+              <th><%=model_class.human_attribute_name(:duration) %><br/>[hh:mm]</th>
               <th><%=t '.actions', :default => t("helpers.actions") %></th>
             </tr>
           </thead>

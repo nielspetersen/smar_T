@@ -9,7 +9,7 @@ RSpec.describe "Heuristic Base class" do
   let!(:driver) { FactoryGirl.create(:active_driver, user: user) }
   let!(:vehicle) { FactoryGirl.create(:vehicle, driver: driver, position: company.address) }
   let!(:tour) { Tour.create(driver: driver) }
-  let!(:customer) { FactoryGirl.create(:customer) }
+  let!(:customer) { FactoryGirl.create(:customer, company: company) }
   let!(:vehicle_pos) { OrderTour.create(tour: tour, place: 0, kind: "vehicle_position") }
   let!(:depot) { OrderTour.create(tour: tour, place: 1, kind: "depot") }
   let!(:pickup_order) { FactoryGirl.create(:pickup_order, customer: customer) }
@@ -55,7 +55,7 @@ RSpec.describe "Heuristic Base class" do
 
     context "with tour violating working time" do
       before do
-        delivery_order.update_attribute(:duration_delivery, 480)
+        delivery_order.update_attribute(:duration, 480)
         heuristic.update_order_tour_times(tour.order_tours)
       end
 
@@ -73,7 +73,7 @@ RSpec.describe "Heuristic Base class" do
     end
 
     context "with increased duration of order by 10" do
-      before { delivery_order.update(duration_delivery: 30) }
+      before { delivery_order.update(duration: 30) }
 
       it "returns a by 10 higher duration of the complete tour" do
         expect(tour.duration).to eq(90)
@@ -81,7 +81,7 @@ RSpec.describe "Heuristic Base class" do
     end
 
     context "with decreased duration of order by 10" do
-      before { delivery_order.update(duration_delivery: 10) }
+      before { delivery_order.update(duration: 10) }
 
       it "returns a by 10 lower duration of the complete tour" do
         expect(tour.duration).to eq(70)

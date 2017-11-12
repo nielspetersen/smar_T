@@ -20,7 +20,11 @@
             <dd><pre class="prettyprint"><%= @vehicle.capacity %></pre></dd>
             <% end %>
             <dt class="label label-default">Fahrer</dt>
-            <dd><pre class="prettyprint"><%= @vehicle.driver_id %></pre></dd>
+ 	    <% if @vehicle.driver %>
+            <dd><pre class="prettyprint"><%= @vehicle.driver.name %></pre></dd>
+            <% else %>
+             <dd><pre class="prettyprint">-</pre></dd>
+             <% end %>
         </dl>
       </div>
       

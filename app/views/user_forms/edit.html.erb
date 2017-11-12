@@ -17,26 +17,26 @@
       <% end %>
       <div id="driver">
         <div id="driver_heading"><b><%=t('driver_properties') %></b></div>
-        <% if  current_user.company.capacity_restriction? %>
+        <% if  current_user.company.work_time_restriction? %>
         <div id="working_time_heading"><b><%=t('attributes.working_time') %></b></div>
-        <%= f.hidden_field :working_time, as: :integer, prompt: :translate %>
+    <%= f.hidden_field :working_time, as: :integer, prompt: :translate %>
 
-       <div class="form-inline">
+     <div class="form-inline">
 
        <div class="form-group">
-       <%= f.label :hour %>:
           <div class="form-inline">   
-          <%= f.input :hour, collection: (0..23), label: false %>
+          <%= f.input :hour, collection: (0..23), :selected => (@user_form.hour ? @user_form.hour : 0),label: false %>
           <b>:</b>
           </div>
+        <%=t('attributes.hours') %>
        </div>
 
        <div class="form-group">
-       <%= f.label :minute %>:
           <div class="form-inline">   
-          <%= f.input :minute, collection: (0..59), label: false  %>
+          <%= f.input :minute, collection: (0..59), :selected => (@user_form.minute ? @user_form.minute : 0), label: false  %>
           </div>
-       </div>
+      <%=t('attributes.minutes') %>
+       </div> 
     </div>
     <% end %>
 

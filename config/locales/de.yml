@@ -37,6 +37,17 @@ de:
  pdp: "Pickup- und Delivery-Problem"
  driver_properties: "Fahrereigenschaften"
  save_ressource: "Speichern"
+ end_time_after_start_time: "muss größer oder gleich der Startzeit sein"
+ start_time_in_past: "liegt in der Vergangenheit"
+ about: "Über smar_T"
+ about:
+  index:
+   title: "Über smar_T"
+   hint: "smar_T benutzt folgende externen Softwarebibliotheken:"
+   name: "Name"
+   website: "Webseite"
+   software: "Software"
+   version: "Version"
  user_forms:
   new:
    title: "Neuer Benutzer"
@@ -52,14 +63,14 @@ de:
   edit:
    title: "Kunde bearbeiten"
   create:
-    success: "Kunde %{customer_id} wurde erfolgreich angelegt"
+    success: "Kunde wurde erfolgreich angelegt"
     failure: "Kunde konnte nicht angelegt werden"
   update:
-   success: "Kunde %{customer_id} wurde aktualisiert"
-   failure: "Kunde %{customer_id} konnte nicht aktualisiert werden"
+   success: "Kunde wurde aktualisiert"
+   failure: "Kunde konnte nicht aktualisiert werden"
   destroy:
-   success: "Kunde %{customer_id} wurde gelöscht"
-   failure: "Kunde %{customer_id} konnte nicht gelöscht werden"
+   success: "Kunde wurde gelöscht"
+   failure: "Kunde konnte nicht gelöscht werden"
  companies:
   tour_start:
    time: "Uhr"
@@ -75,8 +86,8 @@ de:
    success: "Unternehmen %{company_name} wurde erfolgreich angelegt"
    failure: "Unternehmen konnte nicht angelegt werden"
   update:
-   success: "Unternehmen %{company_name} wurde aktualisiert"
-   failure: "Unternehmen %{company_name} konnte nicht aktualisiert werden"
+   success: "Unternehmen wurde aktualisiert"
+   failure: "Unternehmen konnte nicht aktualisiert werden"
   destroy:
    success: "Unternehmen %{company_name} wurde gelöscht"
    failure: "Unternehmen %{company_name} konnte nicht gelöscht werden"
@@ -95,14 +106,14 @@ de:
   edit:
    title: "Depot bearbeiten"
   create:
-   success: "Depot %{depot_id} wurde erfolgreich angelegt"
+   success: "Depot wurde erfolgreich angelegt"
    failure: "Depot konnte nicht angelegt werden"
   update:
-   success: "Depot %{depot_id} wurde aktualisiert"
-   failure: "Depot %{depot_id} konnte nicht aktualisiert werden"
+   success: "Depot wurde aktualisiert"
+   failure: "Depot konnte nicht aktualisiert werden"
   destroy:
-   success: "Depot %{depot_id} wurde gelöscht"
-   failure: "Depot %{depot_id} konnte nicht gelöscht werden"
+   success: "Depot wurde gelöscht"
+   failure: "Depot konnte nicht gelöscht werden"
  drivers:
   start_tour: "Starten"
   show:
@@ -112,14 +123,14 @@ de:
   edit:
    title: "Fahrer bearbeiten"
   create:
-   success: "Fahrer: %{name} (ID %{driver_id}) wurde erfolgreich angelegt"
+   success: "Fahrer: %{name} wurde erfolgreich angelegt"
    failure: "Fahrer konnte nicht angelegt werden"
   update:
-   success: "Fahrer: %{name} (ID %{driver_id})  wurde aktualisiert"
-   failure: "Fahrer: %{name} (ID %{driver_id})  konnte nicht aktualisiert werden"
+   success: "Fahrer: %{name} wurde aktualisiert"
+   failure: "Fahrer: %{name} konnte nicht aktualisiert werden"
   destroy:
-   success: "Fahrer: %{name} (ID %{driver_id})  wurde gelöscht"
-   failure: "Fahrer: %{name} (ID %{driver_id})  konnte nicht gelöscht werden"
+   success: "Fahrer: %{name} wurde gelöscht"
+   failure: "Fahrer: %{name} konnte nicht gelöscht werden"
  orders:
   filter_order_type_default: "Alle Typen"
   filter_order_status_default: "Alle"
@@ -136,8 +147,10 @@ de:
   show:
    title: "Auftrag"
    belongs_to_tour: "gehört zu "
+   order_owner: "Auftraggeber"
+   assigned_tour_does_not_exist_html: "<b>Achtung</b>: Die zugewiesene Tour existiert nicht. Möglicherweise wurde die Tour zwischenzeitlich gelöscht oder der Status dieses Auftrag manuell geändert."
   index:
-   confirm: "Möchten Sie den Auftrag '%{name}' wirklich löschen?"
+   confirm: "Möchten Sie den Auftrag wirklich löschen?"
    title: "Aufträge"
    order_import: "Aufträge importieren"
    filter_order_type: "Nach Typ filtern:"
@@ -148,14 +161,15 @@ de:
   edit:
    title: "Auftrag bearbeiten"
   create:
-   success: "Auftrag %{order_id} wurde erfolgreich angelegt"
+   success: "Auftrag wurde erfolgreich angelegt"
    failure: "Auftrag konnte nicht angelegt werden"
   update:
-   success: "Auftrag %{order_id} wurde aktualisiert"
-   failure: "Auftrag %{order_id} konnte nicht aktualisiert werden"
+   success: "Auftrag wurde aktualisiert"
+   failure: "Auftrag konnte nicht aktualisiert werden"
   destroy:
-   success: "Auftrag %{order_id} wurde gelöscht"
-   failure: "Auftrag %{order_id} konnte nicht gelöscht werden"
+   success: "Auftrag wurde gelöscht"
+   failure: "Auftrag konnte nicht gelöscht werden"
+   failure_due_tour_status: "Auftrag konnte nicht gelöscht werden, weil zugehörige Tour bereits abgeschlossen oder gestartet wurde."
  registered_users:
   index:
    confirm: "Möchten Sie den Benutzer '%{name}' wirklich löschen?"
@@ -166,14 +180,20 @@ de:
   edit:
    title: "Benutzer bearbeiten"
   create:
-   success: "Benutzer %{user_id} wurde erfolgreich angelegt"
+   success: "Benutzer wurde erfolgreich angelegt"
    failure: "Benutzer konnte nicht angelegt werden"
   update:
    success: "Benutzer %{user_nickname} wurde aktualisiert"
-   failure: "Benutzer %{user_id} konnte nicht aktualisiert werden"
+   failure: "Benutzer konnte nicht aktualisiert werden"
   destroy:
-   success: "Benutzer %{nick_name} (%{user_id}) wurde gelöscht"
-   failure: "Benutzer %{nick_name} (%{user_id}) konnte nicht gelöscht werden"
+   success: "Benutzer %{nick_name} wurde gelöscht"
+   failure: "Benutzer %{nick_name} konnte nicht gelöscht werden"
+ users:
+  roles:
+   superadmin: "Super-Admin"
+   admin: "Administrator"
+   planer: "Planer"
+   driver: "Fahrer"
  user_forms:
   show:
    title: "Benutzer"
@@ -198,22 +218,24 @@ de:
   edit:
    title: "Beschränkung bearbeiten"
   create:
-   success: "Beschränkung %{restriction_id} wurde erfolgreich angelegt"
+   success: "Beschränkung wurde erfolgreich angelegt"
    failure: "Beschränkung konnte nicht angelegt werden"
   update:
-   success: "Beschränkung %{restriction_id} wurde aktualisiert"
-   failure: "Beschränkung %{restriction_id} konnte nicht aktualisiert werden"
+   success: "Beschränkung wurde aktualisiert"
+   failure: "Beschränkung konnte nicht aktualisiert werden"
   destroy:
-   success: "Beschränkung %{restriction_id} wurde gelöscht"
-   failure: "Beschränkung %{restriction_id} konnte nicht gelöscht werden"
+   success: "Beschränkung wurde gelöscht"
+   failure: "Beschränkung konnte nicht gelöscht werden"
  tours:
   no_google_maps_api_key_assigned: "Ihrem Unternehmen wurde noch kein Google Maps API Key zugewiesen. Bitte setzen Sie den API Schlüssel in den Unternehmenseinstellungen oder kontaktieren Sie den Administrator."
   generate_new_tours: "Generieren"
-  no_available_drivers: "Es stehen keine Fahrer zur Verfügung. Bitte stellen Sie sicher, dass Ihrem Unternehmen Benutzer mit der Rolle: Fahrer zugewiesen und diese aktiv sind. Weiterhin werden nur Fahrer mit einem zugewiesenen Fahrzeug berücksichtigt."
+  no_available_drivers_html: "Es stehen keine Fahrer zur Verfügung. Bitte stellen Sie Folgendes sicher: <b>1.</b> ihrem Unternehmen sind Benutzer mit der Rolle: Fahrer zugewiesen und diese sind aktiv,
+                        <b>2.</b> die vorgesehenen Fahrer besitzen ein Fahrzeug und <b>3.</b> die vorgesehenen Fahrer haben keine derzeit aktive Tour (Status: 'Bereit' oder 'Gestartet')."
   filter_tour_status_default: "Alle"
   started_at_timestamp: "Gestartet am: "
   completed_at_timestamp: "Abgeschlossen am: "
   status:
+   generated: "Generiert"
    approved: "Bereit"
    started: "Gestartet"
    completed: "Abgeschlossen"
@@ -223,7 +245,7 @@ de:
    complete_tour: "Tour abschliessen"
    expected_time_of_arrival: "gesch. Ankunftszeit"
   index:
-   confirm: "Möchten Sie die Tour '%{name}' wirklich löschen?"
+   confirm: "Möchten Sie die Tour wirklich löschen?"
    title: "Touren"
    active_tours: "Aktuell"
    completed_tours: "Abgeschlossen"
@@ -231,28 +253,35 @@ de:
    no_completed_tours_available: "Keine abgeschlossenen Touren vorhanden"
    generate_new_tours_hint: "Neue Touren generieren:"
    filter_tour_status: "Nach Status filtern:"
+   please_wait_while_generating: "Bitte warten..."
   new:
    title: "Neue Tour"
    no_company_assigned: "Ihr Benutzerkonto ist keinem Unternehmen zugeordnet. Bitte kontaktieren Sie den Administrator."
+   no_order_type_selected: "Es konnten keine Touren generiert werden, weil kein einziger Auftragstyp (z.B. Lieferung, Service, etc.) ausgewählt wurde."
   edit:
    title: "Tour bearbeiten"
   create:
-   success: "Tour %{tour_id} wurde erfolgreich angelegt"
+   success: "Tour wurde erfolgreich angelegt"
    failure: "Tour konnte nicht angelegt werden"
   update:
-   success: "Tour %{tour_id} wurde aktualisiert"
-   failure: "Tour %{tour_id} konnte nicht aktualisiert werden"
+   success: "Tour wurde aktualisiert"
+   failure: "Tour konnte nicht aktualisiert werden"
   destroy:
-   success: "Tour %{tour_id} wurde gelöscht"
-   failure: "Tour %{tour_id} konnte nicht gelöscht werden"
+   success: "Tour wurde gelöscht"
+   failure: "Tour konnte nicht gelöscht werden"
+  print:
+   expected_time_of_arrival: "gesch. Ankunftszeit"
+   order_ref: "Auftr.Ref"
   complete:
-   finish_tour: "Tour abschließen"
+   title: "Tour abschließen"
+   finish_tour: "Speichern"
+   choose_complete_orders_hint: "Bitte wählen Sie die bearbeiteten Aufträge aus. Nicht ausgewählte Aufträge werden aus der Tour entfernt und bei der Generierung zukünftiger Touren berücksichtigt."
   finish:
-   success: "Die Tour (ID %{tour_id}) wurde erfolgreich abgeschlossen."
+   success: "Die Tour wurde erfolgreich abgeschlossen."
    failure: "Es ist ein Fehler aufgetreten. Die Tour und die dazugehörigen Aufträge konnte nicht abgeschlossen werden."
  vehicles:
   index:
-   confirm: "Möchten Sie das Fahrzeug '%{name}' wirklich löschen?"
+   confirm: "Möchten Sie das Fahrzeug wirklich löschen?"
   show:
    title: "Fahrzeug"
   new:
@@ -260,14 +289,14 @@ de:
   edit:
    title: "Fahrzeug bearbeiten"
   create:
-   success: "Fahrzeug %{vehicle_id} wurde erfolgreich angelegt"
+   success: "Fahrzeug wurde erfolgreich angelegt"
    failure: "Fahrzeug konnte nicht angelegt werden"
   update:
-   success: "Fahrzeug %{vehicle_id} wurde aktualisiert"
-   failure: "Fahrzeug %{vehicle_id} konnte nicht aktualisiert werden"
+   success: "Fahrzeug wurde aktualisiert"
+   failure: "Fahrzeug konnte nicht aktualisiert werden"
   destroy:
-   success: "Fahrzeug %{vehicle_id} wurde gelöscht"
-   failure: "Fahrzeug %{vehicle_id} konnte nicht gelöscht werden"
+   success: "Fahrzeug wurde gelöscht"
+   failure: "Fahrzeug konnte nicht gelöscht werden"
   form:
    driver_empty: "Ohne Fahrer"
  order_import:
@@ -276,10 +305,18 @@ de:
   complete:
     success: "Die Aufträge wurden erfolgreich importiert."
     failure: "Bei Import der Aufträge ist ein Fehler aufgetreten."
+    no_file_provided: "Es wurde keine Datei ausgewählt. Bitte wählen Sie eine Datei zum Hochladen aus."
+ views:
+  pagination:
+   first: "&laquo; Erste Seite"
+   last: "Letzte Seite &raquo;"
+   previous: "&lsaquo; Vorherige"
+   next: "Nächste &rsaquo;"
+   truncate: "&hellip;"
  simple_form:
   labels:
    depot:
-    duration: "Einladedauer"
+    duration: "Dauer"
   prompts:
    customers:
     priority: "Bitte wählen Sie aus"
@@ -328,6 +365,14 @@ de:
    user_form:
     create: "Speichern"
     update: "Speichern"
+   page_entries_info:
+    one_page:
+     display_entries:
+      zero: "%{entry_name} nicht gefunden"
+      one: "Zeige <b>1</b> %{entry_name}"
+      other: "Zeige <b>alle %{count}</b> %{entry_name} an"
+    more_pages:
+     display_entries: "Zeige an %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"
 
  attributes:
   name: "Name"
@@ -356,10 +401,7 @@ de:
   role: "Rolle"
   comment: "Kommentar"
   customer: "Kunde"
-  pickup_location: "Abholort"
-  duration_pickup: "Einladedauer"
-  delivery_location: "Lieferort"
-  duration_delivery: "Ausladedauer"
+  order_ref: "Auftragsreferenz"
   start_time: "Startzeit"
   end_time: "Endzeit"
   user: "Benutzer"
@@ -369,8 +411,8 @@ de:
   manufacturer: "Hersteller"
   registration_number: "Kennzeichen"
   active: "Aktiv"
-  hour: "Stunde"
-  minute: "Minute"
+  hours: "Stunden"
+  minutes: "Minuten"
   password: "Passwort"
   default_tour_start: "normale Startzeit für Touren"
  activerecord:
@@ -403,3 +445,4 @@ number:
         mb: "MB"
         gb: "GB"
         tb: "TB"
+

@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+  skip_before_action :authenticate_user!, only: :index
+
   def index
     if current_user && current_user.is_driver?
       @tour =  Tour.where(driver_id: current_user.id).take

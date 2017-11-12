@@ -2,7 +2,27 @@
   <%= simple_form_for @depot, validate: true do |f| %>
     <%= f.input :name, prompt: :translate %>
     <%= f.input :address, prompt: :translate, input_html: { id: 'address' } %>
-    <%= f.input :duration, prompt: :translate %>
+    <div id="working_time_heading"><b><%=t('attributes.duration') %></b></div>
+    <%= f.hidden_field :duration, as: :integer, prompt: :translate %>
+
+     <div class="form-inline">
+
+       <div class="form-group">
+          <div class="form-inline">   
+          <%= f.input :hour, collection: (0..23), :selected => (@depot.hour ? @depot.hour : 0),label: false %>
+          <b>:</b>
+          </div>
+        <%=t('attributes.hours') %>
+       </div>
+
+       <div class="form-group">
+          <div class="form-inline">   
+          <%= f.input :minute, collection: (0..59), :selected => (@depot.minute ? @depot.minute : 0), label: false  %>
+          </div>
+      <%=t('attributes.minutes') %>
+       </div> 
+    </div>
+    <br>
     <%= f.button :submit, prompt: :translate %>
   <% end %>
 <% end %>

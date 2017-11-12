@@ -40,6 +40,7 @@
       <% end %>
     </ul>
     <ul class="nav navbar-nav navbar-right">
+      <li><%= link_to (fa_icon "info-circle 1x"), about_index_path, :title => t('about.index.title')%></li>
       <% if defined?(Devise) %>
         <% if user_signed_in? %>
               <li><%= link_to t('devise.sign_out'), destroy_user_session_path, method: :delete %></li>

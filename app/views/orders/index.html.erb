@@ -1,79 +1,80 @@
 <%- model_class = Order -%>
-<% if current_user %>
-    <% if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)%>
-      <div class="page-header">
-        <h1><%=t '.title', :default => Order %></h1>
-      </div>
-      <% if current_user.company.try(:customers).blank? %>
-        <div class="alert alert-info">Ihrem Benutzeraccount wurden noch keine Kunden zugewiesen. Sie können daher nur Aufträge importieren und nicht direkt anlegen.</div>
-        <%= link_to (fa_icon "upload 1x") + " " + t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
-        <% else %>
-	      <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("orders.new.title")), new_order_path, :class => 'btn btn-primary btn-smart' %>
-        <%= link_to (fa_icon "upload 1x") + " " + t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
-        <div style="float: right;">
-          <%= form_tag orders_path, method: :get do %>
-            <%= label_tag :status, t('.filter_order_status') %>
-            <%= select_tag :status, options_for_select([[t('orders.status.active'), 1], [t('orders.status.assigned'), 2], [t('orders.status.completed'), 3], [t('orders.status.inactive'), 0], [t('orders.status.invalid'), 4]], params[:status]), prompt: t('orders.filter_order_status_default'), onchange: "this.form.submit();", class: "order_status_filter" %>
-            <%= label_tag :order_type, t('.filter_order_type') %>
-            <%= select_tag :order_type, options_for_select([[t('orders.types.delivery'), OrderTypeEnum::DELIVERY],
-                                                            [t('orders.types.pickup'), OrderTypeEnum::PICKUP],
-                                                            [t('orders.types.service'), OrderTypeEnum::SERVICE]], params[:order_type]),
-                                                            prompt: t('orders.filter_order_type_default'),
-                                                            onchange: "this.form.submit();"%>
-          <% end %>
-          </div>
-          <hr/>
-          <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Adresse</th>
-              <th class="center">Dauer<br/>[hh:mm]</th>
-              <th class="center">Kapazität</th>
-              <th class="center">Priorität</th>
-              <th class="center"><%= t('attributes.order_type') %></th>
-              <th class="center">Status</th>
-              <th><%=t '.actions', :default => t("helpers.actions") %></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @orders.each do |order| %>
-             <% if order.status == 4 %>
-              <tr class="bg-danger">
-             <% else %>
-              <tr>
-             <% end %>
-                <td><%= order.location %></td>
-                <td class="center"><%= Time.at(order.duration * 60).utc.strftime("%H:%M") %></td>
-                <td class="center"><%= order.capacity %></td>
-                <% if order.customer %>
-                    <td class="center"><%= order.customer.priority %></td>
-                <% else %>
-                    <td class="center">keine</td>
-                <% end %>
-                <td class="center"><%= order_type_as_string(order.order_type) %></td>
-                <td class="center"><%= order_status_as_string(order.status) %></td>
-                <td>
-                  <%= link_to (fa_icon "search-plus 1x"), order, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
-                  <%= link_to (fa_icon "pencil 1x"), edit_order_path(order), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
-                  <%= link_to (fa_icon "trash 1x"), order, method: :delete, data: { confirm: t('.confirm', name: order.id) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
-                </td>
-              </tr>
-            <% end %>
-            <tr>
-              <td></td>
-              <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-
-      <% end %>
+<% if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => Order %></h1>
+  </div>
+  <% if current_user.company.try(:customers).blank? %>
+    <div class="alert alert-info">Ihrem Benutzeraccount wurden noch keine Kunden zugewiesen. Sie können daher nur Aufträge importieren und nicht direkt anlegen.</div>
+    <%= link_to (fa_icon "upload 1x") + " " + t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
     <% else %>
-    ZUGANG VERWEIGERT
-    <% end %>
+    <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("orders.new.title")), new_order_path, :class => 'btn btn-primary btn-smart' %>
+    <%= link_to (fa_icon "upload 1x") + " " + t('.order_import'), file_order_import_path, class: "btn btn-primary btn-smart" %>
+    <div style="float: right;">
+      <%= form_tag orders_path, method: :get do %>
+        <%= label_tag :status, t('.filter_order_status') %>
+        <%= select_tag :status, options_for_select([[t('orders.status.active'), 1], [t('orders.status.assigned'), 2], [t('orders.status.completed'), 3], [t('orders.status.inactive'), 0], [t('orders.status.invalid'), 4]], params[:status]), prompt: t('orders.filter_order_status_default'), onchange: "this.form.submit();", class: "order_status_filter" %>
+        <%= label_tag :order_type, t('.filter_order_type') %>
+        <%= select_tag :order_type, options_for_select([[t('orders.types.delivery'), OrderTypeEnum::DELIVERY],
+                                                        [t('orders.types.pickup'), OrderTypeEnum::PICKUP],
+                                                        [t('orders.types.service'), OrderTypeEnum::SERVICE]], params[:order_type]),
+                                                        prompt: t('orders.filter_order_type_default'),
+                                                        onchange: "this.form.submit();"%>
+      <% end %>
+      </div>
+      <hr/>
+      <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Auftragsref.</th>
+          <th>Adresse</th>
+          <th class="center">Dauer<br/>[hh:mm]</th>
+          <th class="center">Kapazität</th>
+          <th class="center">Priorität</th>
+          <th class="center"><%= t('attributes.order_type') %></th>
+          <th class="center">Status</th>
+          <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+         <% if order.status == 4 %>
+          <tr class="highlight">
+         <% else %>
+          <tr>
+         <% end %>
+            <td><%= order.order_ref %></td>
+            <td><%= order.location %></td>
+            <td class="center"><%= Time.at(order.duration * 60).utc.strftime("%H:%M") %></td>
+            <td class="center"><%= order.capacity %></td>
+            <% if order.customer %>
+                <td class="center"><%= order.customer.priority %></td>
+            <% else %>
+                <td class="center">keine</td>
+            <% end %>
+            <td class="center"><%= order_type_as_string(order.order_type) %></td>
+            <td class="center"><%= order_status_as_string(order.status) %></td>
+            <td>
+              <%= link_to (fa_icon "search-plus 1x"), order, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+              <%= link_to (fa_icon "pencil 1x"), edit_order_path(order), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
+              <%= link_to (fa_icon "trash 1x"), order, method: :delete, data: { confirm: t('.confirm', name: order.id) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="center"><strong><%= Time.at(@orders.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="page-nav">
+      <%= paginate @orders %>
+    </div>
+  <% end %>
 <% else %>
 ZUGANG VERWEIGERT
 <% end %>

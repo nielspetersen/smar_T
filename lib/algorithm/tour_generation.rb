@@ -6,18 +6,23 @@ module Algorithm
   class TourGeneration
 
     def self.generate_tours(company, order_type_filter = {})
+      # clear all tours with status equal to generated
+      Tour.where(status: StatusEnum::GENERATED).destroy_all
+
       orders, drivers  = preprocess(company.orders(order_type_filter), company.available_drivers)
+      # only start tour generation when orders and available driver exist
+      if orders.any? && drivers.any?
+        mthreetp_classic = Variants::MThreeTP.new(company, AlgorithmEnum::M3PDP)
+        mthreetp_classic.run(orders, drivers)
 
-      mthreetp_classic = Variants::MThreeTP.new(company, AlgorithmEnum::M3PDP)
-      mthreetp_classic.run(orders, drivers)
+        mthreetp_delta = Variants::MThreeTP.new(company, AlgorithmEnum::M3PDPDELTA)
+        mthreetp_delta.run(orders, drivers)
 
-      mthreetp_delta = Variants::MThreeTP.new(company, AlgorithmEnum::M3PDPDELTA)
-      mthreetp_delta.run(orders, drivers)
+        savingsplusplus = Variants::SavingsPlusPlus.new(company)
+        savingsplusplus.run(orders, drivers)
 
-      savingsplusplus = Variants::SavingsPlusPlus.new(company)
-      savingsplusplus.run(orders, drivers)
-
-      compare_and_destory_tours()
+        compare_and_destroy_tours()
+      end
     end
 
 
@@ -38,8 +43,8 @@ module Algorithm
       orders
     end
 
-    def self.compare_and_destory_tours()
-      tours_duration = Array.new(3)
+    def self.compare_and_destroy_tours()
+      tours_duration = Array.new([AlgorithmEnum::M3PDP, AlgorithmEnum::M3PDPDELTA, AlgorithmEnum::SAVINGSPP].length)
 
       m3pdp_tours = Tour.where(status: StatusEnum::GENERATED, algorithm: AlgorithmEnum::M3PDP)
       m3pdp_delta_tours = Tour.where(status: StatusEnum::GENERATED, algorithm: AlgorithmEnum::M3PDPDELTA)

@@ -17,7 +17,7 @@ $(function() {
 var disableButton = function(button) {
   if(!$(button).hasClass("disabled")) {
     button.addClass("disabled");
-    button.disabled = true;
+    button.prop('disabled', true);
   }
 }
 

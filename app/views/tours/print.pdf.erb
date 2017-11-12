@@ -1,38 +1,47 @@
 <%- model_class = Tour -%>
-<span><h2 style="display:inline;">Tourenplan</h2><%= wicked_pdf_image_tag @tour.driver.company.logo.try(:url, :thumb), style: 'float: right' unless @tour.driver.company.logo %></span>
-<h3>Fahrer: <%= @tour.driver.name %> | Datum: <%= Date.today.strftime("%d.%m.%Y") %></h3>
-<div style="clear: both;"></div>
+<%= wicked_pdf_stylesheet_link_tag 'custom' %>
+<div class="print-document">
+  <span><h2 style="display:inline;">Tourenplan</h2><%= wicked_pdf_image_tag @tour.driver.company.logo.try(:url, :thumb), style: 'float: right' unless @tour.driver.company.logo.blank? %></span>
+  <h3>Fahrer: <%= @tour.driver.name %> | Datum: <%= Date.today.strftime("%d.%m.%Y") %></h3>
+  <div style="clear: both;"></div><br />
 
-<div class="fieldset">
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th class="center">#</th>
-      <th>Kunde</th>
-      <th class="center"><%= model_class.human_attribute_name(:duration) %><br/>[hh:mm]</th>
-      <th>Beschreibung</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @order_tours.each do |order_tour| %>
-      <tr id="orderTour-<%= order_tour.id %>" class="unsortable print">
-        <td class="center vertical-top"><b><%= order_tour.place + 1 %>.</b></td>
-        <td class="vertical-top">
-          <% if ["pickup", "delivery"].include?(order_tour.kind) %>
-              <b><%= order_tour.order.customer.name %></b><br>
-          <% end %>
-          <%= order_tour.location %>
-        </td>
-        <td class="center"><%= Time.at(order_tour.duration * 60).utc.strftime("%H:%M") %></td>
-        <td><%= order_tour.comment %></td>
+  <div class="fieldset">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th class="center">#</th>
+        <th class="center"><%= t('tours.print.order_ref') %></th>
+        <th>Kunde</th>
+        <th class="center"><%= t('tours.print.expected_time_of_arrival') %><br/>[hh:mm]</th>
+        <th class="center"><%= model_class.human_attribute_name(:duration) %><br/>[hh:mm]</th>
+        <th>Beschreibung</th>
       </tr>
-    <% end %>
-    <tr>
-      <td></td>
-      <td></td>
-      <td class="center"><strong><%= Time.at(@order_tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
-      <td></td>
-    </tr>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+      <% time_of_arrivals = calculate_eta(@tour, @order_tours) %>
+      <% @order_tours.each_with_index do |order_tour, index| %>
+        <tr id="orderTour-<%= order_tour.id %>" class="unsortable print">
+          <td class="center vertical-top"><b><%= order_tour.place + 1 %>.</b></td>
+          <td class="center"><b><%= order_tour.order ? order_tour.order.order_ref : '-'%></b></td>
+          <td class="vertical-top">
+            <% if ["pickup", "delivery"].include?(order_tour.kind) %>
+                <b><%= order_tour.order.customer.name %></b><br>
+            <% end %>
+            <%= order_tour.location %>
+          </td>
+          <td class="center"><%= time_of_arrivals[index].strftime("%H:%M") %></td>
+          <td class="center"><%= Time.at(order_tour.duration * 60).utc.strftime("%H:%M") %></td>
+          <td><%= order_tour.comment %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="center"><strong><%= Time.at(@order_tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

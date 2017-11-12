@@ -11,10 +11,10 @@ class Customer < ActiveRecord::Base
   after_validation :geocode
 
   def self.customer_by_customer_reference(reference, company, name, priority)
-    customer = Customer.where(customer_reference: reference).first
+    customer = Customer.where(customer_reference: reference, company: company).first
     if customer.blank?
       Customer.create(customer_reference: reference, company: company, name: name, priority: priority)
-      customer = Customer.where(customer_reference: reference).first
+      customer = Customer.where(customer_reference: reference, company: company).first
     end
     customer
   end

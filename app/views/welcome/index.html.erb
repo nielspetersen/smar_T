@@ -1,7 +1,4 @@
-<% if current_user %>
-
-
-
+<% if user_signed_in? %>
     <% if current_user.role == "admin" %>
         <h4><%= t('welcome_admin', name: current_user.nickname) %></h4>
     <% elsif current_user.role =="superadmin" %>
@@ -14,7 +11,6 @@
     <% else%> 
         <p>Willkommen, Sie haben noch keien Rolle. Wenden sie sich an den Admin.</p>
     <% end %>
-
 <% else %>
     <p>Willkommen, Bitte einloggen.</p>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171031110259) do
+ActiveRecord::Schema.define(version: 20171111171639) do
 
   create_table "companies", force: true do |t|
     t.string   "name"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20171031110259) do
     t.datetime "work_start_time"
     t.datetime "work_end_time"
     t.boolean  "active"
-    t.integer  "working_time",        default: 0
+    t.integer  "working_time",    default: 480
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20171031110259) do
     t.float    "lat"
     t.float    "long"
     t.integer  "duration",    default: 0
+    t.string   "order_ref"
   end
 
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"

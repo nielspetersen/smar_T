@@ -34,10 +34,10 @@ module ToursHelper
   def calculate_eta(tour, order_tours)
     results = []
     if order_tours
-      if tour.started? && tour.started_at
+      if tour.started_at
         eta = tour.started_at
       else
-        eta = DateTime.parse(tour.driver.company.default_tour_start)
+        eta = Time.parse(tour.driver.company.default_tour_start)
       end
       results.push(eta)
       for i in 1..(order_tours.length-1)

@@ -6,7 +6,7 @@ class VehiclesController < ApplicationController
   def index
     if (current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)) && !current_user.company.nil?
       company = current_user.company
-      @vehicles = company.vehicles
+      @vehicles = company.vehicles.page params[:page]
     else
       @vehicles = []
     end
@@ -32,9 +32,9 @@ class VehiclesController < ApplicationController
     @vehicle = Vehicle.new(vehicle_params)
     @vehicle.company_id = current_user.company.id
     if @vehicle.save
-      flash[:success] = t('.success', vehicle_id: @vehicle.id)
+      flash[:success] = t('.success')
     respond_with(@vehicle)
-      else
+    else
       flash[:alert] = t('.failure')
       render 'new'
     end
@@ -42,20 +42,20 @@ class VehiclesController < ApplicationController
 
   def update
     if @vehicle.update(vehicle_params)
-      flash[:success] = t('.success', vehicle_id: @vehicle.id)
+      flash[:success] = t('.success')
     respond_with(@vehicle)
       else
-      flash[:alert] = t('.failure', vehicle_id: @vehicle.id)
+      flash[:alert] = t('.failure')
       render("edit")
     end
   end
 
   def destroy
     if @vehicle.destroy
-      flash[:success] = t('.success', vehicle_id: @vehicle.id)
+      flash[:success] = t('.success')
     respond_with(@vehicle)
     else
-     flash[:alert] = t('.failure', vehicle_id: @vehicle.id)
+     flash[:alert] = t('.failure')
      respond_with(@vehicle)
     end
   end

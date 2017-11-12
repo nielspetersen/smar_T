@@ -27,13 +27,14 @@ class Company < ActiveRecord::Base
     def available_drivers
       # retrieve array of all active drivers for company
       active_drivers = Driver.where(user_id: self.users.ids, active: true).to_a
+      available_drivers = []
       active_drivers.each do |driver|
-        if !Vehicle.exists?(driver: driver)
-          # remove driver without vehicle
-          active_drivers.delete(driver)
+        if Vehicle.exists?(driver: driver) && driver.active_tour(nil, [StatusEnum::APPROVED, StatusEnum::STARTED]).blank?
+          # only add drivers with vehicle and no conflicting / active tour
+          available_drivers.push(driver)
         end
       end
-      active_drivers
+      available_drivers
     end
 
     # Gibt alle Orders zurück, die der Company indirekt über zugewiesene Customer angehören.
@@ -46,6 +47,11 @@ class Company < ActiveRecord::Base
     def tours(select = {})
       where_clause = {driver_id: self.drivers.ids}.merge(select)
       Tour.where(where_clause)
+    end
+
+    def approved_tours(select = {})
+      tours = self.tours(select = {})
+      tours.where.not(status: StatusEnum::GENERATED)
     end
 
     # Returns true if time window restriction exists for this company

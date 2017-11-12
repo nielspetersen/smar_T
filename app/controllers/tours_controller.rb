@@ -9,10 +9,10 @@ class ToursController < ApplicationController
     @tours = []
     tour_filter = filter_tour_params.reject{|_, v| v.blank?}
     if (current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)) && !current_user.company.nil?
-      @tours = current_user.company.tours(tour_filter)
+      @tours = current_user.company.approved_tours(tour_filter).page params[:page]
     elsif current_user.is_driver?
       if current_user.try(:driver).try(:has_tours?)
-        @tours = current_user.driver.tours(tour_filter)
+        @tours = current_user.driver.approved_tours(tour_filter).page params[:page]
       end
     end
     @tours
@@ -45,12 +45,16 @@ class ToursController < ApplicationController
           flash[:error] = t('.no_google_maps_api_key_assigned')
         else
           order_type_filter = preprocess_order_type_params(new_tour_params)
-          Algorithm::TourGeneration.generate_tours(current_user.company, order_type_filter)
-          @tours = current_user.company.tours
+          if order_type_filter
+            Algorithm::TourGeneration.generate_tours(current_user.company, order_type_filter)
+          else
+            flash[:warning] = t('.no_order_type_selected')
+          end
         end
       else
         flash[:error] = t('.no_company_assigned')
       end
+      @tours = current_user.company.approved_tours
       redirect_to action: 'index'
     end
   end
@@ -62,7 +66,7 @@ class ToursController < ApplicationController
   def create
     @tour = Tour.new(tour_params)
     if @tour.save
-        flash[:success] = t('.success', tour_id: @tour.id)
+        flash[:success] = t('.success')
     respond_with(@tour)
       else
       flash[:alert] = t('.failure')
@@ -72,10 +76,10 @@ class ToursController < ApplicationController
 
   def update
     if @tour.update(tour_params)
-        flash[:success] = t('.success', tour_id: @tour.id)
+        flash[:success] = t('.success')
     respond_with(@tour)
       else
-        flash[:alert] = t('.failure', tour_id: @tour.id)
+        flash[:alert] = t('.failure')
         render("edit")
     end
   end
@@ -87,10 +91,10 @@ class ToursController < ApplicationController
       order_tour.destroy
     end
     if @tour.destroy
-      flash[:success] = t('.success', tour_id: @tour.id)
-    respond_with(@tour)
-      else
-      flash[:alert] = t('.failure', tour_id: @tour.id)
+      flash[:success] = t('.success')
+      respond_with(@tour)
+    else
+      flash[:alert] = t('.failure')
       respond_with(@tour)
     end
   end
@@ -132,23 +136,26 @@ class ToursController < ApplicationController
       redirect_to action: 'index'
     end
     tour_complete_params = finish_tour_params.reject{|_, v| v.blank? }
-
     begin
       @tour.update_attributes!(status: StatusEnum::COMPLETED, completed_at: DateTime.now)
       order_tours = @tour.order_tours.where(kind: available_order_tour_types())
-      order_tours.each do |order_tour|
-        if tour_complete_params[:order_ids].include? order_tour.order_id.to_s
-          order = Order.find(order_tour.order_id)
-          if order
-            order.update_attributes!(status: OrderStatusEnum::COMPLETED)
-          end
-        else
+      if tour_complete_params[:order_ids].blank?
+        # no order has been completed
+        order_tours.each do |order_tour|
           # remove incomplete orders from completed tour
-          order = Order.find(order_tour.order_id)
-          if order
-            order.update_attributes!(status: OrderStatusEnum::ACTIVE)
+          reset_order_to_active(order_tour)
+        end
+      else
+        order_tours.each do |order_tour|
+          if tour_complete_params[:order_ids].include? order_tour.order_id.to_s
+            order = Order.find(order_tour.order_id)
+            if order
+              order.update_attributes!(status: OrderStatusEnum::COMPLETED)
+            end
+          else
+            # remove incomplete orders from completed tour
+            reset_order_to_active(order_tour)
           end
-          order_tour.destroy
         end
       end
       @tour.update_place_order_tours()
@@ -197,5 +204,13 @@ class ToursController < ApplicationController
       unless order_type_params.empty?
         {order_type: order_type_params}
       end
+    end
+
+    def reset_order_to_active(order_tour)
+      order = Order.find(order_tour.order_id)
+      if order
+        order.update_attributes!(status: OrderStatusEnum::ACTIVE)
+      end
+      order_tour.destroy
     end
 end

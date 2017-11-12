@@ -6,6 +6,7 @@
   <thead>
   <tr>
     <th>Adresse</th>
+   <th>Auftragsref.</th>
     <th class="center">Dauer<br/>[hh:mm:ss]</th>
     <th class="center">Kapazität</th>
     <th class="center">Priorität</th>
@@ -23,6 +24,8 @@
         <% order.errors.add(:location, "") %>
         <% end %>
         <td><%= f.text_field :location, :size=>"50" %></td>
+        <%=  f.hidden_field :location, :id => ("address_" + (order.id).to_s) %>
+         <td><%= f.text_field :order_ref, size: "30" %></td>
         <td class="center"><%= Time.at(order.duration * 60).utc.strftime("%H:%M:%S") %></td>
         <td class="center"><%= f.number_field :capacity, in: 0...400 %></td>
         <% if order.customer %>
@@ -61,11 +64,13 @@
     <tbody>
       <% @invalid_orders.each do |order| %>
       <%= fields_for "orders[]", order do  |f| %>
-        <tr>
+        <tr class="highlight">
         <% if order.status == 4 %>
         <% order.errors.add(:location, "") %>
         <% end %>
         <td><%= f.text_field :location, :size=>"50" %></td>
+        <%=  f.hidden_field :location, :id => ("address_" + (order.id).to_s) %>
+         <td><%= f.text_field :order_ref, size: "30" %></td>
         <td class="center"><%= Time.at(order.duration * 60).utc.strftime("%H:%M:%S") %></td>
         <td class="center"><%= f.number_field :capacity, in: 0...400 %></td>
         <% if order.customer %>

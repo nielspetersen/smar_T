@@ -3,32 +3,37 @@
     <% if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)%>
       <div class="page-header">
         <h1>Auftrag</h1>
-        <% tour =  @order.get_assigned_tour %>
-        <% if tour %>
-          <b><%= t('.belongs_to_tour') + ' ' %><%= link_to('Tour #' + tour.id.to_s, tour_path(tour))  %></b>
-        <% end %>
+        <div class="order-details">
+          <b><%= t('.order_owner') + ': ' %><%= link_to(@order.customer.name, customer_path(@order.customer)) %></b><br />
+          <% tour =  @order.get_assigned_tour %>
+          <% if tour %>
+            <b><%= t('.belongs_to_tour') + ' ' %><%= link_to('Tour #' + tour.id.to_s, tour_path(tour))  %></b>
+          <% end %>
+        </div>
       </div>
       
       <div class="fieldset">
         <dl>
-            <dt class="label label-default">Adresse</dt>
-            <dd><pre class="prettyprint"><%= @order.location %></pre></dd>
-            <dt class="label label-default">Dauer</dt>
-            <dd><pre class="prettyprint"><%= @order.duration %></pre></dd>
-           <% if  current_user.company.time_window_restriction? %>
-            <dt class="label label-default">Startzeit</dt>
-            <dd><pre class="prettyprint"><%= @order.start_time %></pre></dd>
-            <dt class="label label-default">Endzeit</dt>
-            <dd><pre class="prettyprint"><%= @order.end_time %></pre></dd>
-             <% end %>
-            <% if  current_user.company.capacity_restriction? %>
-            <dt class="label label-default">Kapazität</dt>
-            <dd><pre class="prettyprint"><%= @order.capacity %></pre></dd>
-            <% end %>
-            <dt class="label label-default">Beschreibung</dt>
-            <dd><pre class="prettyprint"><%= @order.comment %></pre></dd>
-            <dt class="label label-default">Status</dt>
-            <dd><pre class="prettyprint"><%= order_status_as_string(@order.status) %></pre></dd>
+          <dt class="label label-default">Auftragsreferenz</dt>
+          <dd><pre class="prettyprint"><%= @order.order_ref %></pre></dd>
+          <dt class="label label-default">Adresse</dt>
+          <dd><pre class="prettyprint"><%= @order.location %></pre></dd>
+          <dt class="label label-default"><%= model_class.human_attribute_name(:duration) %> [hh:mm]</dt>
+          <dd><pre class="prettyprint"><%=  Time.at(@order.duration * 60).utc.strftime("%H:%M") %></pre></dd>
+         <% if  current_user.company.time_window_restriction? %>
+          <dt class="label label-default">Startzeit</dt>
+          <dd><pre class="prettyprint"><%= @order.start_time %></pre></dd>
+          <dt class="label label-default">Endzeit</dt>
+          <dd><pre class="prettyprint"><%= @order.end_time %></pre></dd>
+           <% end %>
+          <% if  current_user.company.capacity_restriction? %>
+          <dt class="label label-default">Kapazität</dt>
+          <dd><pre class="prettyprint"><%= @order.capacity %></pre></dd>
+          <% end %>
+          <dt class="label label-default">Beschreibung</dt>
+          <dd><pre class="prettyprint"><%= @order.comment %></pre></dd>
+          <dt class="label label-default">Status</dt>
+          <dd><pre class="prettyprint"><%= order_status_as_string(@order.status) %></pre></dd>
         </dl>
       </div>
       

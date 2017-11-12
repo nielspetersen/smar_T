@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  root 'welcome#index'
+
+  get 'about/index'
+
   resources :customers
 
   resources :vehicles
@@ -35,14 +39,11 @@ Rails.application.routes.draw do
 
   post "tours/positions/update" => "order_tours#update_positions"
 
-  get 'welcome/index'
+  devise_for :users, controllers: { registrations: "users/registrations", passwords: "users/passwords" }, skip: [:sessions, :registrations]
+  devise_for :users, controllers: { sessions: "sessions" }
 
-  devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", passwords: "users/passwords"}, skip: [:sessions, :registrations]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -94,6 +95,4 @@ Rails.application.routes.draw do
   #   end
 
   #->Prelang (user_login:devise/stylized_paths)
-
-   devise_for :users, controllers: {sessions: "sessions" }
 end

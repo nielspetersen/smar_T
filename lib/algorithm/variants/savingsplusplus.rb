@@ -108,11 +108,13 @@ module Algorithm
           tours_with_quality.push([rating, day_tour])
         end
         # retrieve tour with lowest rating / result of quality_function
-        best_tour = tours_with_quality.min_by { |rating, day_tour| rating }[1]
-        best_tour.save
-        # single deployment of driver
-        day_drivers.delete(best_tour.driver)
-        day_tours.delete(best_tour)
+        if tours_with_quality.any?
+          best_tour = tours_with_quality.min_by { |rating, day_tour| rating }[1]
+          best_tour.save
+          # single deployment of driver
+          day_drivers.delete(best_tour.driver)
+          day_tours.delete(best_tour)
+        end
 
         # for remaining tours in day_tours search for best driver
         for i in (day_tours.count - 1).downto(0)

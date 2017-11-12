@@ -14,12 +14,14 @@
           <dt class="label label-default"><%= model_class.human_attribute_name(:nickname) %></dt>
           <dd><pre class="prettyprint"><%= @user.nickname %></pre></dd>
           <dt class="label label-default"><%= model_class.human_attribute_name(:role) %></dt>
-          <dd><pre class="prettyprint"><%= @user.role %></pre></dd>
+          <dd><pre class="prettyprint"><%= localized_role_as_string(@user) %></pre></dd>
           <% if @user.role == "driver" %>
-          <dt class="label label-default"><%= model_class.human_attribute_name(:working_time) %></dt>
-          <dd><pre class="prettyprint"><%=  Time.at(@user.driver.working_time * 60).utc.strftime("%H:%M") %></pre></dd>
-          <dt class="label label-default"><%= model_class.human_attribute_name(:active) %></dt>
-          <dd><pre class="prettyprint"><%= @user.driver.active %></pre></dd>
+            <% if  current_user.company.work_time_restriction? %>
+              <dt class="label label-default"><%= model_class.human_attribute_name(:working_time) %></dt>
+              <dd><pre class="prettyprint"><%=  Time.at(@user.driver.working_time * 60).utc.strftime("%H:%M") %></pre></dd>
+            <% end %>
+            <dt class="label label-default"><%= model_class.human_attribute_name(:active) %></dt>
+            <dd><pre class="prettyprint"><%= @user.driver.active %></pre></dd>
           <% end %>
       </dl>
     </div>

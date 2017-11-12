@@ -4,7 +4,9 @@
     <%= f.input :name, prompt: :translate %>
     <%= f.input :address, prompt: :translate, input_html: { id: 'address' } %>
     <%= f.hint  t('.address_hint', :model => Company) %>
+    <% if @company.new_record? %>
     <%= f.input :email, prompt: :translate %>
+    <% end %>
     <%= f.input :telefon, prompt: :translate %>
     <div class="form-group">
       <%= f.label :default_tour_start %>

@@ -12,8 +12,8 @@
               <dd><pre class="prettyprint"><%= @depot.name %></pre></dd>
               <dt class="label label-default"><%= model_class.human_attribute_name(:address) %></dt>
               <dd><pre class="prettyprint"><%= @depot.address %></pre></dd>
-              <dt class="label label-default"><%= t('simple_form.labels.depot.duration') %></dt>
-              <dd><pre class="prettyprint"><%= @depot.duration %></pre></dd>
+              <dt class="label label-default"><%= t('simple_form.labels.depot.duration') %> [hh:mm]</dt>
+              <dd><pre class="prettyprint"><%=  Time.at(@depot.duration * 60).utc.strftime("%H:%M") %></pre></dd> 
               <dt class="label label-default"><%= model_class.human_attribute_name(:company) %></dt>
               <dd><pre class="prettyprint"><%= @depot.company.name %></pre></dd>
           </dl>

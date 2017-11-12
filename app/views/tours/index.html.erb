@@ -1,5 +1,4 @@
 <%- model_class = Tour -%>
-
 <% if current_user.is_admin? || current_user.is_planer? || current_user.is_driver? || (current_user.is_superadmin? && current_user.company_id?)%>
   <div class="page-header">
     <h1><%=t '.title', :default => Tour %></h1>
@@ -16,7 +15,7 @@
       </script>
     <% end %>
     <% if current_user.company.available_drivers.blank? %>
-      <div class="alert alert-warning"><%= t('tours.no_available_drivers') %></div>
+      <div class="alert alert-warning"><%= t('tours.no_available_drivers_html') %></div>
       <script>
           $( document ).ready(function() {
               disableButton($('#btn_new_tour'));
@@ -26,13 +25,18 @@
     <% if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)%>
     <%= form_tag new_tour_path, method: :get do %>
       <b style="font-size: 15px;"><%= t('.generate_new_tours_hint') %></b>
+      <% if  current_user.company.restriction.present? && (current_user.company.restriction.problem == "DP" || current_user.company.restriction.problem == "PDP" ) %>
       <%= label_tag :order_type_delivery, t('orders.types.delivery') %>
       <%= check_box_tag :order_type_delivery, 1, true %>
+      <% end %>
+      <% if  current_user.company.restriction.present? && (current_user.company.restriction.problem == "PP" || current_user.company.restriction.problem == "PDP" ) %>
       <%= label_tag :order_type_pickup, t('orders.types.pickup') %>
       <%= check_box_tag :order_type_pickup, 1, true %>
+      <% end %>
       <%= label_tag :order_type_service, t('orders.types.service') %>
       <%= check_box_tag :order_type_service, 1, true %>
-      <%= button_tag type: 'submit', name: nil, id: 'btn_new_tour', class: 'btn btn-primary btn-smart' do %>
+      <%= button_tag type: 'submit', name: nil, id: 'btn_new_tour', class: 'btn btn-primary btn-smart', data: { disable_with: "<i class='fa fa-refresh fa-spin'>
+      </i> " + t('.please_wait_while_generating') } do %>
         <%= ((fa_icon "calculator 1x") + " " + t('tours.generate_new_tours')) %>
       <% end %>
     <% end %>
@@ -43,7 +47,6 @@
       <%= select_tag :status, options_for_select([[t('tours.status.approved'), StatusEnum::APPROVED], [t('tours.status.started'), StatusEnum::STARTED], [t('orders.status.completed'), StatusEnum::COMPLETED]], params[:status]), prompt: t('tours.filter_tour_status_default'), onchange: "this.form.submit();", class: 'tour_status_filter' %>
     <% end %>
     </div>
-    <div class="loader"><%= image_tag "ajax-loader.gif" %></div>
     <div class="tab-content">
       <table class="table table-striped">
         <thead>
@@ -84,15 +87,9 @@
         </tbody>
       </table>
     </div>
-
-    <script>
-      $(function(){
-        $('.loader').hide();
-        $('.new_btn').on('click', function(){
-          $('.loader').show();
-        })
-      })
-    </script>
+    <div class="page-nav">
+      <%= paginate @tours %>
+    </div>
   <% end %>
 <% else %>
 ZUGANG VERWEIGERT

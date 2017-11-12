@@ -23,7 +23,7 @@
             <% if !registered_user.is_superadmin? %>
               <tr>
                 <td><%= registered_user.nickname %></td>
-                <td><%= registered_user.role %></td>
+                <td><%= localized_role_as_string(registered_user) %></td>
                 <td><%= registered_user.email %></td>
                 <% if registered_user.company %>
                   <td><%= registered_user.company.name %></td>
@@ -44,6 +44,9 @@
           <% end %>
         </tbody>
       </table>
+      <div class="page-nav">
+        <%= paginate @users %>
+      </div>
   <% end %>
 <% else %>
   ZUGANG VERWEIGERT

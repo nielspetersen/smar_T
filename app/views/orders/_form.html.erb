@@ -1,32 +1,53 @@
 <% if current_user.role == "admin" || current_user.role == "planer" || (current_user.is_superadmin? && current_user.company_id?)%>
     <%= simple_form_for @order, validate: true do |f| %>
         <% if  current_user.company.restriction.present? && current_user.company.restriction.problem == "DP" %>
-            <%= f.input :problem, as: :fake_select, :collection => {t('dp')  => 'type_2'}, :selected => 'type_2', :disabled => true%>
+              <%= f.input :order_type, :collection => { t('orders.types.delivery') => OrderTypeEnum::DELIVERY, t('orders.types.service') => OrderTypeEnum::SERVICE}, selected: @order.order_type %>
 
         <% elsif current_user.company.restriction.present? && current_user.company.restriction.problem == "PP" %>
-            <%= f.input :problem, as: :fake_select, :collection => {t('pp') => 'type_1'}, :selected => 'type_1', :disabled => true%>
+              <%= f.input :order_type, :collection => { t('orders.types.pickup') => OrderTypeEnum::PICKUP, t('orders.types.service') => OrderTypeEnum::SERVICE}, selected: @order.order_type %>
 
         <% else %>
-            <%= f.input :problem, as: :fake_select, :collection => {t('dp')  => 'type_2', t('pp') => 'type_1', t('pdp') => 'type_3'}, :selected => 'type_3'%>
-
+              <%= f.input :order_type, :collection => { t('orders.types.delivery') => OrderTypeEnum::DELIVERY, t('orders.types.pickup') => OrderTypeEnum::PICKUP, t('orders.types.service') => OrderTypeEnum::SERVICE}, selected: @order.order_type %>
+            
         <% end %>
 
         <%=f.association :customer, :as => :collection_select, collection: Customer.where(company_id: current_user.company_id),  prompt: :translate %>
+        <%= f.input :order_ref, prompt: :translate %>
         <%= f.input :location, prompt: :translate,  input_html: { id: 'location' } %>
-        <%= f.input :duration, prompt: :translate %>
+        <div id="working_time_heading"><b><%=t('attributes.duration') %></b></div>
+    	<%= f.hidden_field :duration, as: :integer, prompt: :translate %>
+
+        <div class="form-inline">
+
+       <div class="form-group">
+          <div class="form-inline">   
+          	<%= f.input :hour, collection: (0..23), :selected => (@order.hour ? @order.hour : 0),label: false %>
+          <b>:</b>
+          </div>
+        <%=t('attributes.hours') %>
+       </div>
+
+       <div class="form-group">
+          <div class="form-inline">   
+          	<%= f.input :minute, collection: (0..59), :selected => (@order.minute ? @order.minute : 0), label: false  %>
+          </div>
+          <%=t('attributes.minutes') %>
+       </div> 
+    </div>
+    <br>
         <% if  current_user.company.time_window_restriction? %>
-        <%= f.input :start_time, prompt: :translate %>
-        <%= f.input :end_time, prompt: :translate %>
+          <%= f.input :start_time, prompt: :translate %>
+          <%= f.input :end_time, prompt: :translate %>
         <% end %>
         <% if  current_user.company.capacity_restriction? %>
-        <%= f.input :capacity, prompt: :translate %>
+          <%= f.input :capacity, prompt: :translate %>
         <% end %>
         <%= f.input :comment, prompt: :translate %>
-        <% if @order.status == 4 %>
-        <%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.completed') => 3, t('orders.status.invalid') => 4 }, selected: @order.status, :disabled => true %>
+        <% if @order.status == OrderStatusEnum::INVALID || @order.status == OrderStatusEnum::COMPLETED %>
+          <%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.completed') => 3, t('orders.status.invalid') => 4 }, selected: @order.status, :disabled => true %>
         <% else %>
-        <%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.completed') => 3 }, selected: @order.status %>
+          <%= f.input :status, :collection => { t('orders.status.inactive') => 0, t('orders.status.active') => 1, t('orders.status.assigned') => 2 }, selected: @order.status %>
         <% end %>
-        <%= f.button :submit, prompt: :translate %>
+          <%= f.button :submit, prompt: :translate %>
     <% end %>
 <% end %>

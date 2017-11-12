@@ -1,6 +1,10 @@
 <%- model_class = Tour -%>
 <% if current_user %>
     <% if current_user.is_admin? || current_user.is_planer? || current_user.is_driver? || (current_user.is_superadmin? && current_user.company_id?)%>
+        <h2><%= t('.title') %></h2>
+        <div class="alert alert-info">
+          <b><%= t('.choose_complete_orders_hint') %></b>
+        </div>
         <div class="fieldset">
           <table class="table table-striped">
             <thead>
@@ -25,7 +29,7 @@
               <% end %>
               </tbody>
           </table>
-          <%= submit_tag t('.finish_tour') %><% end %>
+          <%= submit_tag t('.finish_tour'), class: 'btn btn-primary btn-smart'%><% end %>
         </div>
         <% else %>
         ZUGANG VERWEIGERT

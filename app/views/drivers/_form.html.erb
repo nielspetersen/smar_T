@@ -3,10 +3,24 @@
     <%= f.input :name, prompt: :translate, :disabled => true %>
     <div id="working_time_heading"><b><%=t('attributes.working_time') %></b></div>
     <%= f.hidden_field :working_time, as: :integer, prompt: :translate %>
-    <%= f.label :hour %>:
-    <%= f.select :hour, (0..23), as: :integer %>
-    <%= f.label :minute %>:
-    <%= f.select :minute, (0..59), as: :integer %>
+
+     <div class="form-inline">
+
+       <div class="form-group">
+          <div class="form-inline">   
+          <%= f.input :hour, collection: (0..23), :selected => (@driver.hour ? @driver.hour : 0),label: false %>
+          <b>:</b>
+          </div>
+        <%=t('attributes.hours') %>
+       </div>
+
+       <div class="form-group">
+          <div class="form-inline">   
+          <%= f.input :minute, collection: (0..59), :selected => (@driver.minute ? @driver.minute : 0), label: false  %>
+          </div>
+      <%=t('attributes.minutes') %>
+       </div> 
+    </div>
     <%= f.input :active, prompt: :translate %>
     <%= f.button :submit, prompt: :translate %>
   <% end %>

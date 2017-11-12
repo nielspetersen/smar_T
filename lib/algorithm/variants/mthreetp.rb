@@ -193,7 +193,6 @@ module Algorithm
         existing_tour = []
         unless driver.active_tour(@algorithm, StatusEnum::GENERATED).nil?
           active_tour = driver.active_tour(@algorithm, StatusEnum::GENERATED).order_tours
-          active_tour = active_tour.sort {|x,y| x.place <=> y.place}
           active_tour.each do |tour_element|
             existing_tour.push(tour_element)
           end

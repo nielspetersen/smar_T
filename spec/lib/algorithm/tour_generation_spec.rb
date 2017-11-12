@@ -13,16 +13,18 @@ RSpec.describe "TourGeneration" do
     let!(:order_1) { FactoryGirl.create(:delivery_order, customer: customer_1) }
     let!(:order_2) { FactoryGirl.create(:delivery_order, customer: customer_2, start_time: nil) }
     let!(:order_3) { FactoryGirl.create(:delivery_order, customer: customer_1, start_time: DateTime.now + 24.hours) }
+    let!(:order_4) { FactoryGirl.create(:delivery_order, customer: customer_1, status: OrderStatusEnum::INACTIVE) }
     let!(:driver_1) { FactoryGirl.create(:active_driver, user: user_1) }
     let!(:driver_2) { FactoryGirl.create(:inactive_driver, user: user_2) }
     let!(:vehicle_1) { FactoryGirl.create(:vehicle, driver: driver_1, position: company.address) }
     let!(:vehicle_2) { FactoryGirl.create(:vehicle, driver: driver_2, position: company.address) }
-    let(:preprocessed_output) { Algorithm::TourGeneration.preprocess(company.orders, company.drivers) }
+    let(:preprocessed_output) { Algorithm::TourGeneration.preprocess(company.orders, company.available_drivers) }
 
-    it "returns only due orders" do
+    it "returns only due / active orders" do
       expect(preprocessed_output[0]).to include(order_1)
       expect(preprocessed_output[0]).to include(order_2)
       expect(preprocessed_output[0]).not_to include(order_3)
+      expect(preprocessed_output[0]).not_to include(order_4)
     end
 
     it "returns only active drivers" do

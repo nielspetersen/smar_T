@@ -72,7 +72,10 @@ $( document ).ready(function() {
     $(this).on('blur', function (event, result) {
        $(this).val(address);
        if($(this).val() != ""){
-       jQuery('[id$=status]').prop("disabled", false);
+       var elementname = $(this).attr('name')
+       var statusname = elementname.replace("location","status");
+       jQuery('select[name="'+statusname+'"]').prop("disabled", false);
+       $('input[name="'+elementname+'"]').val($(this).val());
        }
     });
    });

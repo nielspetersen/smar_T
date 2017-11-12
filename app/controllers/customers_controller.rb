@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
 
   def index
     if current_user.is_planer? || current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)
-      @customers = Customer.where(company_id: current_user.company_id)
+      @customers = Customer.where(company_id: current_user.company_id).page params[:page]
     end
   end
 
@@ -34,30 +34,30 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
     @customer.company_id = current_user.company.id
     if @customer.save
-      flash[:success] = t('.success', customer_id: @customer.id)
+      flash[:success] = t('.success')
       redirect_to customers_path
     else
-      flash[:alert] = t('.failure', customer_id: @customer.id)
+      flash[:alert] = t('.failure')
       render 'new'
     end
   end
 
   def update
     if @customer.update(customer_params)
-    flash[:success] = t('.success', customer_id: @customer.id)
+    flash[:success] = t('.success')
     respond_with(@customer)
     else
-    flash[:alert] = t('.failure', customer_id: @customer.id)
+    flash[:alert] = t('.failure')
     render("edit")
    end
   end
 
   def destroy
     if @customer.destroy
-    flash[:success] = t('.success', customer_id: @customer.id)
+    flash[:success] = t('.success')
     respond_with(@customer)
     else
-    flash[:alert] = t('.failure', customer_id: @customer.id)
+    flash[:alert] = t('.failure')
     respond_with(@customer)
     end
   end
