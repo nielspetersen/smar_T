@@ -1,12 +1,9 @@
 <%- model_class = Tour -%>
 <% if current_user.is_admin? || current_user.is_planer? || current_user.is_driver? || (current_user.is_superadmin? && current_user.company_id?)%>
-  <div class="page-header">
-    <h1><%=t '.title', :default => Tour %></h1>
-  </div>
   <% if current_user.company.nil? %>
     <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen. Sie können daher keine Tour anlegen.</div>
   <% else %>
-    <% if current_user.company.google_maps_api_key.blank? %>
+    <% if current_user.company.google_maps_api_key.blank? && !current_user.is_driver? %>
       <div class="alert alert-warning"><%= t('tours.no_google_maps_api_key_assigned') %></div>
       <script>
           $( document ).ready(function() {
@@ -14,7 +11,7 @@
           });
       </script>
     <% end %>
-    <% if current_user.company.available_drivers.blank? %>
+    <% if current_user.company.available_drivers.blank? && !current_user.is_driver? %>
       <div class="alert alert-warning"><%= t('tours.no_available_drivers_html') %></div>
       <script>
           $( document ).ready(function() {
@@ -22,7 +19,10 @@
           });
       </script>
     <% end %>
-    <% if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)%>
+    <div class="page-header">
+      <h1><%=t '.title', :default => Tour %></h1>
+    </div>
+        <% if current_user.is_admin? || current_user.is_planer? || (current_user.is_superadmin? && current_user.company_id?)%>
     <%= form_tag new_tour_path, method: :get do %>
       <b style="font-size: 15px;"><%= t('.generate_new_tours_hint') %></b>
       <% if  current_user.company.restriction.present? && (current_user.company.restriction.problem == "DP" || current_user.company.restriction.problem == "PDP" ) %>
@@ -54,9 +54,9 @@
           <th>Fahrer</th>
           <th class="center">Dauer<br/>[hh:mm]</th>
           <th class="center">Anfahrpunkte</th>
-          <th>Algorithmus</th>
           <th>Status</th>
           <th>Erstellt am</th>
+          <th>Abgeschlossen am</th>
           <th><%=t '.actions', :default => t("helpers.actions") %></th>
         </tr>
         </thead>
@@ -66,9 +66,9 @@
               <td><%= (Driver.where(id: tour.driver_id).first).name %></td>
               <td class="center"><%= Time.at(tour.duration * 60).utc.strftime("%H:%M") %></td>
               <td class="center"><%= tour.order_tours.count %></td>
-              <td><%= get_algorithm_display_text(tour.algorithm) %></td>
               <td><%= get_tour_status_as_string(tour.status) %></td>
               <td><%=l tour.created_at, format: :long %></td>
+              <td><%= tour.completed? ? l(tour.completed_at, format: :long) : "-" %></td>
               <td>
                 <%= link_to (fa_icon "search-plus 1x"), tour, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
                 <%= link_to (fa_icon "trash 1x"), tour, method: :delete, data: { confirm: t('.confirm', name: tour.id) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' unless current_user.is_driver? %>

@@ -12,7 +12,7 @@ class ToursController < ApplicationController
       @tours = current_user.company.approved_tours(tour_filter).page params[:page]
     elsif current_user.is_driver?
       if current_user.try(:driver).try(:has_tours?)
-        @tours = current_user.driver.approved_tours(tour_filter).page params[:page]
+        @tours = current_user.driver.tours(tour_filter).page params[:page]
       end
     end
     @tours
