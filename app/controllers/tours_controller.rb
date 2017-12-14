@@ -1,6 +1,6 @@
 class ToursController < ApplicationController
   include OrderToursHelper
-  before_action :set_tour, only: [:show, :edit, :update, :destroy, :print, :start, :complete, :finish]
+  before_action :set_tour, only: [:show, :edit, :update, :destroy, :print, :start, :complete, :finish, :remove_order_tour]
 
   respond_to :html
 
@@ -167,6 +167,21 @@ class ToursController < ApplicationController
     redirect_to action: 'index'
   end
 
+  def remove_order_tour
+    if @tour.approved?
+      order_tour = OrderTour.find(remove_order_tour_params[:order_tour_id])
+      if order_tour
+        if @tour.remove_order_tour(order_tour)
+          @tour.update_place_order_tours()
+          flash[:success] = t('.success')
+        else
+          flash[:alert] = t('.failure')
+        end
+      end
+    end
+    redirect_to action: 'show'
+  end
+
   private
     def set_tour
       @tour = Tour.find(params[:id])
@@ -186,6 +201,10 @@ class ToursController < ApplicationController
 
     def finish_tour_params
       params.permit(:id, order_ids: [])
+    end
+
+    def remove_order_tour_params
+      params.permit(:id, :order_tour_id)
     end
 
     def preprocess_order_type_params(params)

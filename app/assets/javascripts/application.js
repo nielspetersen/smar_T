@@ -12,14 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui-sortable
 //= require bootstrap
 //= require underscore
 //= require gmaps/google
 //= require gmaps.js
 //= require maps
 //= require custom
-//= require position
 //= require rails.validations
 //= require rails.validations.simple_form
 //= require address_autocomplete

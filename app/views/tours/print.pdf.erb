@@ -1,8 +1,9 @@
 <%- model_class = Tour -%>
 <%= wicked_pdf_stylesheet_link_tag 'custom' %>
 <div class="print-document">
-  <span><h2 style="display:inline;">Tourenplan</h2><%= wicked_pdf_image_tag @tour.driver.company.logo.try(:url, :thumb), style: 'float: right' unless @tour.driver.company.logo.blank? %></span>
-  <h3>Fahrer: <%= @tour.driver.name %> | Datum: <%= Date.today.strftime("%d.%m.%Y") %></h3>
+  <span><h2 style="display:inline;">Tourenplan</h2><%= wicked_pdf_image_tag @tour.driver.company.logo.try(:url, :thumb), style: 'float: right' unless @tour.driver.company.logo.blank? %></b></span>
+  <p style="font-size: 1.2em;"><b>Fahrer: <%= @tour.driver.name %> | Datum: <%= Date.today.strftime("%d.%m.%Y") %></b><br/>
+  <%= t('tours.print.estimated_total_duration') +  " " + @tour.duration_as_string %></p>
   <div style="clear: both;"></div><br />
 
   <div class="fieldset">
@@ -13,7 +14,7 @@
         <th class="center"><%= t('tours.print.order_ref') %></th>
         <th>Kunde</th>
         <th class="center"><%= t('tours.print.expected_time_of_arrival') %><br/>[hh:mm]</th>
-        <th class="center"><%= model_class.human_attribute_name(:duration) %><br/>[hh:mm]</th>
+        <th class="center"><%= t('tours.print.processing_time_html') %><br/>[hh:mm]</th>
         <th>Beschreibung</th>
       </tr>
       </thead>
@@ -35,6 +36,7 @@
         </tr>
       <% end %>
       <tr>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

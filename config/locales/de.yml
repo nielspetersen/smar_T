@@ -244,6 +244,7 @@ de:
    print_tour: "Drucken"
    complete_tour: "Tour abschliessen"
    expected_time_of_arrival: "gesch. Ankunftszeit"
+   processing_time: "Bearbeitungsdauer"
   index:
    confirm: "Möchten Sie die Tour wirklich löschen?"
    title: "Touren"
@@ -272,13 +273,18 @@ de:
   print:
    expected_time_of_arrival: "gesch. Ankunftszeit"
    order_ref: "Auftr.Ref"
+   processing_time_html: "Bearbeitungs- <br/>dauer"
+   estimated_total_duration: "geschätzte Gesamtdauer:"
   complete:
    title: "Tour abschließen"
    finish_tour: "Speichern"
    choose_complete_orders_hint: "Bitte wählen Sie die bearbeiteten Aufträge aus. Nicht ausgewählte Aufträge werden aus der Tour entfernt und bei der Generierung zukünftiger Touren berücksichtigt."
   finish:
    success: "Die Tour wurde erfolgreich abgeschlossen."
-   failure: "Es ist ein Fehler aufgetreten. Die Tour und die dazugehörigen Aufträge konnte nicht abgeschlossen werden."
+   failure: "Es ist ein Fehler aufgetreten. Die Tour und die dazugehörigen Aufträge konnten nicht abgeschlossen werden."
+  remove_order_tour:
+   success: "Auftrag wurde erfolgreich aus der Tour entfernt."
+   failure: "Es ist ein Fehler aufgetreten. Der Auftrag konnte nicht aus der Tour entfernt werden."
  vehicles:
   index:
    confirm: "Möchten Sie das Fahrzeug wirklich löschen?"
@@ -411,7 +417,7 @@ de:
   manufacturer: "Hersteller"
   registration_number: "Kennzeichen"
   active: "Aktiv"
-  hours: "Stunden"
+  hours: "Stunde(n)"
   minutes: "Minuten"
   password: "Passwort"
   default_tour_start: "normale Startzeit für Touren"

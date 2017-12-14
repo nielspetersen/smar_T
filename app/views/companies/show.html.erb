@@ -17,7 +17,7 @@
         <dt class="label label-default"><%= model_class.human_attribute_name(:google_maps_api_key) %></dt>
         <dd><pre class="prettyprint"><%= @company.google_maps_api_key %></pre></dd>
         <% if @company.logo? %>
-          <%= image_tag @company.logo.url(:thumb) %>
+          <%= image_tag @company.logo.url(:medium) %>
         <% end %>
       </dl>
     </div>

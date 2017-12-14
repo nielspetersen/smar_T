@@ -28,11 +28,17 @@ $( document ).ready(function() {
     addressPicker.bindDefaultTypeaheadEvent($('#address'));
     $(addressPicker).on('addresspicker:selected', function (event, result) {
         address = result.placeResult.formatted_address;
-        $('#address').val(address);
+        if(address) {
+            // only change value if not null or empty string
+            $('#address').val(address);
+        }
     });
 
     $('#address').on('blur', function (event, result) {
-        $('#address').val(address);
+        if(address) {
+            // only change value if not null or empty string
+            $('#address').val(address);
+        }
     });
 });
 
@@ -64,19 +70,23 @@ $( document ).ready(function() {
 
     var address = "";
     addressPicker.bindDefaultTypeaheadEvent($(this));
-   $(addressPicker).on('addresspicker:selected', function (event, result) {
+    $(addressPicker).on('addresspicker:selected', function (event, result) {
         address = result.placeResult.formatted_address;
-        $(this).val(address);
+        if(address) {
+            // only change value if not null or empty string
+            $(this).val(address);
+        }
     });
 
     $(this).on('blur', function (event, result) {
-       $(this).val(address);
-       if($(this).val() != ""){
-       var elementname = $(this).attr('name')
-       var statusname = elementname.replace("location","status");
-       jQuery('select[name="'+statusname+'"]').prop("disabled", false);
-       $('input[name="'+elementname+'"]').val($(this).val());
-       }
+        if(address) {
+            // only change value if not null or empty string
+            $(this).val(address);
+            var elementname = $(this).attr('name')
+            var statusname = elementname.replace("location", "status");
+            jQuery('select[name="' + statusname + '"]').prop("disabled", false);
+            $('input[name="' + elementname + '"]').val($(this).val());
+        }
     });
-   });
+  });
 });

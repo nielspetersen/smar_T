@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.3', engine: 'jruby', engine_version: '9.1.13.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '~> 4.2.10'
 # Use sqlite3 as the database for Active Record
 gem 'jdbc-sqlite3', platform: :jruby
 gem 'activerecord-jdbcsqlite3-adapter', '~> 1.3', '>= 1.3.24', platform: :jruby
@@ -12,7 +12,7 @@ gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 #gem 'therubyracer',  platforms: :ruby
 gem 'therubyrhino'
@@ -75,7 +75,7 @@ gem 'validates_formatting_of'
 gem 'font-awesome-rails'
 gem 'active_link_to'
 
-gem 'rails-i18n', '~> 4.0.0'
+gem 'rails-i18n'
 gem 'devise-i18n'
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
@@ -106,7 +106,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6'
-  gem 'factory_girl_rails', '~> 4.8'
+  gem 'factory_girl_rails', '~> 4.9'
   gem 'faker', '~> 1.7', '>= 1.7.3'
   gem 'webmock', '~> 3.0', '>= 3.0.1'
 end

@@ -12,9 +12,9 @@ module ToursHelper
     display_text
   end
 
-  def is_sortable_order_tour?(order_tour)
-    sortable_class = order_tour.kind != "delivery" ? false : true
-    sortable_class
+  def is_editable_order_tour?(order_tour)
+    editable_type = ['delivery', 'pickup', 'service'].include? order_tour.kind
+    editable_type
   end
 
   def get_tour_status_as_string(status)

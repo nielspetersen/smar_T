@@ -1,4 +1,7 @@
-<%- model_class = Tour -%>
+<%= javascript_include_tag 'jquery-ui-sortable' %>
+<%= javascript_include_tag 'sortable' %>
+
+  <%- model_class = Tour -%>
 <% if current_user.is_admin? || current_user.is_planer? || current_user.is_driver? || (current_user.is_superadmin? && current_user.company_id?)%>
 <div class="page-header">
   <div class="tour-details">
@@ -20,6 +23,7 @@
   <div style="float: right;">
     <%= link_to ((fa_icon "print 1x") + " " + t('.print_tour')), print_tour_path(:format => :pdf), class: 'btn btn-primary btn-smart', target: '_blank' %>
   </div>
+  <div style="clear: both;"></div>
 </div>
 <% if current_user.company.google_maps_api_key.blank? %>
     <div class="alert alert-warning"><%= t('tours.no_google_maps_api_key_assigned') %></div>
@@ -36,14 +40,15 @@
         <th class="center">Auftragsref.</th>
         <th>Adresse</th>
         <th class="center"><%= t('.expected_time_of_arrival') %><br/>[hh:mm]</th>
-        <th class="center"><%= model_class.human_attribute_name(:duration) %><br/>[hh:mm]</th>
+        <th class="center"><%= t('.processing_time') %><br/>[hh:mm]</th>
         <th>Beschreibung</th>
+        <th>Aktionen</th>
       </tr>
     </thead>
     <tbody class="sortable">
       <% time_of_arrivals = calculate_eta(@tour, @order_tours) %>
       <% @order_tours.each_with_index do |order_tour, index| %>
-        <% if is_sortable_order_tour?(order_tour) %>
+        <% if is_editable_order_tour?(order_tour) %>
           <tr id="orderTour-<%= order_tour.id %>">
             <td class="center"><%= order_tour.place + 1 %></td>
             <td class="center"><%= order_tour.order ? order_tour.order.order_ref : '-' %></td>
@@ -54,10 +59,17 @@
             <td class="center"><%= order_tour.order ? order_tour.order.order_ref : '-' %></td>
             <td><%= order_tour.location %><%= image_tag('Lock.png', size: "17x17", class: "locked_icon") %></td>
         <% end %>
-            <td class="center"><%= time_of_arrivals[index].strftime("%H:%M") %></td>
-            <td class="center"><%= Time.at(order_tour.duration * 60).utc.strftime("%H:%M") %></td>
-            <td><%= order_tour.comment %></td>
-          </tr>
+          <td class="center"><%= time_of_arrivals[index].strftime("%H:%M") %></td>
+          <td class="center"><%= Time.at(order_tour.duration * 60).utc.strftime("%H:%M") %></td>
+          <td><%= order_tour.comment %></td>
+          <td>
+            <% if is_editable_order_tour?(order_tour) && @tour.approved? %>
+              <%= button_to remove_order_tour_path(@tour, order_tour_id: order_tour.id), method: :post, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' do %>
+                  <%= fa_icon "trash 1x" %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
       <tr class="unsortable">
         <td></td>

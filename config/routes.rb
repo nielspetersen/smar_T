@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'tours/:id/start' => 'tours#start', as: 'start_tour'
   get 'tours/:id/complete' => 'tours#complete', as: 'complete_tour'
   post 'tours/:id/finish' => 'tours#finish', as: 'finish_tour'
+  post 'tours/:id/remove_order_tour' => 'tours#remove_order_tour', as: 'remove_order_tour'
 
   resources :restrictions
 

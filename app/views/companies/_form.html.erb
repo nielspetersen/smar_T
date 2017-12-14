@@ -21,7 +21,7 @@
     <%= f.hint t('.google_maps_key_hint', :model => Company) %>
     <%= f.label :logo %> <br/>
     <% if @company.logo.exists? %>
-      <%= image_tag @company.logo.url, id: 'current_company_logo' %>
+      <%= image_tag @company.logo.url(:thumb), id: 'current_company_logo' %>
       <%= button_tag type: 'button', id: 'delete_company_logo', class: 'btn btn-danger btn-xs', onclick: 'deleteCompanyLogo()' do %>
           <%= (fa_icon "trash 1x") %>
       <% end %>
@@ -51,7 +51,7 @@
         <%= f.hint t('.google_maps_key_hint', :model => Company) %>
         <%= f.label :logo %> </br>
         <% if @company.logo.exists? %>
-          <%= image_tag @company.logo.url, id: 'current_company_logo' %>
+          <%= image_tag @company.logo.url(:thumb), id: 'current_company_logo' %>
           <%= button_tag type: 'button', id: 'delete_company_logo', class: 'btn btn-danger btn-xs', onclick: 'deleteCompanyLogo()' do %>
               <%= (fa_icon "trash 1x") %>
           <% end %>
