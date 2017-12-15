@@ -62,7 +62,7 @@ class Tour < ActiveRecord::Base
     def update_order_status
       if self.approved? || self.started?
         self.order_tours.each do |order_tour|
-          if (is_editable_order_tour? && order_tour.order)
+          if (is_editable_order_tour?(order_tour) && order_tour.order)
             assigned_order = order_tour.order
             assigned_order.update_attributes(status: OrderStatusEnum::ACTIVE)
           end
