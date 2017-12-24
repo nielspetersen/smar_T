@@ -109,7 +109,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6'
-  gem 'factory_girl_rails', '~> 4.9'
+  gem 'factory_bot_rails', '~> 4.8', '>= 4.8.2'
   gem 'faker', '~> 1.7', '>= 1.7.3'
   gem 'webmock', '~> 3.0', '>= 3.0.1'
 end

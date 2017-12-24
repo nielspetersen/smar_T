@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :regular_restriction, class: Restriction do
     multi_vehicle true
     time_window true

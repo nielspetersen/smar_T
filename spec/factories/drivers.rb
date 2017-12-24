@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :active_driver, class: Driver do
     name Faker::Name.name
     working_time 480

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :depot do
     name "Central stock"
     duration 0

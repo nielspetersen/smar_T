@@ -2,19 +2,19 @@ require 'rails_helper'
 require 'algorithm/variants/heuristic'
 
 RSpec.describe "Heuristic Base class" do
-  let!(:company) { FactoryGirl.create(:company) }
-  let!(:depot) { FactoryGirl.create(:depot, company: company, address: company.address) }
-  let!(:restriction) { FactoryGirl.create(:regular_dp_restriction, company: company) }
-  let!(:user) { FactoryGirl.create(:user_driver, password: "password", company: company) }
-  let!(:driver) { FactoryGirl.create(:active_driver, user: user) }
-  let!(:vehicle) { FactoryGirl.create(:vehicle, driver: driver, position: company.address) }
+  let!(:company) { FactoryBot.create(:company) }
+  let!(:depot) { FactoryBot.create(:depot, company: company, address: company.address) }
+  let!(:restriction) { FactoryBot.create(:regular_dp_restriction, company: company) }
+  let!(:user) { FactoryBot.create(:user_driver, password: "password", company: company) }
+  let!(:driver) { FactoryBot.create(:active_driver, user: user) }
+  let!(:vehicle) { FactoryBot.create(:vehicle, driver: driver, position: company.address) }
   let!(:tour) { Tour.create(driver: driver) }
-  let!(:customer) { FactoryGirl.create(:customer, company: company) }
+  let!(:customer) { FactoryBot.create(:customer, company: company) }
   let!(:vehicle_pos) { OrderTour.create(tour: tour, place: 0, kind: "vehicle_position") }
   let!(:depot) { OrderTour.create(tour: tour, place: 1, kind: "depot") }
-  let!(:pickup_order) { FactoryGirl.create(:pickup_order, customer: customer) }
+  let!(:pickup_order) { FactoryBot.create(:pickup_order, customer: customer) }
   let!(:pickup_order_tour) { OrderTour.create(tour: tour, order: pickup_order, place: 2, kind: "pickup") }
-  let!(:delivery_order) { FactoryGirl.create(:delivery_order, customer: customer) }
+  let!(:delivery_order) { FactoryBot.create(:delivery_order, customer: customer) }
   let!(:delivery_order_tour) { OrderTour.create(tour: tour, order: delivery_order, place: 3, kind: "delivery") }
   let!(:home) { OrderTour.create(tour: tour, place: 4, kind: "home") }
   let!(:heuristic) { Algorithm::Variants::Heuristic.new(company) }
