@@ -26,12 +26,13 @@ Rails.application.routes.draw do
   resources :depots
 
   resources :companies
+  post 'companies/:id/delete_logo' => 'companies#delete_logo', as: 'delete_company_logo'
 
   resources :registered_users
 
   resources :user_forms
 
-  get'order_import/file', as:  'file_order_import'
+  get 'order_import/file', as:  'file_order_import'
   post 'order_import/confirm', as: 'confirm_order_import'
   post 'order_import/complete', as: 'complete_order_import'
 

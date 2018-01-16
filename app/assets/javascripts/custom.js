@@ -34,10 +34,17 @@ $('select#user_form_role').bind('change', function() {
 
 });
 
-var deleteCompanyLogo = function() {
-    $('input#company_logo').val('');
-    $('#current_company_logo').remove();
-    $('button#delete_company_logo').hide();
+var deleteCompanyLogo = function(company_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/companies/' + company_id + '/delete_logo',
+        success: function(data) {
+            $('input#company_logo').val('');
+            $('#current_company_logo').remove();
+            $('button#delete_company_logo').hide();
+            return true;
+        }
+    })
 };
 
 $(function () {

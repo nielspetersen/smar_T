@@ -22,7 +22,7 @@
     <%= f.label :logo %> <br/>
     <% if @company.logo.present? %>
       <%= image_tag @company.logo.url(:thumb), id: 'current_company_logo' %>
-      <%= button_tag type: 'button', id: 'delete_company_logo', class: 'btn btn-danger btn-xs', onclick: 'deleteCompanyLogo()' do %>
+      <%= button_tag type: 'button', id: 'delete_company_logo', class: 'btn btn-danger btn-xs', onclick: "deleteCompanyLogo(#{@company.id})" do %>
           <%= (fa_icon "trash 1x") %>
       <% end %>
     <% end %>

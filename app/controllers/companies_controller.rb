@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [:show, :edit, :update, :destroy, :delete_logo]
 
   respond_to :html
 
@@ -58,9 +58,6 @@ class CompaniesController < ApplicationController
   def update
     company_parameter = extract_tour_start(company_params)
     if @company.update(company_parameter)
-      if company_params[:logo].blank?
-        @company.logo.destroy
-      end
       flash[:success] = t('.success', company_name: @company.name)
       respond_with(@company)
     else
@@ -77,6 +74,13 @@ class CompaniesController < ApplicationController
       flash[:alert] = t('.failure', company_name: @company.name)
       respond_with(@company)
     end
+  end
+
+  def delete_logo
+    if @company.logo.present? || @company.logo.file?
+      @company.logo.destroy
+    end
+    render nothing: true
   end
 
   private
