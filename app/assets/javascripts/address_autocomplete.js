@@ -82,7 +82,7 @@ $( document ).ready(function() {
         if(address) {
             // only change value if not null or empty string
             $(this).val(address);
-            var elementname = $(this).attr('name')
+            var elementname = $(this).attr('name');
             var statusname = elementname.replace("location", "status");
             jQuery('select[name="' + statusname + '"]').prop("disabled", false);
             $('input[name="' + elementname + '"]').val($(this).val());

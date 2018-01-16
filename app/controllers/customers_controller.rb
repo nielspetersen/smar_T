@@ -5,7 +5,12 @@ class CustomersController < ApplicationController
 
   def index
     if current_user.is_planer? || current_user.is_admin? || (current_user.is_superadmin? && current_user.company_id?)
-      @customers = Customer.where(company_id: current_user.company_id).page params[:page]
+      search_term = search_customer_params[:search_query]
+      unless search_term.blank?
+        @customers = Customer.search_for(search_term).page params[:page]
+      else
+        @customers = Customer.where(company_id: current_user.company_id).page params[:page]
+      end
     end
   end
 
@@ -61,7 +66,7 @@ class CustomersController < ApplicationController
     respond_with(@customer)
     end
   end
-
+  
   private
     def set_customer
       @customer = Customer.find(params[:id])
@@ -69,5 +74,9 @@ class CustomersController < ApplicationController
 
     def customer_params
       params.require(:customer).permit(:user_id, :name, :company_id, :address, :telefon, :priority)
+    end
+
+    def search_customer_params
+      params.permit(:search_query)
     end
 end

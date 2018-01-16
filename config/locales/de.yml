@@ -71,6 +71,8 @@ de:
   destroy:
    success: "Kunde wurde gelöscht"
    failure: "Kunde konnte nicht gelöscht werden"
+  search_field: "Name, Adresse, Referenz..."
+  search_button: "Suchen"
  companies:
   tour_start:
    time: "Uhr"

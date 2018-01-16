@@ -60,6 +60,9 @@ gem 'gmaps4rails'
 # Für grobe Entfernung
 gem 'geocoder'
 
+# Search within database
+gem 'scoped_search', '~> 4.1', '>= 4.1.2'
+
 # for calculation of drive time
 gem 'google_directions', git: 'https://github.com/hendricius/google-directions-ruby.git'
 

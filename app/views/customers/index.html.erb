@@ -7,6 +7,12 @@
     <div class="alert alert-info">Ihrem Benutzeraccount wurde noch kein Unternehmen zugewiesen. Sie können daher keine Kunden anlegen.</div>
   <% else %>
     <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_customer_path, :class => 'btn btn-primary btn-smart' %>
+    <div class="search_field">
+      <%= form_tag customers_path, method: :get do %>
+        <%= text_field_tag :search_query, nil,  id: 'search_ressources', placeholder: t('customers.search_field'), size: 35 %>
+        <%= submit_tag t('customers.search_button'), name: nil, :class => 'btn btn-primary btn-smart' %>
+      <% end %>
+    </div>
     <hr/>
     <table class="table table-striped">
       <thead>
@@ -26,8 +32,8 @@
             <td><%= customer.telefon %></td>
             <td class="center"><%= customer.priority %></td>
             <td>
-              <%= link_to (fa_icon "search-plus 1x"), customer, :title =>  t('helpers.links.show'), :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
-              <%= link_to (fa_icon "pencil 1x"), edit_customer_path(customer), :title => t('helpers.links.edit'), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
+              <%= link_to (fa_icon "search-plus 1x"), customer, :title =>  t('helpers.links.show'), :class => 'btn btn-info btn-xs' %>
+              <%= link_to (fa_icon "pencil 1x"), edit_customer_path(customer), :title => t('helpers.links.edit'), :class => 'btn btn-warning btn-xs' %>
               <%= link_to (fa_icon "trash 1x"), customer, method: :delete, data: { confirm: t('.confirm', name: customer.name) }, :title => t('helpers.links.destroy'), :class => 'btn btn-danger btn-xs' %>
             </td>
           </tr>

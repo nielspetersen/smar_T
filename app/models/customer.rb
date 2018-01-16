@@ -6,7 +6,10 @@ class Customer < ActiveRecord::Base
   validates :priority, inclusion: { in: ["A", "B", "C", "D", "E"],
   message: "Bitte benutzen Sie A,B,C, D oder E" }
 
-  # Koordinaten aus Adresse
+  # allow search on attributes
+  scoped_search on: [:customer_reference, :name, :address], complete_value: true
+
+  # retrieve coordinates by location
   geocoded_by :address
   after_validation :geocode
 
