@@ -50,8 +50,11 @@ class Company < ActiveRecord::Base
     end
 
     def approved_tours(select = {})
-      tours = self.tours(select = {})
-      tours.where.not(status: StatusEnum::GENERATED)
+      # Remove status query parameter if user tries to access tours with no approval
+      if select[:status] && select[:status] == StatusEnum::GENERATED
+        select.delete(:status)
+      end
+      self.tours(select)
     end
 
     # Returns true if time window restriction exists for this company
