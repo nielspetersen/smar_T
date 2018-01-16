@@ -75,15 +75,6 @@
               </td>
             </tr>
         <% end %>
-        <tr>
-          <td></td>
-          <td class="center"><strong><%= Time.at(@tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
         </tbody>
       </table>
     </div>

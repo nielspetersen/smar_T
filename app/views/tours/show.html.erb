@@ -75,6 +75,7 @@
         <td></td>
         <td></td>
         <td></td>
+        <td></td>
         <td class="center"><strong><%= Time.at(@order_tours.inject(0){ |sum, x| sum + x.duration * 60 }).utc.strftime("%H:%M") %></strong></td>
         <td></td>
       </tr>
