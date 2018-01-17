@@ -11,6 +11,9 @@ class Order < ActiveRecord::Base
 
   before_destroy :destroy_associated_order_tour
 
+  # allow search on attributes
+  scoped_search on: [:order_ref, :location, :comment], complete_value: true
+
   def start_time_in_past?
     if self.start_time
       if self.start_time < Time.now

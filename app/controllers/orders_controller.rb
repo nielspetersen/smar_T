@@ -9,8 +9,13 @@ class OrdersController < ApplicationController
       company = current_user.company
       # remove parameters with blank values (e.g. prompt options)
       order_filter = filter_order_params.reject{|_, v| v.blank?}
-      # convert active param to boolean value
-      @orders = company.orders(order_filter).page params[:page]
+      unless search_order_params.blank?
+        results = Order.search_for(search_order_params[:search_query])
+        @orders = results.where(order_filter).page params[:page]
+      else
+       # convert active param to boolean value
+        @orders = company.orders(order_filter).page params[:page]
+      end
     else
       @orders = []
     end
@@ -98,5 +103,9 @@ class OrdersController < ApplicationController
 
     def filter_order_params
       params.permit(:order_type, :status)
+    end
+
+    def search_order_params
+      params.permit(:search_query)
     end
 end
