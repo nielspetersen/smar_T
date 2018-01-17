@@ -9,7 +9,7 @@
     <%= link_to (fa_icon "plus 1x") + " " + t('.new', :default => t("helpers.links.new")), new_customer_path, :class => 'btn btn-primary btn-smart' %>
     <div class="search_field">
       <%= form_tag customers_path, method: :get do %>
-        <%= text_field_tag :search_query, nil,  id: 'search_ressources', placeholder: t('customers.search_field'), size: 35 %>
+        <%= search_field_tag :search_query, nil,  id: 'search_ressources', placeholder: t('customers.search_field'), size: 35 %>
         <%= submit_tag t('customers.search_button'), name: nil, :class => 'btn btn-primary btn-smart' %>
       <% end %>
     </div>

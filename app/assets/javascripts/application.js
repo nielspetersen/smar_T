@@ -17,6 +17,7 @@
 //= require gmaps/google
 //= require gmaps.js
 //= require maps
+//= require search_field
 //= require custom
 //= require rails.validations
 //= require rails.validations.simple_form
