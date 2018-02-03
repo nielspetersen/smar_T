@@ -401,7 +401,7 @@ de:
   time: "Zeit"
   duration: "Dauer"
   priority: "Priorität"
-  working_time: "Arbeitszeit"
+  working_time: "Arbeitszeit in Stunden:Minuten"
   status: "Status"
   driver: "Fahrer"
   company: "Unternehmen"

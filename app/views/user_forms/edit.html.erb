@@ -17,7 +17,6 @@
       <% end %>
       <div id="driver">
         <div id="driver_heading"><b><%=t('driver_properties') %></b></div>
-        <% if  current_user.company.work_time_restriction? %>
         <div id="working_time_heading"><b><%=t('attributes.working_time') %></b></div>
     <%= f.hidden_field :working_time, as: :integer, prompt: :translate %>
 
@@ -38,7 +37,6 @@
       <%=t('attributes.minutes') %>
        </div> 
     </div>
-    <% end %>
 
         <%= f.input :active, as: :boolean, prompt: :translate %>
       </div>
