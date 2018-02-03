@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
   validate :start_time_in_past?, on: :create
 
   before_validation :timeToInt
-  after_validation :geocode_locations
+  after_validation :geocode_locations, :process_validity_geocoords
 
   before_destroy :destroy_associated_order_tour
 

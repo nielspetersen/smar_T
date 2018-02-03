@@ -56,7 +56,6 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order.process_validity_geocoords()
     if @order.update(order_params)
       flash[:success] = t('.success')
       respond_with(@order)
