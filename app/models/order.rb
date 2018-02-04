@@ -33,7 +33,10 @@ class Order < ActiveRecord::Base
   # update geo coordiantes for pickup and delivery location
   def geocode_locations
     coords = Geocoder.coordinates(self.location)
-    unless coords.nil?
+    if coords.nil?
+      self.lat = nil
+      self.long = nil
+    else
       self.lat = coords[0]
       self.long = coords[1]
     end
@@ -57,7 +60,9 @@ class Order < ActiveRecord::Base
   # returns assigned tour if exists
   def get_assigned_tour
     order_tour = OrderTour.find_by_order_id(self.id)
-    unless order_tour.blank?
+    if order_tour.blank?
+      return nil
+    else
       order_tour.tour
     end
   end
