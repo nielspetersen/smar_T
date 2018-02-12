@@ -6,8 +6,10 @@ class Order < ActiveRecord::Base
   validate :end_date_after_start_date?
   validate :start_time_in_past?, on: :create
 
+  geocoded_by :location, :latitude => :lat, :longitude => :long
+
   before_validation :timeToInt
-  after_validation :geocode_locations, :process_validity_geocoords
+  after_validation :geocode, :process_validity_geocoords
 
   before_destroy :destroy_associated_order_tour
 
