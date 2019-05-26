@@ -332,7 +332,7 @@ DEPENDENCIES
   paperclip (~> 4.3, >= 4.3.7)
   pry
   pry-rails
-  rails (~> 4.2.10)
+  rails (~> 4.2)
   rails-i18n
   rails-jquery-ui-sortable
   rspec-rails (~> 3.6)
@@ -353,4 +353,4 @@ DEPENDENCIES
   wkhtmltopdf-binary (~> 0.12.3.1)
 
 BUNDLED WITH
-   1.16.0
+   1.17.3
